@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc xmlns:ni="urn:ni">
+  <assembly>
+    <name>NationalInstruments.DAQmx.ComponentModel</name>
+  </assembly>
+  <members>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2">
+      <summary>
+            Specifies the base class for continuous input DAQ components.
+            </summary>
+      <typeparam name="TReader">
+            Specifies the type of reader the component uses to read data from the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component reads from the task.
+            </typeparam>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.InputDaqComponent`2">
+      <summary>
+            Specifies the base class for input DAQ components, including finite and continuous input.
+            </summary>
+      <typeparam name="TReader">
+            Specifies the type of reader the component uses to read data from the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component reads from the task.
+            </typeparam>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.DaqComponent">
+      <summary>
+            Specifies the base class for DAQ components that provide a custom API for a
+            configured DAQ task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.#ctor">
+      <summary>
+            Initializes a new instance of
+            DaqComponent.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.CreateTask">
+      <summary>
+            Creates the underlying DAQ task of the component.
+            </summary>
+      <returns>
+            A Task that represents the DAQ task of the component.
+            </returns>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.CommitTask">
+      <summary>
+            Programs the DAQ hardware with all parameters of the task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.Dispose(System.Boolean)">
+      <summary>
+            Releases the resources used by DaqComponent.
+            </summary>
+      <param name="disposing">
+            If true, this method releases managed and unmanaged resources. If false, this method releases
+            only unmanaged resources.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.Initialize">
+      <summary>
+            Performs additional component initialization when the component is constructed.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnError(NationalInstruments.DAQmx.ComponentModel.ErrorEventArgs)">
+      <summary>
+            Raises the Error
+            event.
+            </summary>
+      <param name="e">
+            An ErrorEventArgs that contains
+            the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnTaskCreated(System.EventArgs)">
+      <summary>
+            Raises the TaskCreated
+            event.
+            </summary>
+      <param name="e">
+            An EventArgs that contains the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnTaskStarting(System.EventArgs)">
+      <summary>
+            Raises the TaskStarting event.
+            </summary>
+      <param name="e">
+            An EventArgs that contains the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnTaskStarted(System.EventArgs)">
+      <summary>
+            Raises the TaskStarted
+            event.
+            </summary>
+      <param name="e">
+            An EventArgs that contains the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnTaskStopping(System.EventArgs)">
+      <summary>
+            Raises the TaskStopping
+            event.
+            </summary>
+      <param name="e">
+            An EventArgs that contains the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.OnTaskStopped(System.EventArgs)">
+      <summary>
+            Raises the TaskStopped
+            event.
+            </summary>
+      <param name="e">
+            An EventArgs that contains the event data.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.RaiseGenericEvent``1(System.IAsyncResult,NationalInstruments.EventSynchronizationCallback{``0},``0)">
+      <summary>
+            Raises the event through a synchronization context with the specified event arguments.
+            </summary>
+      <typeparam name="TEventArgs">
+            The EventArgs-derived type of the event arguments of the event.
+            </typeparam>
+      <param name="result">
+            An IAsyncResult whose
+            AsyncState contains information about the
+            synchronization context.
+            </param>
+      <param name="callback">
+            A delegate to the method that raises the event.
+            </param>
+      <param name="e">
+            The event arguments to use to raise the event.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DaqComponent.RaiseGenericEventAsync``1(System.IAsyncResult,NationalInstruments.EventSynchronizationCallback{``0},``0)">
+      <summary>
+            Asynchronously raises the event through a synchronization context with the specified
+            event arguments.
+            </summary>
+      <typeparam name="TEventArgs">
+            The EventArgs-derived type of the event arguments of the event.
+            </typeparam>
+      <param name="result">
+            An IAsyncResult whose
+            AsyncState contains information about the
+            synchronization context.
+            </param>
+      <param name="callback">
+            A delegate to the method that raises the event.
+            </param>
+      <param name="e">
+            The event arguments to use to raise the event.
+            </param>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.DaqComponent.AutoCommitTask">
+      <summary>
+            Gets or sets a value that specifies if the task is committed when the component is initialized.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.DaqComponent.IsTaskStarted">
+      <summary>
+            Gets or sets a value that indicates if the component DAQ task has been started.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.DaqComponent.IsTaskCreated">
+      <summary>
+            Gets a value that indicates if the component DAQ task has been created.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.DaqComponent.Task">
+      <summary>
+            Gets the underlying DAQ task of the component.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">CreateTask was overriden
+            to return null.
+            </exception>
+      <exception cref="T:System.ObjectDisposedException">
+            The DaqComponent has been
+            disposed.
+            </exception>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.Error">
+      <summary>
+            Occurs when there is an error with the DAQ task of the component.
+            </summary>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.TaskCreated">
+      <summary>
+            Occurs when the DAQ task of the component is created.
+            </summary>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.TaskStarting">
+      <summary>
+            Occurs immediately before the DAQ task of the component is started.
+            </summary>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.TaskStarted">
+      <summary>
+            Occurs immediately after the DAQ task of the component is started.
+            </summary>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.TaskStopping">
+      <summary>
+            Occurs immediately before the DAQ task of the component is stopped.
+            </summary>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.DaqComponent.TaskStopped">
+      <summary>
+            Occurs immediately after the DAQ task of the component is stopped.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.InputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            InputDaqComponent&lt;T1,T2&gt;</summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.InputDaqComponent`2.CreateReader">
+      <summary>
+            Creates the underlying DAQ reader of the component.
+            </summary>
+      <returns>
+            A DAQ reader, such as AnalogMultiChannelReader,
+            DigitalMultiChannelReader, or
+            CounterReader.
+            </returns>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.InputDaqComponent`2.IsReaderCreated">
+      <summary>
+            Gets a value that indicates if the component DAQ reader has been created.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.InputDaqComponent`2.Reader">
+      <summary>
+            Gets the underlying DAQ reader of the component.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">CreateReader
+            was overridden to return null.
+            </exception>
+    </member>
+    <member name="F:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2._lockObject">
+      <summary>
+            Allows for thread synchronization.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of 
+            ContinuousInputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2.StartRead">
+      <summary>
+            Starts the continuous input acquisition.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2.StopRead">
+      <summary>
+            Stops the continuous input acquisition.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2.BeginReadContinuous(System.AsyncCallback,System.Object)">
+      <summary>
+            Begins a continuous input acquisition.
+            </summary>
+      <param name="callback">
+            An asynchronous callback that is called when the read is completed.
+            </param>
+      <param name="state">
+            An object that distinguishes this asynchronous read request from other requests.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousInputDaqComponent`2.EndReadContinuous(System.IAsyncResult)">
+      <summary>
+            Ends a continuous input acquisition.
+            </summary>
+      <param name="result">
+            An IAsyncResult that represents an asynchronous call started by
+            BeginReadContinuous.
+            </param>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2">
+      <summary>
+            Specifies the base class for nonregenerative continuous output DAQ components.
+            </summary>
+      <typeparam name="TWriter">
+            Specifies the type of writer the component uses to write data to the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component writes to the task.
+            </typeparam>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.OutputDaqComponent`2">
+      <summary>
+            Specifies the base class of output DAQ components, including finite, regenerative
+            continuous, and nonregenerative continuous output.
+            </summary>
+      <typeparam name="TWriter">
+            Specifies the type of writer the component uses to write data to the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component writes to the task.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.OutputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            OutputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.OutputDaqComponent`2.CreateWriter">
+      <summary>
+            Creates the underlying DAQ writer of the component.
+            </summary>
+      <returns>
+            A DAQ writer, such as
+            AnalogMultiChannelWriter,
+            DigitalMultiChannelWriter, or
+            CounterMultiChannelWriter.
+            </returns>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.OutputDaqComponent`2.IsWriterCreated">
+      <summary>
+            Gets a value that indicates if the component DAQ writer has been created.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.OutputDaqComponent`2.Writer">
+      <summary>
+            Gets the underlying DAQ writer of the component.
+            </summary>
+      <exception cref="T:System.InvalidOperationException">CreateWriter
+            was overridden to return null.
+            </exception>
+    </member>
+    <member name="F:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2._lockObject">
+      <summary>
+            Allows for thread synchronization.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            ContinuousOutputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2.StartWrite">
+      <summary>
+            Starts the nonregenerative continuous output acquisition.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2.StopWrite">
+      <summary>
+            Stops the nonregenerative continuous output acquisition.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2.BeginWriteContinuous(System.AsyncCallback,System.Object)">
+      <summary>
+            Begins a nonregenerative continuous output acquisition.
+            </summary>
+      <param name="callback">
+            An asynchronous callback that is called when the read is completed.
+            </param>
+      <param name="state">
+            An object that distinguishes this asynchronous read request from other requests.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ContinuousOutputDaqComponent`2.EndWriteContinuous(System.IAsyncResult)">
+      <summary>
+            Ends a nonregenerative continuous output acquisition.
+            </summary>
+      <param name="result">
+            An IAsyncResult that represents an asynchronous call started by
+            BeginWriteContinuous.
+            </param>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.ProcessDataInvoker`1">
+      <summary>
+            A generic delegate used to process data on a separate thread.
+            </summary>
+      <typeparam name="TData">
+            The underlying type of the data.
+            </typeparam>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2">
+      <summary>
+            Specifies the base class for regenerative continuous output DAQ components.
+            </summary>
+      <typeparam name="TWriter">
+            Specifies the type of writer the component uses to write data to the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component writes to the task.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            RegenerativeOutputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2.Write(`1)">
+      <summary>
+            Specifies the data to continuously write to the DAQ task of the component.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2.StartWrite(`1)">
+      <summary>
+            Starts the regenerative continuous output acquisition.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2.StopWrite">
+      <summary>
+            Stops the regenerative continuous output acquisition.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.RegenerativeOutputDaqComponent`2.UpdateData(`1)">
+      <summary>
+            Updates the data that is continuously written to the DAQ task of the component.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.DataReadyEventArgs`1">
+      <summary>
+            Provides data for the DataReady event of generated continuous input DAQ components.
+            </summary>
+      <typeparam name="TData">
+            Specifies the type of data that is read from a continuous input DAQ operation.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DataReadyEventArgs`1.#ctor(`0)">
+      <summary>
+            Initializes a new instance of
+            DataReadyEventArgs&lt;T&gt;.
+            </summary>
+      <param name="data">
+            The data that was acquired from a continuous input DAQ operation.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.DataReadyEventArgs`1.GetData">
+      <summary>
+            Gets the data that was acquired from a continuous input DAQ operation.
+            </summary>
+      <returns>
+            The data that was read from the DAQ task of the component during a continuous
+            input acquisition.
+            </returns>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.ErrorEventArgs">
+      <summary>
+            Provides data for the
+            Error
+            event.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ErrorEventArgs.#ctor(System.Exception)">
+      <summary>
+            Initializes a new instance of
+            ErrorEventArgs.
+            </summary>
+      <param name="exception">
+            An Exception that occurred as the result of an 
+            erroneous DAQ operation.
+            </param>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.ErrorEventArgs.Exception">
+      <summary>
+            Gets the exception that occurred from a DAQ error.
+            </summary>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2">
+      <summary>
+            Specifies the base class for finite input DAQ components.
+            </summary>
+      <typeparam name="TReader">
+            Specifies the type of reader the component uses to read data from the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component reads from the task.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            FiniteInputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.StartTask">
+      <summary>
+            Starts the component DAQ task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.StopTask">
+      <summary>
+            Stops the component DAQ task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.Read">
+      <summary>
+            Performs a synchronous read operation and returns the acquired data.
+            </summary>
+      <returns>
+            A value that contains the result of the synchronous read operation.
+            </returns>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.ReadAsync">
+      <summary>
+            Performs an asynchronous read operation.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.ReadFinite">
+      <summary>
+            Performs a synchronous read operation.
+            </summary>
+      <returns>
+            A value that contains the result of the synchronous read operation.
+            </returns>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.BeginReadFinite(System.AsyncCallback,System.Object)">
+      <summary>
+            Begins an asynchronous read operation.
+            </summary>
+      <param name="callback">
+            An asynchronous callback that is called when the read is completed.
+            </param>
+      <param name="state">
+            An object that distinguishes this asynchronous read request from other requests.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteInputDaqComponent`2.EndReadFinite(System.IAsyncResult)">
+      <summary>
+            Ends an asynchronous read operation.
+            </summary>
+      <param name="result">
+            An IAsyncResult that represents an asynchronous call started by
+            BeginReadFinite.
+            </param>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2">
+      <summary>
+            Specifies the base class for finite output DAQ components.
+            </summary>
+      <typeparam name="TWriter">
+            Specifies the type of writer the component uses to write data to the task.
+            </typeparam>
+      <typeparam name="TData">
+            Specifies the type of data that the component writes to the task.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.#ctor">
+      <summary>
+            Initializes a new instance of
+            FiniteOutputDaqComponent&lt;T1,T2&gt;.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.StartTask">
+      <summary>
+            Starts the component DAQ task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.StopTask">
+      <summary>
+            Stops the component DAQ task.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.Write(`1)">
+      <summary>
+            Performs a synchronous write operation.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.WriteAsync(`1)">
+      <summary>
+            Performs an asynchronous write operation.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.WriteFinite(`1)">
+      <summary>
+            Performs a synchronous write operation.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.BeginWriteFinite(`1,System.AsyncCallback,System.Object)">
+      <summary>
+            Begins an asynchronous write operation.
+            </summary>
+      <param name="data">
+            The data to write to the DAQ task of the component.
+            </param>
+      <param name="callback">
+            An asynchronous callback that is called when the write is completed.
+            </param>
+      <param name="state">
+            An object that distinguishes this asynchronous write operation from other operations.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.EndWriteFinite(System.IAsyncResult)">
+      <summary>
+            Ends an asynchronous write operation.
+            </summary>
+      <param name="result">
+            An IAsyncResult that represents an asynchronous call started by
+            BeginWriteFinite.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.OnWriteCompleted(NationalInstruments.DAQmx.ComponentModel.WriteCompletedEventArgs)">
+      <summary>
+            Raises the
+            WriteCompleted
+            event.
+            </summary>
+      <param name="e">
+            A WriteCompletedEventArgs
+            that contains the event data.
+            </param>
+    </member>
+    <member name="E:NationalInstruments.DAQmx.ComponentModel.FiniteOutputDaqComponent`2.WriteCompleted">
+      <summary>
+            Occurs when the asynchronous write operation performed by
+            WriteAsync
+            has completed.
+            </summary>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1">
+      <summary>
+            Provides data for the GenerateData event of generated nonregenerative continuous
+            output DAQ components.
+            </summary>
+      <typeparam name="TData">Specifies the type of data for the GenerateData event.</typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.#ctor(System.Int64)">
+      <summary>
+            Initializes a new instance of
+            GenerateDataEventArgs&lt;T&gt;
+            with the number of channels to write.
+            </summary>
+      <param name="numberOfChannelsToWrite">
+            The number of channels to write to in the write operation.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.#ctor(System.Int64,System.Int32)">
+      <summary>
+            Initializes a new instance of
+            GenerateDataEventArgs&lt;T&gt;
+            with the number of channels and samples to write.
+            </summary>
+      <param name="numberOfChannelsToWrite">
+            The number of channels to write to in the write operation.
+            </param>
+      <param name="numberOfSamplesToWrite">
+            The number of samples to write in the write operation.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.GetData">
+      <summary>
+            Gets the data that was specified in 
+            SetData
+            as the generated data to write in the write operation.
+            </summary>
+      <returns>
+            The data to write in the write operation.
+            </returns>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.SetData(`0)">
+      <summary>
+            Sets the generated data to write in the write operation.
+            </summary>
+      <param name="data">
+            The data to write in the write operation.
+            </param>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.NumberOfChannelsToWrite">
+      <summary>
+            Gets the number of output channels to write to in a nonregenerative continuous
+            output acquisition.
+            </summary>
+    </member>
+    <member name="P:NationalInstruments.DAQmx.ComponentModel.GenerateDataEventArgs`1.NumberOfSamplesToWrite">
+      <summary>
+            Gets the number of samples to write to in a nonregenerative continuous
+            output acquisition.
+            </summary>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.ReadCompletedEventArgs`1">
+      <summary>
+            Provides data for the ReadCompleted event of generated finite input DAQ components.
+            </summary>
+      <typeparam name="TData">
+            Specifies the type of data that is read from an asynchronous finite input DAQ operation.
+            </typeparam>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ReadCompletedEventArgs`1.#ctor(`0)">
+      <summary>
+            Initializes a new instance of
+            ReadCompletedEventArgs&lt;T&gt;
+            with the specified data.
+            </summary>
+      <param name="data">
+            The data that was read from the finite read data acquisition.
+            </param>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.ReadCompletedEventArgs`1.GetData">
+      <summary>
+            Gets the data that was read from the finite read data acquisition.
+            </summary>
+      <returns>
+            The data that was read from the finite read data acquisition.
+            </returns>
+    </member>
+    <member name="T:NationalInstruments.DAQmx.ComponentModel.WriteCompletedEventArgs">
+      <summary>
+            Provides data for the
+            WriteCompleted
+            event.
+            </summary>
+    </member>
+    <member name="M:NationalInstruments.DAQmx.ComponentModel.WriteCompletedEventArgs.#ctor">
+      <summary>
+            Initializes a new instance of
+            WriteCompletedEventArgs.
+            </summary>
+    </member>
+  </members>
+</doc>

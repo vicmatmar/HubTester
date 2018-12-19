@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5090187489e44c3f925f21bbba7d74a2" Name="Diagram1" ZoomLevel="80">
+        <EntityTypeShape EntityType="ManufacturingStoreModel.ASNEntry" Width="1.5" PointX="5.25" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Board" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.BoardRevision" Width="1.5" PointX="6.75" PointY="32.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Bootloader" Width="1.5" PointX="10.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.CalibrationResult" Width="1.5" PointX="8.25" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.CalibrationValue" Width="1.5" PointX="5.25" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.ChipType" Width="1.5" PointX="1.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.CurrentDrawTest" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.DeletedDevice" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.DoryRemoteTestResult" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.EEPROM" Width="1.5" PointX="4.5" PointY="33.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.EuiList" Width="1.5" PointX="3" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Firmware" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.GarageDoorControllerTest" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.GarageDoorSensorTest" Width="1.5" PointX="11.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.ImageType" Width="1.5" PointX="1.5" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.InCircuitTest" Width="1.5" PointX="15.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.InsightAdapter" Width="1.5" PointX="9" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.LoadTest" Width="1.5" PointX="15.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Migration" Width="1.5" PointX="11.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.NetworkColor" Width="1.5" PointX="6" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.PowerTest" Width="1.5" PointX="8.25" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Product" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.ProductionSite" Width="1.5" PointX="0.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.ProductionSiteProductJoin" Width="1.5" PointX="6" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.RangeTest" Width="1.5" PointX="15.75" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.RangeTestChannel" Width="1.5" PointX="11.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.RangeTestFirmware" Width="1.5" PointX="3.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.RangeTestSetting" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Result" Width="1.5" PointX="9" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.SchemaVersion" Width="1.5" PointX="13.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.SerialChange" Width="1.5" PointX="9" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.SerialNumber" Width="1.5" PointX="11.25" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.StationSite" Width="1.5" PointX="3" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Supervisor" Width="1.5" PointX="6.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.sysdiagram" Width="1.5" PointX="13.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.TargetDevice" Width="1.5" PointX="11.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Test" Width="1.5" PointX="13.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.Tester" Width="1.5" PointX="3.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.TestError" Width="1.5" PointX="15.75" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.TestSession" Width="1.5" PointX="9" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.TestStationMachine" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.TestType" Width="1.5" PointX="11.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.UserSession" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.C_dbSerialList" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.C_dbSerials" Width="1.5" PointX="15.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.JabilErrorView" Width="1.5" PointX="15.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.LabelView" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_ASNEntry_EuiList1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_ASNEntry_SerialNumber1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Board_ChipType" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_BoardRevsion_Board" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Product_Board" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_BoardRevision_EEPROM" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_BoardRevision" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Bootloader_ChipType" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Bootloader_EEPROM" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_CalibrationResults_EuiList" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_CalibrationResults_TestStationMachines" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_CalibrationValue_EuiList" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Firmware_ChipTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_RangeTestFirmware_ChipType" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_DeletedDevice_EuiList" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_DeletedDevice_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_DeletedDevice_Tester" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_EuiList_ProductionSite" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_GarageDoorControllerTests_EuiList1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_PowerTest_Eui" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialNumber_EuiList" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TargetDevice_EuiList" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Firmware_ImageTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_Firmware" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_GarageDoorControllerTests_NetworkColorId1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_GarageDoorControllerTests_UserSessionId1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_InCircuitTest_Test" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TargetDevice_InsightAdapter" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_LoadTest_Test" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_PowerTest_UserSession" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_ProductionSiteProductJoin_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialNumber_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_ProductionSiteProductJoin_ProductionSite" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_StationSite_ProductionSite" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_RangeTest_Test" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TargetDevice_Result" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Test_Result" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_Result" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialChange_Supervisor" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialChange_Tester" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialChange_Tester1" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_SerialNumber_Tester" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TargetDevice_TestSession" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Test_TargetDevice" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Test_TestType" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestError_Test" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_Session_Tester" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_UserSession" ManuallyRouted="false" />
+        <AssociationConnector Association="ManufacturingStoreModel.ProductFirmwareJoin" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.MacAddress" Width="1.5" PointX="18.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
