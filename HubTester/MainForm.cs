@@ -42,11 +42,12 @@ namespace HubTester
         private void LoadTests()
         {
 
-            Tests.Add(new LedTest(Ipaddress));
-            //tests.Add(new TamperTest(IpAddress, RsaFile));
+            Tests.Add(new LedTest());
+            Tests.Add(new TamperTest());
+            Tests.Add(new BuzzerTest("Is Buzzer Active?"));
+
             //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to first USB Slot"));
             //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to second USB Slot"));
-            //tests.Add(new BuzzerTest(IpAddress, RsaFile, "Is Buzzer Active?"));
             //tests.Add(new BluetoothTest(IpAddress, RsaFile));
             //tests.Add(new ZwaveTest(IpAddress, RsaFile));
 
@@ -92,8 +93,11 @@ namespace HubTester
                 bool testPassed = true;
 
                 ITest test = Tests[TestIndex];
+                test.PropertyChanged -= Test_PropertyChanged;
                 test.PropertyChanged += Test_PropertyChanged;
 
+                progress.Report(new TestStatus { Status = test.GetType().Name });
+                
                 testPassed &= test.Setup();
 
                 // If setup fails, no reason to run test
@@ -135,9 +139,9 @@ namespace HubTester
             var progress =
                 new Progress<TestStatus>(s =>
                     {
-                        statusLabel.Text = s.Status;
+                        runTextBox.AppendText(s.Status + "\r\n");
                         if (s.Exception != null)
-                            errorTextBox.Text = s.Exception.Message + "\r\n" + s.Exception.StackTrace;
+                            runTextBox.AppendText(s.Exception.Message + "\r\n" + s.Exception.StackTrace + "\r\n");
                     }
                 );
 

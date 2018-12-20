@@ -5,7 +5,7 @@ namespace HubTests.Tests
     public class ZwaveTest : TestBase
     {
         private const int RETRY_TIMEOUT = 5;
-        public ZwaveTest(string ipAddress, string sshKeyFile) : base(ipAddress, sshKeyFile) { }
+        public ZwaveTest() : base() { }
 
         public override bool Run()
         {
@@ -14,12 +14,12 @@ namespace HubTests.Tests
             try
             {
                 TestStatusTxt = "Running Zwave Test";
-                streamWriter.WriteLine("/data/support/zwave_nvram -g 0");
+                WriteLine("/data/support/zwave_nvram -g 0");
                 Thread.Sleep(50);
 
                 int retries = 0;
                 string line = "";
-                line = streamReader.ReadToEnd();
+                line = ReadToEnd();
                 while (line != null || retries <= RETRY_TIMEOUT)
                 {
                     if (retries > RETRY_TIMEOUT)
@@ -35,7 +35,7 @@ namespace HubTests.Tests
 
                     retries++;
                     Thread.Sleep(500);
-                    line = streamReader.ReadToEnd();
+                    line = ReadToEnd();
                 }
 
                 if (result)

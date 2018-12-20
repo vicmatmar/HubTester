@@ -10,7 +10,7 @@ namespace HubTests.Tests
 
         public string MacAddress { get; private set; }
 
-        public MacTest(string ipAddress, string sshKeyFile, string startBlock, string endBlock) : base(ipAddress, sshKeyFile)
+        public MacTest(string startBlock, string endBlock) : base()
         {
             startBlock = startBlock.Replace(":", "").Replace("-", "").Replace("=", "").Trim();
             endBlock = endBlock.Replace(":", "").Replace("-", "").Replace("=", "").Trim();

@@ -12,7 +12,7 @@ namespace HubTests.Tests
 
         string testDeviceEui;
 
-        public EmberTest(string ipAddress, string sshKeyFile, string testDeviceEui) : base(ipAddress, sshKeyFile)
+        public EmberTest(string testDeviceEui) : base()
         {
             StringBuilder builder = new StringBuilder();
 
@@ -44,26 +44,26 @@ namespace HubTests.Tests
             try
             {
                 TestStatusTxt = "Stop gateway";
-                streamWriter.WriteLine("monit stop stratus");
-                output += streamReader.ReadLine();
+                WriteLine("monit stop stratus");
+                output += ReadLine();
 
                 TestStatusTxt = "Clearing Database";
-                streamWriter.WriteLine("rm -f /tmp/zigbee-ember.db");
-                output += streamReader.ReadLine();
+                WriteLine("rm -f /tmp/zigbee-ember.db");
+                output += ReadLine();
 
                 //if(File.Exists())
 
 
                 TestStatusTxt = "Starting Stratus Gateway";
-                streamWriter.WriteLine("cd /data/run/v*/zigbee; ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2");
+                WriteLine("cd /data/run/v*/zigbee; ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2");
                 Thread.Sleep(250);
 
-                string line = streamReader.ReadLine();
+                string line = ReadLine();
                 output += line;
                 while (!string.IsNullOrWhiteSpace(line))
                 {
                     Thread.Sleep(500);
-                    line = streamReader.ReadToEnd();
+                    line = ReadToEnd();
                     output += line;
                 }
             }
@@ -81,25 +81,25 @@ namespace HubTests.Tests
             bool testResult = false;
 
             string line = "";
-            line = streamReader.ReadToEnd();
+            line = ReadToEnd();
             while (!string.IsNullOrWhiteSpace(line))
             {
                 Thread.Sleep(500);
-                line += streamReader.ReadToEnd();
+                line += ReadToEnd();
             }
 
-            streamWriter.WriteLine($"network form 12 0 0x2222");
+            WriteLine($"network form 12 0 0x2222");
             Thread.Sleep(500);
-            line = streamReader.ReadToEnd();
+            line = ReadToEnd();
 
             const int pjoin_access_time = 30;
-            streamWriter.WriteLine($"network pjoin {pjoin_access_time}");
+            WriteLine($"network pjoin {pjoin_access_time}");
 
             var stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
 
             Thread.Sleep(500);
-            line = streamReader.ReadToEnd();
+            line = ReadToEnd();
 
 
             string buffer = "";
@@ -117,9 +117,9 @@ namespace HubTests.Tests
                     TestStatusTxt = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
                 }
 
-                streamWriter.WriteLine("custom listDevice");
+                WriteLine("custom listDevice");
                 Thread.Sleep(500);
-                line = streamReader.ReadToEnd();
+                line = ReadToEnd();
                 buffer += line;
 
                 while (!string.IsNullOrWhiteSpace(line))
@@ -134,22 +134,22 @@ namespace HubTests.Tests
                             {
                                 testResult = true;
 
-                                streamWriter.WriteLine($"network pjoin -1");
+                                WriteLine($"network pjoin -1");
                                 Thread.Sleep(250);
-                                line = streamReader.ReadToEnd();
+                                line = ReadToEnd();
                                 buffer += line;
                             }
 
                             TestStatusTxt = string.Format("Leave {0}", match.Groups[2].Value);
 
-                            streamWriter.WriteLine("zdo leave {0} 1 0", match.Groups[4].Value);
+                            WriteLine("zdo leave {0} 1 0", match.Groups[4].Value);
                             Thread.Sleep(250);
-                            line = streamReader.ReadToEnd();
+                            line = ReadToEnd();
                             buffer += line;
 
-                            streamWriter.WriteLine($"network pjoin -1");
+                            WriteLine($"network pjoin -1");
                             Thread.Sleep(250);
-                            line = streamReader.ReadToEnd();
+                            line = ReadToEnd();
                             buffer += line;
 
                             System.Diagnostics.Debug.WriteLine("=====================================");
@@ -165,7 +165,7 @@ namespace HubTests.Tests
                         break;
 
                     Thread.Sleep(1000);
-                    line = streamReader.ReadToEnd();
+                    line = ReadToEnd();
                     buffer += line;
                 }
 
@@ -173,7 +173,7 @@ namespace HubTests.Tests
                     break;
             }
 
-            streamWriter.WriteLine("custom exit");
+            WriteLine("custom exit");
             Thread.Sleep(50);
 
             if (testResult)
@@ -193,7 +193,7 @@ namespace HubTests.Tests
             bool tearDownResult = true;
             try
             {
-                streamWriter.WriteLine("rm -f /tmp/zigbee-ember.db");
+                WriteLine("rm -f /tmp/zigbee-ember.db");
                 Thread.Sleep(50);
 
                 tearDownResult &= base.TearDown();

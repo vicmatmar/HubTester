@@ -5,7 +5,7 @@ namespace HubTests.Tests
     public class BluetoothTest : TestBase
     {
         private const int RETRY_TIMEOUT = 5;
-        public BluetoothTest(string ipAddress, string sshKeyFile) : base(ipAddress, sshKeyFile) { }
+        public BluetoothTest() : base() { }
 
         public override bool Run()
         {
@@ -14,11 +14,11 @@ namespace HubTests.Tests
 
             try
             {
-                streamWriter.WriteLine("python /data/support/bluetooth/bluetooth.py");
+                WriteLine("python /data/support/bluetooth/bluetooth.py");
                 Thread.Sleep(1000);
 
                 int retries = 0;
-                string line = streamReader.ReadToEnd();
+                string line = ReadToEnd();
                 while (retries <= RETRY_TIMEOUT)
                 {
                     if (line != null && line.Contains("Device initialized and ready"))
@@ -28,7 +28,7 @@ namespace HubTests.Tests
                     }
 
                     retries++;
-                    line = streamReader.ReadToEnd();
+                    line = ReadToEnd();
                     Thread.Sleep(500);
                 }
             }

@@ -10,17 +10,16 @@ namespace HubTests.Tests
         private const string LED_TRIGGER_PATH = @"/sys/class/leds/{0}/trigger";
         private const string LED_BRIGHTNESS_PATH = @"/sys/class/leds/{0}/brightness";
 
-        public LedTest(string ipAddress, string sshKeyFile) : base(ipAddress, sshKeyFile) { }
-        public LedTest(string ipAddress) : base(ipAddress) { }
+        public LedTest() : base() { }
 
         public override bool Run()
         {
             TestStatusTxt = "Testing LEDs";
             bool result = false;
 
-            streamWriter.WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
-            streamWriter.WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
-            streamWriter.WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "green"));
+            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
+            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
+            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "green"));
             Thread.Sleep(50);
 
             DialogResult dialogResult = DialogResult.None;
@@ -31,15 +30,15 @@ namespace HubTests.Tests
                 {
                     try
                     {
-                        streamWriter.WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        streamWriter.WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        streamWriter.WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
+                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
+                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
                         Thread.Sleep(1000);
 
-                        streamWriter.WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        streamWriter.WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        streamWriter.WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
+                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
+                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
                         Thread.Sleep(1000);
                     }

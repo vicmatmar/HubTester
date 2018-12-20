@@ -10,21 +10,47 @@ namespace HubTests.Tests
 {
     public abstract class TestBase : ITest, IDisposable
     {
-        private const int LOGIN_RETRIES = 3;
+        private const int LOGIN_RETRIES = 10;
 
-        protected string ipAddress;
-        protected string sshKeyFile;
+        protected string ipAddress = HubTester.Properties.Settings.Default.HubIpAddress;
+        //protected string sshKeyFile;
 
         protected SshClient sshClient;
         protected ShellStream shellStream;
 
-        protected StreamWriter streamWriter;
-        protected StreamReader streamReader;
+        StreamWriter streamWriter;
+        StreamReader streamReader;
 
-        public TestBase(string ipAddress, string sshKeyFile=null)
+        static protected NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        public TestBase()
         {
-            this.ipAddress = ipAddress;
-            this.sshKeyFile = sshKeyFile;
+        }
+
+        protected string ReadLine()
+        {
+            string line = streamReader.ReadLine();
+
+            logger.Trace($"ReadLine: {line}");
+
+            return line;
+        }
+
+        protected string ReadToEnd()
+        {
+            string line = streamReader.ReadToEnd();
+
+            logger.Trace($"ReadToEnd: {line}");
+
+            return line;
+        }
+        protected void WriteLine(string format, params object[] args)
+        {
+            string value = string.Format(format, args);
+
+            logger.Trace($"Write: {value}");
+
+            streamWriter.WriteLine(value);
         }
 
         PrivateKeyFile keyFile
@@ -77,7 +103,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             set
             {
                 TestStatus.Status = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Status");
             }
         }
 
@@ -107,14 +133,12 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
             TestStatusTxt = "Setting up test";
 
-            //var connectionInformation = new ConnectionInfo(ipAddress, "support", 
-            //        new PrivateKeyAuthenticationMethod("support", new PrivateKeyFile(sshKeyFile)));
-
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
                     new PrivateKeyAuthenticationMethod("support", keyFile));
 
             try
             {
+                logger.Trace("Connect");
                 sshClient = new SshClient(connectionInformation);
                 sshClient.Connect();
 
@@ -124,13 +148,13 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
                 streamWriter.AutoFlush = true;
                 streamReader = new StreamReader(shellStream);
 
-                streamWriter.WriteLine("su - root");
+                WriteLine("su - root");
                 Thread.Sleep(100);
-
                 // Consume password prompt
                 streamReader.ReadToEnd();
 
                 streamWriter.WriteLine("A1l3r0nR0!!");
+                //WriteLine("A1l3r0nR0!!");
 
                 // See if root login is successful
                 int retries = 0;
@@ -143,7 +167,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
                     }
 
                     retries++;
-                    Thread.Sleep(50);
+                    Thread.Sleep(500);
                 }
             }
             catch(Exception ex)
@@ -184,12 +208,15 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             streamReader.Dispose();
             shellStream.Dispose();
             sshClient.Dispose();
+
+            logger.Trace("Connection Disposed");
+
         }
 
         public void ScpUpload(string local, string remote)
         {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
-                    new PrivateKeyAuthenticationMethod("support", new PrivateKeyFile(sshKeyFile)));
+                    new PrivateKeyAuthenticationMethod("support", keyFile));
 
             ScpClient scp = new Renci.SshNet.ScpClient(connectionInformation);
             scp.Connect();
@@ -201,7 +228,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         public void ScpDownload(string remote, string local)
         {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
-                    new PrivateKeyAuthenticationMethod("support", new PrivateKeyFile(sshKeyFile)));
+                    new PrivateKeyAuthenticationMethod("support", keyFile));
 
             ScpClient scp = new Renci.SshNet.ScpClient(connectionInformation);
             scp.Connect();

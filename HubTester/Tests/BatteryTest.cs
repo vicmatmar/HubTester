@@ -9,7 +9,7 @@ namespace HubTests.Tests
     {
         private const int RETRY_TIMEOUT = 5;
 
-        public BatteryTest(string ipAddress, string sshKeyFile) : base(ipAddress, sshKeyFile) { }
+        public BatteryTest() : base() { }
 
         public override bool Run()
         {
@@ -50,11 +50,11 @@ namespace HubTests.Tests
             int retries = 0;
             string line = "";
 
-            streamReader.ReadToEnd();
-            streamWriter.WriteLine("spud");
+            ReadToEnd();
+            WriteLine("spud");
             Thread.Sleep(500);
 
-            line = streamReader.ReadToEnd();
+            line = ReadToEnd();
             while (retries < RETRY_TIMEOUT)
             {
                 if (line.Contains("Yes, this is spud."))
@@ -63,7 +63,7 @@ namespace HubTests.Tests
                 }
 
                 retries++;
-                line = streamReader.ReadToEnd();
+                line = ReadToEnd();
                 Thread.Sleep(500);
             }
 

@@ -10,7 +10,7 @@ namespace HubTests.Tests
 
         private string userPrompt;
 
-        public UsbTest(string ipAddress, string sshKeyFile, string userPrompt = null) : base(ipAddress, sshKeyFile)
+        public UsbTest(string userPrompt = null) : base()
         {
             this.userPrompt = userPrompt;
         }
@@ -23,10 +23,10 @@ namespace HubTests.Tests
             {
                 try
                 {
-                    streamWriter.WriteLine("umount /mnt");
+                    WriteLine("umount /mnt");
                     Thread.Sleep(50);
 
-                    string line = streamReader.ReadToEnd();
+                    string line = ReadToEnd();
 
                     if (!string.IsNullOrEmpty(userPrompt))
                     {
@@ -49,29 +49,29 @@ namespace HubTests.Tests
 
             try
             {
-                streamWriter.WriteLine("mount /dev/sda1 /mnt");
+                WriteLine("mount /dev/sda1 /mnt");
                 Thread.Sleep(50);
-                line = streamReader.ReadLine();
-                line = streamReader.ReadLine();
+                line = ReadLine();
+                line = ReadLine();
 
                 TestStatusTxt = line;
 
-                streamWriter.WriteLine("echo {0} > /mnt/test.txt", TESTING_STRING);
+                WriteLine("echo {0} > /mnt/test.txt", TESTING_STRING);
                 Thread.Sleep(50);
-                line = streamReader.ReadLine();
-                line = streamReader.ReadLine();
+                line = ReadLine();
+                line = ReadLine();
 
                 TestStatusTxt = line;
 
-                streamWriter.WriteLine("cat /mnt/test.txt");
+                WriteLine("cat /mnt/test.txt");
                 Thread.Sleep(50);
 
                 while (!line.Contains("cat /mnt/test.txt"))
                 {
-                    line = streamReader.ReadLine();
+                    line = ReadLine();
                 }
 
-                line = streamReader.ReadLine();
+                line = ReadLine();
                 if (line == TESTING_STRING)
                 {
                     TestStatusTxt = "Test Passed";
@@ -96,7 +96,7 @@ namespace HubTests.Tests
 
             try
             {
-                streamWriter.WriteLine("umount /mnt");
+                WriteLine("umount /mnt");
                 Thread.Sleep(50);
 
                 tearDownResult &= base.TearDown();
