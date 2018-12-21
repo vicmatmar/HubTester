@@ -39,17 +39,26 @@ namespace HubTester
 
         }
 
+        void AddTest(ITest test)
+        {
+            test.PropertyChanged -= Test_PropertyChanged;
+            test.PropertyChanged += Test_PropertyChanged;
+            test.ParentForm = this;
+            Tests.Add(test);
+        }
+
         private void LoadTests()
         {
 
-            Tests.Add(new LedTest());
-            Tests.Add(new TamperTest());
-            Tests.Add(new BuzzerTest("Is Buzzer Active?"));
+            AddTest(new LedTest());
+            AddTest(new TamperTest());
+            AddTest(new BuzzerTest("Is Buzzer Active?"));
 
             //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to first USB Slot"));
             //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to second USB Slot"));
-            //tests.Add(new BluetoothTest(IpAddress, RsaFile));
-            //tests.Add(new ZwaveTest(IpAddress, RsaFile));
+
+            //AddTest(new BluetoothTest());
+            //AddTest(new ZwaveTest());
 
             //tests.Add(new EmberTest(IpAddress, RsaFile, TestEui));
 
@@ -77,6 +86,7 @@ namespace HubTester
         private void RunTests(IProgress<TestStatus> progress)
         {
             _progress = progress;
+            
 
             if (!TestsLoaded)
                 LoadTests();
@@ -93,10 +103,13 @@ namespace HubTester
                 bool testPassed = true;
 
                 ITest test = Tests[TestIndex];
-                test.PropertyChanged -= Test_PropertyChanged;
-                test.PropertyChanged += Test_PropertyChanged;
 
-                progress.Report(new TestStatus { Status = test.GetType().Name });
+                progress.Report(
+                    new TestStatus
+                    {
+                        Status = test.GetType().Name,
+                        Exception = null
+                    });
                 
                 testPassed &= test.Setup();
 
@@ -107,6 +120,8 @@ namespace HubTester
                 }
 
                 testPassed &= test.TearDown();
+
+                progress.Report(new TestStatus { Status = "\r\n" });
 
                 if (testPassed)
                 {
@@ -129,19 +144,43 @@ namespace HubTester
         private void Test_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ITest test = (ITest)sender;
-            _progress.Report(test.TestStatus);
+
+            if (e.PropertyName == "ShowQuestionDiag")
+            {
+                test.TestStatus.ShowQuestionDig.DialogResult = DialogResult.None;
+                _progress.Report(test.TestStatus);
+                while (test.TestStatus.ShowQuestionDig.DialogResult == DialogResult.None) ;
+                TestStatus t = test.TestStatus;
+            }
+            else
+            {
+                _progress.Report(test.TestStatus);
+            }
         }
 
         private async void RunButton_Click(object sender, EventArgs e)
         {
             RunButton.Enabled = false;
 
+            if(TestIndex == 0)
+                runTextBox.Clear();
+
             var progress =
                 new Progress<TestStatus>(s =>
                     {
-                        runTextBox.AppendText(s.Status + "\r\n");
-                        if (s.Exception != null)
-                            runTextBox.AppendText(s.Exception.Message + "\r\n" + s.Exception.StackTrace + "\r\n");
+                        if (s.ShowQuestionDig != null && s.ShowQuestionDig.ShowDialog)
+                        {
+                            ShowQuestionDiag dlgt = s.ShowQuestionDig;
+                            dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
+                            s.ShowQuestionDig.ShowDialog = false;
+                        }
+                        else
+                        {
+                            runTextBox.AppendText(s.Status + "\r\n");
+
+                            if (s.Exception != null)
+                                runTextBox.AppendText(s.Exception.Message + "\r\n" + s.Exception.StackTrace + "\r\n");
+                        }
                     }
                 );
 

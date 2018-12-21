@@ -44,6 +44,7 @@
             // 
             // runTextBox
             // 
+            this.runTextBox.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runTextBox.Location = new System.Drawing.Point(11, 52);
             this.runTextBox.Multiline = true;
             this.runTextBox.Name = "runTextBox";

@@ -19,6 +19,7 @@ namespace HubTests.Tests
 
             // Make sure button is not stuck pressed
             logger.Trace("Detect button no stuck pressed");
+            TestStatusTxt = "Detect tamper button is NOT pressed";
             stopWatch.Start();
             bool buttonPressed = true;
             while (seconds <= TAMPER_TIMEOUT && !result)
@@ -48,7 +49,7 @@ namespace HubTests.Tests
             while (seconds <= TAMPER_TIMEOUT && !result)
             {
                 WriteLine("cat /sys/class/gpio/gpio44/value");
-                Thread.Sleep(500);
+                Thread.Sleep(250);
 
                 line = ReadLine();
                 if (line == "0")

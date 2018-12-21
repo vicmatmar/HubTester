@@ -49,7 +49,9 @@ namespace HubTests.Tests
                 }
             });
 
-            dialogResult = MessageBox.Show("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
+            //dialogResult = MessageBox.Show("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
+            TestStatusQuestion = new ShowQuestionDiag("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
+            dialogResult = TestStatus.ShowQuestionDig.DialogResult;
             result = dialogResult == DialogResult.Yes;
 
             if (result)

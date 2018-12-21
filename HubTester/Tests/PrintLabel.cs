@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 
 namespace HubTests.Tests
 {
@@ -52,6 +53,8 @@ namespace HubTests.Tests
                 OnPropertyChanged();
             }
         }
+
+        public Form ParentForm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

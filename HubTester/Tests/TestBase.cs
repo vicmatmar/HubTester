@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace HubTests.Tests
 {
@@ -23,9 +25,11 @@ namespace HubTests.Tests
 
         static protected NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
+
         public TestBase()
         {
         }
+
 
         protected string ReadLine()
         {
@@ -116,10 +120,25 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             set
             {
                 TestStatus.Exception = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Exception");
             }
         }
 
+        public ShowQuestionDiag TestStatusQuestion
+        {
+            get
+            {
+                return TestStatus.ShowQuestionDig;
+            }
+            set
+            {
+                TestStatus.ShowQuestionDig = value;
+                OnPropertyChanged("ShowQuestionDiag");
+            }
+        }
+
+        Form _parentForm = null;
+        public Form ParentForm { get => _parentForm; set => _parentForm = value; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
