@@ -1,9 +1,11 @@
 ﻿using Renci.SshNet;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -42,12 +44,32 @@ namespace HubTests.Tests
 
         protected string ReadToEnd()
         {
+            if (streamReader.EndOfStream)
+                return "";
+
             string line = streamReader.ReadToEnd();
 
-            logger.Trace($"ReadToEnd: {line}");
+            if(line.Length > 0)
+                logger.Trace($"ReadToEnd: {line}");
 
             return line;
         }
+
+        protected string ReadUntil(Regex regx, int timeout_sec=10)
+        {
+            string buffer = "";
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            while(true)
+            {
+                buffer += ReadToEnd();
+                if (regx.Match(buffer).Success)
+                    return buffer;
+                if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
+                    throw new Exception($"Timeout waiting for {regx} after {timeout_sec} sec.\r\nOutput =\r\n{buffer}");
+            }
+        }
+
         protected void WriteLine(string format, params object[] args)
         {
             string value = string.Format(format, args);
@@ -106,7 +128,10 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
             set
             {
+                logger.Trace($"TestStatus: {value}");
+
                 TestStatus.Status = value;
+
                 OnPropertyChanged("Status");
             }
         }

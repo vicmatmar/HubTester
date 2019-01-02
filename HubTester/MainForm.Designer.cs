@@ -34,7 +34,8 @@
             // 
             // RunButton
             // 
-            this.RunButton.Location = new System.Drawing.Point(713, 12);
+            this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.RunButton.Location = new System.Drawing.Point(756, 12);
             this.RunButton.Name = "RunButton";
             this.RunButton.Size = new System.Drawing.Size(75, 23);
             this.RunButton.TabIndex = 0;
@@ -44,11 +45,16 @@
             // 
             // runTextBox
             // 
+            this.runTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.runTextBox.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runTextBox.Location = new System.Drawing.Point(11, 52);
             this.runTextBox.Multiline = true;
             this.runTextBox.Name = "runTextBox";
-            this.runTextBox.Size = new System.Drawing.Size(777, 386);
+            this.runTextBox.ReadOnly = true;
+            this.runTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.runTextBox.Size = new System.Drawing.Size(820, 416);
             this.runTextBox.TabIndex = 3;
             this.runTextBox.WordWrap = false;
             // 
@@ -56,7 +62,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(843, 480);
             this.Controls.Add(this.runTextBox);
             this.Controls.Add(this.RunButton);
             this.Name = "MainForm";

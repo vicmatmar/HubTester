@@ -18,7 +18,7 @@ namespace HubTester
         IProgress<TestStatus> _progress;
 
         string _ipaddress = "192.168.10.2";
-        protected string Ipaddress { get => _ipaddress;  }
+        protected string Ipaddress { get => _ipaddress; }
 
         private List<ITest> _tests = new List<ITest>();
         protected List<ITest> Tests { get => _tests; }
@@ -58,7 +58,7 @@ namespace HubTester
             //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to second USB Slot"));
 
             //AddTest(new BluetoothTest());
-            //AddTest(new ZwaveTest());
+            AddTest(new ZwaveTest());
 
             //tests.Add(new EmberTest(IpAddress, RsaFile, TestEui));
 
@@ -86,7 +86,7 @@ namespace HubTester
         private void RunTests(IProgress<TestStatus> progress)
         {
             _progress = progress;
-            
+
 
             if (!TestsLoaded)
                 LoadTests();
@@ -110,18 +110,58 @@ namespace HubTester
                         Status = test.GetType().Name,
                         Exception = null
                     });
-                
-                testPassed &= test.Setup();
+
+                try
+                {
+                    testPassed &= test.Setup();
+                }
+                catch (Exception ex)
+                {
+                    testPassed &= false;
+                    progress.Report(
+                        new TestStatus
+                        {
+                            Status = $"{test.GetType().Name} setup exception:",
+                            Exception = ex,
+                        });
+                }
 
                 // If setup fails, no reason to run test
                 if (testPassed)
                 {
-                    testPassed &= test.Run();
+                    try
+                    {
+                        testPassed &= test.Run();
+                    }
+                    catch (Exception ex)
+                    {
+                        testPassed &= false;
+                        progress.Report(
+                            new TestStatus
+                            {
+                                Status = $"{test.GetType().Name} run exception:",
+                                Exception = ex,
+                            });
+                    }
                 }
 
-                testPassed &= test.TearDown();
+                try
+                {
+                    testPassed &= test.TearDown();
+                }
+                catch (Exception ex)
+                {
+                    testPassed &= false;
+                    progress.Report(
+                        new TestStatus
+                        {
+                            Status = $"{test.GetType().Name} teardown exception:",
+                            Exception = ex,
+                        });
+                }
 
-                progress.Report(new TestStatus { Status = "\r\n" });
+
+                progress.Report(new TestStatus { Status = "\n" });
 
                 if (testPassed)
                 {
@@ -137,6 +177,8 @@ namespace HubTester
             // Reset TestIndex to run all tests
             if (TestIndex >= Tests.Count)
             {
+                TestIndex = 0;
+                progress.Report(new TestStatus { Status = "All tests passed successfully" });
                 //TestStatus = "All tests passed successfully";
             }
         }
@@ -162,7 +204,7 @@ namespace HubTester
         {
             RunButton.Enabled = false;
 
-            if(TestIndex == 0)
+            if (TestIndex == 0)
                 runTextBox.Clear();
 
             var progress =

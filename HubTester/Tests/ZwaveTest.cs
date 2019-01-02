@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace HubTests.Tests
 {
@@ -7,6 +8,21 @@ namespace HubTests.Tests
         private const int RETRY_TIMEOUT = 5;
         public ZwaveTest() : base() { }
 
+        public override bool Setup()
+        {
+            if (!base.Setup())
+                return false;
+
+            WriteLine("ls /data/support/zwave_test");
+
+            Regex regx = new Regex(@"/data/support/zwave_test\r\n.*/data/support/zwave_test");
+            string l = ReadUntil(regx, 3);
+
+
+            return true;
+
+
+        }
         public override bool Run()
         {
             bool result = false;
