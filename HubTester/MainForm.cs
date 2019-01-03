@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -104,27 +105,14 @@ namespace HubTester
 
                 ITest test = Tests[TestIndex];
 
-                progress.Report(
-                    new TestStatus
-                    {
-                        Status = test.GetType().Name,
-                        Exception = null
-                    });
+                TestStatus reportTestStatus = new TestStatus
+                {
+                    Status = test.GetType().Name,
+                    Exception = null
+                };
+                progress.Report(reportTestStatus);
 
-                try
-                {
-                    testPassed &= test.Setup();
-                }
-                catch (Exception ex)
-                {
-                    testPassed &= false;
-                    progress.Report(
-                        new TestStatus
-                        {
-                            Status = $"{test.GetType().Name} setup exception:",
-                            Exception = ex,
-                        });
-                }
+                testPassed &= test.Setup();
 
                 // If setup fails, no reason to run test
                 if (testPassed)
@@ -136,12 +124,13 @@ namespace HubTester
                     catch (Exception ex)
                     {
                         testPassed &= false;
-                        progress.Report(
-                            new TestStatus
-                            {
-                                Status = $"{test.GetType().Name} run exception:",
-                                Exception = ex,
-                            });
+                        test.TestStatus.Exception = ex;
+                    }
+                    if (!testPassed && test.TestStatus.Exception != null)
+                    {
+                        reportTestStatus.Status = test.GetType().Name + " Run Exception";
+                        reportTestStatus.Exception = test.TestStatus.Exception;
+                        progress.Report(reportTestStatus);
                     }
                 }
 
@@ -152,12 +141,10 @@ namespace HubTester
                 catch (Exception ex)
                 {
                     testPassed &= false;
-                    progress.Report(
-                        new TestStatus
-                        {
-                            Status = $"{test.GetType().Name} teardown exception:",
-                            Exception = ex,
-                        });
+                    test.TestStatus.Exception = ex;
+                    reportTestStatus.Status = test.GetType().Name + " Teardown Exception";
+                    reportTestStatus.Exception = test.TestStatus.Exception;
+                    progress.Report(reportTestStatus);
                 }
 
 
@@ -190,8 +177,12 @@ namespace HubTester
             if (e.PropertyName == "ShowQuestionDiag")
             {
                 test.TestStatus.ShowQuestionDig.DialogResult = DialogResult.None;
+
                 _progress.Report(test.TestStatus);
+
+                // TODO: This is ugly
                 while (test.TestStatus.ShowQuestionDig.DialogResult == DialogResult.None) ;
+
                 TestStatus t = test.TestStatus;
             }
             else
@@ -212,7 +203,7 @@ namespace HubTester
                     {
                         if (s.ShowQuestionDig != null && s.ShowQuestionDig.ShowDialog)
                         {
-                            ShowQuestionDiag dlgt = s.ShowQuestionDig;
+                            ShowQuestionDlg dlgt = s.ShowQuestionDig;
                             dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
                             s.ShowQuestionDig.ShowDialog = false;
                         }

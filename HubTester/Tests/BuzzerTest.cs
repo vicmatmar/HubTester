@@ -20,16 +20,25 @@ namespace HubTests.Tests
         {
             bool result = true;
 
+            string rs = WriteCommand($"echo {BUZZER_HZ} > {BUZZER_PATH}/period");
+
             WriteLine("echo {0} > {1}/period", BUZZER_HZ, BUZZER_PATH);
-            Thread.Sleep(50);
-
+            rs = WaitForPrompt();
             WriteLine("echo {0} > {1}/duty_cycle", BUZZER_HZ / 2, BUZZER_PATH);
-            Thread.Sleep(50);
-
+            rs = WaitForPrompt();
             WriteLine("echo 1 > {0}/enable", BUZZER_PATH);
-            Thread.Sleep(50);
+            rs = WaitForPrompt();
 
-            var dialogResult = MessageBox.Show(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
+            //var dialogResult = MessageBox.Show(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
+            TestStatusQuestion = new ShowQuestionDlg(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
+            var dialogResult = TestStatus.ShowQuestionDig.DialogResult;
+
+            // I'm not sure why I have to write this twice to take effect
+            // It started when I moved to using teststatus ShowQuestionDigbut not sure why
+            WriteLine("echo 0 > {0}/enable", BUZZER_PATH);
+            rs = WaitForPrompt();
+            WriteLine("echo 0 > {0}/enable", BUZZER_PATH);
+            rs = WaitForPrompt();
 
             if (dialogResult == DialogResult.Yes)
             {
@@ -41,8 +50,6 @@ namespace HubTests.Tests
                 result = false;
             }
 
-            WriteLine("echo 0 > {0}/enable", BUZZER_PATH);
-            Thread.Sleep(50);
 
             return result;
         }

@@ -12,16 +12,16 @@ namespace HubTests.Tests
         public string Status { get; set; }
         public Exception Exception { get; set; }
 
-        public ShowQuestionDiag ShowQuestionDig { get; set; }
+        public ShowQuestionDlg ShowQuestionDig { get; set; }
     }
 
-    public class ShowQuestionDiag
+    public class ShowQuestionDlg
     {
         string _text;
         string _caption;
         MessageBoxButtons _btns;
 
-        public ShowQuestionDiag(string text, string caption, MessageBoxButtons btns)
+        public ShowQuestionDlg(string text, string caption, MessageBoxButtons btns)
         {
             Text = text;
             Caption = caption;

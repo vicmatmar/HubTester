@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using HubTest;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace HubTests.Tests
@@ -10,14 +11,23 @@ namespace HubTests.Tests
 
         public override bool Setup()
         {
+            // Call base setup to establish connection, etc
             if (!base.Setup())
                 return false;
 
-            WriteLine("ls /data/support/zwave_test");
+            // Check whether we need to copy supporting test util
+            string remote_path = "/data/support/zwave_nvram";
 
-            Regex regx = new Regex(@"/data/support/zwave_test\r\n.*/data/support/zwave_test");
-            string l = ReadUntil(regx, 3);
+            //bool need_to_copy = false;
+            //WriteLine($"ls {remote_path}");
+            //string t = $@"{remote_path}\r\n.*{remote_path}";
+            //Regex regx = new Regex($@"{remote_path}\r\n.*{remote_path}");
+            //try { ReadUntil(regx, 1); }
+            //catch (ReadUntilTimeoutException) { need_to_copy = true; }
 
+            // Copy test util
+            ScpUpload("HubFiles/zwave_nvram", $"{remote_path}");
+            WriteLine($"chmod +x {remote_path}");
 
             return true;
 
@@ -25,50 +35,13 @@ namespace HubTests.Tests
         }
         public override bool Run()
         {
-            bool result = false;
+            TestStatusTxt = "Running Zwave Test";
+            WriteLine("/data/support/zwave_nvram -g 0");
+            string rs = ReadUntil(new Regex(Regex.Escape("0x00:  ff")), 3);
 
-            try
-            {
-                TestStatusTxt = "Running Zwave Test";
-                WriteLine("/data/support/zwave_nvram -g 0");
-                Thread.Sleep(50);
+            TestStatusTxt = "Test Passed";
 
-                int retries = 0;
-                string line = "";
-                line = ReadToEnd();
-                while (line != null || retries <= RETRY_TIMEOUT)
-                {
-                    if (retries > RETRY_TIMEOUT)
-                    {
-                        result = false;
-                        break;
-                    }
-                    else if (line.Contains("0x00:  ff"))
-                    {
-                        result = true;
-                        break;
-                    }
-
-                    retries++;
-                    Thread.Sleep(500);
-                    line = ReadToEnd();
-                }
-
-                if (result)
-                {
-                    TestStatusTxt = "Test Passed";
-                }
-                else
-                {
-                    TestStatusTxt = "Test Failed";
-                }
-            }
-            catch
-            {
-                result = false;
-            }
-
-            return result;
+            return true;
         }
     }
 }

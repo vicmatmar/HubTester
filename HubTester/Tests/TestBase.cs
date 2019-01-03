@@ -1,4 +1,5 @@
-﻿using Renci.SshNet;
+﻿using HubTest;
+using Renci.SshNet;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -26,6 +27,8 @@ namespace HubTests.Tests
         StreamReader streamReader;
 
         static protected NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        const string _prompt_pattern = "root\\@zeushub\\:.*[#$]";
 
 
         public TestBase()
@@ -66,8 +69,25 @@ namespace HubTests.Tests
                 if (regx.Match(buffer).Success)
                     return buffer;
                 if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
-                    throw new Exception($"Timeout waiting for {regx} after {timeout_sec} sec.\r\nOutput =\r\n{buffer}");
+                    throw new ReadUntilTimeoutException($"Timeout waiting for {regx} after {timeout_sec} sec.\r\nOutput =\r\n{buffer}");
             }
+        }
+
+        protected string WaitForPrompt(int timeout_sec=1)
+        {
+            return ReadUntil(new Regex(_prompt_pattern));
+        }
+
+        protected string WriteCommand(string command, int timeout_sec=1)
+        {
+            ReadToEnd();
+
+            WriteLine(command);
+
+            Regex regex = new Regex( Regex.Escape(command + "\r\n") + _prompt_pattern );
+
+            return  ReadUntil(regex);
+
         }
 
         protected void WriteLine(string format, params object[] args)
@@ -83,7 +103,8 @@ namespace HubTests.Tests
         {
             get
             {
-                string keystr = @"-----BEGIN RSA PRIVATE KEY-----
+                string keystr = 
+@"-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEA3tC8Xfr1IhxtPVgFyyDP35gcJD3KzM4D8IiDmB4FrfgQCjPS
 6EYwHTgWWavwVZzFI0U/FQFGZHh7cFYL1Ah4lt/NO7BIqdaRTplI38a2Xvua3ycf
 4fb3BJJ2z+wgg29l0BuVHqSznbBdKFdk5wDaqterH93cJtPD125+fRbizwmM5+Uu
@@ -149,7 +170,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
         }
 
-        public ShowQuestionDiag TestStatusQuestion
+        public ShowQuestionDlg TestStatusQuestion
         {
             get
             {
