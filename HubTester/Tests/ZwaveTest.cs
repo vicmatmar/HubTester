@@ -27,7 +27,7 @@ namespace HubTests.Tests
 
             // Copy test util
             ScpUpload("HubFiles/zwave_nvram", $"{remote_path}");
-            WriteLine($"chmod +x {remote_path}");
+            WriteCommand($"chmod +x {remote_path}");
 
             return true;
 
@@ -36,12 +36,20 @@ namespace HubTests.Tests
         public override bool Run()
         {
             TestStatusTxt = "Running Zwave Test";
-            WriteLine("/data/support/zwave_nvram -g 0");
-            string rs = ReadUntil(new Regex(Regex.Escape("0x00:  ff")), 3);
+            string rs = WriteCommand("/data/support/zwave_nvram -g 0", 5);
+            bool result = rs == "Zwave NVRAM data:\r\n0x00:  ff";
+            if (result)
+            {
+                TestStatusTxt = "Test Passed";
 
-            TestStatusTxt = "Test Passed";
+            }
+            else
+            {
+                TestStatusTxt = "Test Failed";
+            }
 
-            return true;
+            return result;
+
         }
     }
 }

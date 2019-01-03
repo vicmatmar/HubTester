@@ -17,30 +17,29 @@ namespace HubTests.Tests
             TestStatusTxt = "Testing LEDs";
             bool result = false;
 
-            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
-            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
-            WriteLine("echo none > " + string.Format(LED_TRIGGER_PATH, "green"));
-            Thread.Sleep(50);
+            WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
+            WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
+            WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "green"));
 
             DialogResult dialogResult = DialogResult.None;
 
-            Task.Run(() =>
+            Task.Factory.StartNew(() =>
             {
                 while (dialogResult == DialogResult.None)
                 {
                     try
                     {
-                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        WriteLine("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
 
-                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        WriteLine("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
-                        Thread.Sleep(1000);
+                        Thread.Sleep(500);
                     }
                     catch
                     {
@@ -53,6 +52,11 @@ namespace HubTests.Tests
             TestStatusQuestion = new ShowQuestionDlg("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             dialogResult = TestStatus.ShowQuestionDig.DialogResult;
             result = dialogResult == DialogResult.Yes;
+
+            // Leave leds on
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
             if (result)
             {

@@ -28,7 +28,7 @@ namespace HubTests.Tests
 
         static protected NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        const string _prompt_pattern = "root\\@zeushub\\:.*[#$]";
+        const string _prompt_pattern = "root@zeushub:.*#";
 
 
         public TestBase()
@@ -62,7 +62,7 @@ namespace HubTests.Tests
         {
             string buffer = "";
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            stopwatch.Restart();
             while(true)
             {
                 buffer += ReadToEnd();
@@ -84,9 +84,21 @@ namespace HubTests.Tests
 
             WriteLine(command);
 
-            Regex regex = new Regex( Regex.Escape(command + "\r\n") + _prompt_pattern );
+            string ecmd = Regex.Escape(command + "\r\n");
+            Regex regex = new Regex( $"({ecmd})(.*)({_prompt_pattern})", RegexOptions.Singleline );
 
-            return  ReadUntil(regex);
+            string rs =  ReadUntil(regex, timeout_sec);
+
+            // We should get 4 groups, g0=all,g1=command,g2=result,g3=prompt
+            // Note that streamWriter.NewLine should be set to "\n"
+            var m = regex.Match(rs);
+
+            if (m.Groups.Count < 4)
+                throw new WriteCommandException(
+                    $"Error executing command: {command}.\r\nReturn was:\r\n{rs}");
+
+            // We return the command result g2
+            return m.Groups[2].Value.Trim(new char[] { '\r', '\n' });
 
         }
 
@@ -212,6 +224,9 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
                 streamWriter = new StreamWriter(shellStream);
                 streamWriter.AutoFlush = true;
                 streamReader = new StreamReader(shellStream);
+
+                //var d = streamWriter.NewLine;
+                streamWriter.NewLine = "\n";
 
                 WriteLine("su - root");
                 Thread.Sleep(100);

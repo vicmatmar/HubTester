@@ -12,7 +12,7 @@ namespace HubTests.Tests
 
         public override bool Run()
         {
-            string line = "";
+            string rs = "";
             var stopWatch = new Stopwatch();
             Regex regx = new Regex(@"\r\n([0-1])\r\n");
             bool buttonPressed = true;
@@ -22,10 +22,8 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                WriteLine("cat /sys/class/gpio/gpio44/value");
-                string l = ReadUntil(regx);
-                line = regx.Match(l).Groups[1].Value;
-                if (line == "1")
+                rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
+                if (rs == "1")
                 {
                     buttonPressed = false;
                     break;
@@ -41,10 +39,8 @@ namespace HubTests.Tests
             TestStatusTxt = "Press Tamper/Button";
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                WriteLine("cat /sys/class/gpio/gpio44/value");
-                string l = ReadUntil(regx);
-                line = regx.Match(l).Groups[1].Value;
-                if (line == "0")
+                rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
+                if (rs == "0")
                 {
                     buttonPressed = true;
                     break;
@@ -60,10 +56,8 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                WriteLine("cat /sys/class/gpio/gpio44/value");
-                string l = ReadUntil(regx);
-                line = regx.Match(l).Groups[1].Value;
-                if (line == "1")
+                rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
+                if (rs == "1")
                 {
                     buttonPressed = false;
                     break;

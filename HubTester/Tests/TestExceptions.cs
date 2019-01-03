@@ -11,5 +11,12 @@ namespace HubTest
         public ReadUntilTimeoutException(string message) : base(message)
         {
         }
+
+    }
+    public class WriteCommandException : Exception
+    {
+        public WriteCommandException(string message) : base(message)
+        {
+        }
     }
 }
