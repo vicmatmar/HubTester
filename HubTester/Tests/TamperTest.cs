@@ -22,6 +22,8 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "1")
                 {
@@ -39,12 +41,20 @@ namespace HubTests.Tests
             TestStatusTxt = "Press Tamper/Button";
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "0")
                 {
                     buttonPressed = true;
                     break;
                 }
+                if (stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
+                {
+                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}sec waiting for Tamper button pressed";
+                    return false;
+                }
+
             }
             if (!buttonPressed)
             {
@@ -54,23 +64,27 @@ namespace HubTests.Tests
 
             TestStatusTxt = "Release the Tamper/Button";
             stopWatch.Restart();
-            while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
+            while (true)
             {
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "1")
                 {
                     buttonPressed = false;
                     break;
                 }
+                if(stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
+                {
+                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}sec waiting for Tamper button unpressed";
+                    return false;
+                }
             }
             if (buttonPressed)
             {
                 TestStatus.Status = "Tamper button was found pressed";
-                logger.Trace(TestStatus.Status);
                 return false;
             }
-
-            TestStatusTxt = "Test Passed";
 
             return true;
         }

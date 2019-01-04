@@ -19,7 +19,7 @@ namespace HubTester
 
         IProgress<TestStatus> _progress;
 
-        CancellationTokenSource test_cancel_ts = new CancellationTokenSource();
+        CancellationTokenSource test_cancel_ts;
 
 
         string _ipaddress = "192.168.10.2";
@@ -34,6 +34,8 @@ namespace HubTester
         int _testIndex = 0;
         protected int TestIndex { get => _testIndex; set => _testIndex = value; }
 
+        protected bool TestSequenceRunning { get; set; }
+
         public MainForm()
         {
             InitializeComponent();
@@ -46,7 +48,6 @@ namespace HubTester
 
         void AddTest(ITest test)
         {
-            test.CancelToken = test_cancel_ts.Token;
             test.PropertyChanged -= Test_PropertyChanged;
             test.PropertyChanged += Test_PropertyChanged;
             Tests.Add(test);
@@ -59,8 +60,7 @@ namespace HubTester
             AddTest(new TamperTest());
             AddTest(new BuzzerTest("Is Buzzer Active?"));
 
-            //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to first USB Slot"));
-            //tests.Add(new UsbTest(IpAddress, RsaFile, "Insert USB to second USB Slot"));
+            AddTest(new UsbTest());
 
             //AddTest(new BluetoothTest());
             AddTest(new ZwaveTest());
@@ -105,9 +105,15 @@ namespace HubTester
 
             while (TestIndex < Tests.Count)
             {
+                TestSequenceRunning = true;
+
                 bool testPassed = true;
 
                 ITest test = Tests[TestIndex];
+                test.CancelToken = test_cancel_ts.Token;
+
+                _logger.Debug($"Run Test Index {TestIndex}: {test.GetType().Name}");
+
 
                 TestStatus reportTestStatus = new TestStatus
                 {
@@ -130,7 +136,7 @@ namespace HubTester
                 }
 
                 // If setup fails, no reason to run test
-                if (testPassed)
+                if (testPassed && !test_cancel_ts.IsCancellationRequested)
                 {
                     try
                     {
@@ -158,25 +164,32 @@ namespace HubTester
                 }
 
 
-                progress.Report(new TestStatus { Status = "\n" });
 
                 if (testPassed)
                 {
+                    reportTestStatus.Status = "Test Passed\r\n";
+                    progress.Report(reportTestStatus);
+
                     TestIndex++;
                 }
                 else
                 {
+                    reportTestStatus.Status = "Test Failed\r\n";
+                    reportTestStatus.StatusColor = Color.Red;
+                    progress.Report(reportTestStatus);
+
                     break;
                 }
             }
 
-            // All tests ran successfully
-            // Reset TestIndex to run all tests
-            if (TestIndex >= Tests.Count)
+            if (TestIndex >= Tests.Count || test_cancel_ts.IsCancellationRequested)
             {
+                // Reset TestIndex to run all tests
                 TestIndex = 0;
-                progress.Report(new TestStatus { Status = "All tests passed successfully" });
-                //TestStatus = "All tests passed successfully";
+                TestSequenceRunning = false;
+
+                if (!test_cancel_ts.IsCancellationRequested)
+                    progress.Report(new TestStatus { Status = "All tests passed successfully" });
             }
         }
 
@@ -205,10 +218,15 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
-            RunButton.Enabled = false;
+            test_cancel_ts = new CancellationTokenSource();
+
+            runButton.Enabled = false;
+            cancelButton.Enabled = true;
 
             if (TestIndex == 0)
+            {
                 runTextBox.Clear();
+            }
 
             var progress =
                 new Progress<TestStatus>(s =>
@@ -224,7 +242,13 @@ namespace HubTester
                         }
                         else
                         {
-                            runTextBox.AppendText(s.Status + "\r\n");
+                            if(s.Test != null)
+                                _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
+                            else
+                                _logger.Debug($"Status: {s.Status}");
+
+                            //runTextBox.ForeColor = s.StatusColor;
+                            runTextBox.AppendText($"{DateTime.Now.ToString("hh:mm:ss")}: {s.Status}\r\n");
 
                             if (s.Exception != null)
                             {
@@ -237,7 +261,29 @@ namespace HubTester
 
             await Task.Run(() => RunTests(progress));
 
-            RunButton.Enabled = true;
+
+            if (TestSequenceRunning)
+            {
+                runButton.Text = "&Rerun";
+            }
+            else
+            {
+                runButton.Text = "&Run";
+                cancelButton.Enabled = false;
+            }
+
+            runButton.Enabled = true;
+
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            cancelButton.Enabled = false;
+
+            test_cancel_ts.Cancel();
+
+            runButton.Text = "&Run";
+            TestIndex = 0;
 
         }
     }

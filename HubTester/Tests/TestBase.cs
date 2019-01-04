@@ -203,11 +203,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
         }
 
-        CancellationToken cancelToken;
-        public CancellationToken CancelToken
-        {
-            set { cancelToken = value; }
-        }
+        public CancellationToken CancelToken { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -217,6 +213,8 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+
             bool result = true;
 
             TestStatusTxt = "Setting up test";
@@ -227,6 +225,8 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             logger.Trace("Connect");
             sshClient = new SshClient(connectionInformation);
             sshClient.Connect();
+
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
 
             shellStream = sshClient.CreateShellStream("SSH Shell", 80, 24, 800, 600, 1024);
 
@@ -247,6 +247,8 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
             // See if root login is successful
             ReadUntil(new Regex(_prompt_pattern));
+
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
 
             return result;
         }
@@ -301,7 +303,6 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             scp.Connect();
             scp.Download(remote, new System.IO.FileInfo(local));
             scp.Dispose();
-
         }
 
     }

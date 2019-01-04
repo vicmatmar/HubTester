@@ -38,18 +38,8 @@ namespace HubTests.Tests
             TestStatusTxt = "Running Zwave Test";
             string rs = WriteCommand("/data/support/zwave_nvram -g 0", 5);
             bool result = rs == "Zwave NVRAM data:\r\n0x00:  ff";
-            if (result)
-            {
-                TestStatusTxt = "Test Passed";
-
-            }
-            else
-            {
-                TestStatusTxt = "Test Failed";
-            }
 
             return result;
-
         }
     }
 }

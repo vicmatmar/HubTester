@@ -28,20 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.RunButton = new System.Windows.Forms.Button();
+            this.runButton = new System.Windows.Forms.Button();
             this.runTextBox = new System.Windows.Forms.TextBox();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // RunButton
+            // runButton
             // 
-            this.RunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.RunButton.Location = new System.Drawing.Point(756, 12);
-            this.RunButton.Name = "RunButton";
-            this.RunButton.Size = new System.Drawing.Size(75, 23);
-            this.RunButton.TabIndex = 0;
-            this.RunButton.Text = "&Run";
-            this.RunButton.UseVisualStyleBackColor = true;
-            this.RunButton.Click += new System.EventHandler(this.RunButton_Click);
+            this.runButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.runButton.Location = new System.Drawing.Point(675, 12);
+            this.runButton.Name = "runButton";
+            this.runButton.Size = new System.Drawing.Size(75, 23);
+            this.runButton.TabIndex = 0;
+            this.runButton.Text = "&Run";
+            this.runButton.UseVisualStyleBackColor = true;
+            this.runButton.Click += new System.EventHandler(this.RunButton_Click);
             // 
             // runTextBox
             // 
@@ -49,6 +50,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.runTextBox.Font = new System.Drawing.Font("Microsoft YaHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
             this.runTextBox.Location = new System.Drawing.Point(11, 52);
             this.runTextBox.Multiline = true;
             this.runTextBox.Name = "runTextBox";
@@ -58,13 +60,26 @@
             this.runTextBox.TabIndex = 3;
             this.runTextBox.WordWrap = false;
             // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.Enabled = false;
+            this.cancelButton.Location = new System.Drawing.Point(756, 12);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 4;
+            this.cancelButton.Text = "&Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(843, 480);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.runTextBox);
-            this.Controls.Add(this.RunButton);
+            this.Controls.Add(this.runButton);
             this.Name = "MainForm";
             this.Text = "HubTester";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -75,8 +90,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button RunButton;
+        private System.Windows.Forms.Button runButton;
         private System.Windows.Forms.TextBox runTextBox;
+        private System.Windows.Forms.Button cancelButton;
     }
 }
 

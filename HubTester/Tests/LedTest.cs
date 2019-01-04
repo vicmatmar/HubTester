@@ -58,15 +58,6 @@ namespace HubTests.Tests
             WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
             WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
-            if (result)
-            {
-                TestStatusTxt = "Test Passed";
-            }
-            else
-            {
-                TestStatusTxt = "Test Failed";
-            }
-
             return result;
         }
     }

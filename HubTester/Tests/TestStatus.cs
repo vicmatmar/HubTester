@@ -4,12 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace HubTests.Tests
 {
     public class TestStatus
     {
+        public TestStatus()
+        {
+            StatusColor = Color.Black;
+        }
+
         public string Status { get; set; }
+        public Color StatusColor { get; set; }
+
         public Exception Exception { get; set; }
 
         public ShowQuestionDlg ShowQuestionDlg { get; set; }

@@ -8,11 +8,9 @@ namespace HubTests.Tests
     {
         private const string TESTING_STRING = "Testing String";
 
-        private string userPrompt;
 
         public UsbTest(string userPrompt = null) : base()
         {
-            this.userPrompt = userPrompt;
         }
 
         public override bool Setup()
@@ -21,22 +19,7 @@ namespace HubTests.Tests
 
             if (result)
             {
-                try
-                {
-                    WriteLine("umount /mnt");
-                    Thread.Sleep(50);
-
-                    string line = ReadToEnd();
-
-                    if (!string.IsNullOrEmpty(userPrompt))
-                    {
-                        MessageBox.Show(userPrompt);
-                    }
-                }
-                catch
-                {
-                    result = false;
-                }
+                WriteCommand("umount /mnt");
             }
 
             return result;
@@ -44,69 +27,27 @@ namespace HubTests.Tests
 
         public override bool Run()
         {
-            bool result = true;
             string line = "";
 
-            try
-            {
-                WriteLine("mount /dev/sda1 /mnt");
-                Thread.Sleep(50);
-                line = ReadLine();
-                line = ReadLine();
+            line = WriteCommand("mount /dev/sda1 /mnt");
+            line = WriteCommand($"echo {TESTING_STRING} > /mnt/test.txt");
+            line = WriteCommand("cat /mnt/test.txt");
 
-                TestStatusTxt = line;
+            if (line != TESTING_STRING)
+                return false;
 
-                WriteLine("echo {0} > /mnt/test.txt", TESTING_STRING);
-                Thread.Sleep(50);
-                line = ReadLine();
-                line = ReadLine();
-
-                TestStatusTxt = line;
-
-                WriteLine("cat /mnt/test.txt");
-                Thread.Sleep(50);
-
-                while (!line.Contains("cat /mnt/test.txt"))
-                {
-                    line = ReadLine();
-                }
-
-                line = ReadLine();
-                if (line == TESTING_STRING)
-                {
-                    TestStatusTxt = "Test Passed";
-                }
-                else
-                {
-                    TestStatusTxt = "Test Failed";
-                    result = false;
-                }
-            }
-            catch
-            {
-                result = false;
-            }
-
-            return result;
+            return true;
         }
 
         public override bool TearDown()
         {
-            bool tearDownResult = true;
+            bool result = true;
 
-            try
-            {
-                WriteLine("umount /mnt");
-                Thread.Sleep(50);
+            WriteCommand("umount /mnt");
 
-                tearDownResult &= base.TearDown();
-            }
-            catch
-            {
-                tearDownResult = false;
-            }
+            result &= base.TearDown();
 
-            return tearDownResult;
+            return result;
         }
     }
 }
