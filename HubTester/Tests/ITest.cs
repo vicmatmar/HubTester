@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using System.Windows.Forms;
+using System.Threading;
 
 namespace HubTests.Tests
 {
@@ -7,7 +7,7 @@ namespace HubTests.Tests
     {
         TestStatus TestStatus { get; }
 
-        Form ParentForm { get; set; }
+        CancellationToken CancelToken { set; }
 
         bool Setup();
         bool Run();

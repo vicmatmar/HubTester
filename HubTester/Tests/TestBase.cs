@@ -52,18 +52,18 @@ namespace HubTests.Tests
 
             string line = streamReader.ReadToEnd();
 
-            if(line.Length > 0)
+            if (line.Length > 0)
                 logger.Trace($"ReadToEnd: {line}");
 
             return line;
         }
 
-        protected string ReadUntil(Regex regx, int timeout_sec=10)
+        protected string ReadUntil(Regex regx, int timeout_sec = 10)
         {
             string buffer = "";
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
-            while(true)
+            while (true)
             {
                 buffer += ReadToEnd();
                 if (regx.Match(buffer).Success)
@@ -73,21 +73,21 @@ namespace HubTests.Tests
             }
         }
 
-        protected string WaitForPrompt(int timeout_sec=1)
+        protected string WaitForPrompt(int timeout_sec = 1)
         {
             return ReadUntil(new Regex(_prompt_pattern));
         }
 
-        protected string WriteCommand(string command, int timeout_sec=1)
+        protected string WriteCommand(string command, int timeout_sec = 1)
         {
             ReadToEnd();
 
             WriteLine(command);
 
             string ecmd = Regex.Escape(command + "\r\n");
-            Regex regex = new Regex( $"({ecmd})(.*)({_prompt_pattern})", RegexOptions.Singleline );
+            Regex regex = new Regex($"({ecmd})(.*)({_prompt_pattern})", RegexOptions.Singleline);
 
-            string rs =  ReadUntil(regex, timeout_sec);
+            string rs = ReadUntil(regex, timeout_sec);
 
             // We should get 4 groups, g0=all,g1=command,g2=result,g3=prompt
             // Note that streamWriter.NewLine should be set to "\n"
@@ -115,7 +115,7 @@ namespace HubTests.Tests
         {
             get
             {
-                string keystr = 
+                string keystr =
 @"-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEA3tC8Xfr1IhxtPVgFyyDP35gcJD3KzM4D8IiDmB4FrfgQCjPS
 6EYwHTgWWavwVZzFI0U/FQFGZHh7cFYL1Ah4lt/NO7BIqdaRTplI38a2Xvua3ycf
@@ -144,14 +144,22 @@ NGxmbQKBgQDjYVFKreD1arVdrIZKsvIfi/xUBIntV8+DwHafIDg90jGM0Ccb7/Vu
 oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 -----END RSA PRIVATE KEY-----";
 
-                MemoryStream mem = new MemoryStream( Encoding.UTF8.GetBytes(keystr) );
+                MemoryStream mem = new MemoryStream(Encoding.UTF8.GetBytes(keystr));
 
                 return new PrivateKeyFile(mem);
             }
         }
 
         private TestStatus testStatus = new TestStatus();
-        public TestStatus TestStatus { get => testStatus; }
+        public TestStatus TestStatus
+        {
+            get
+            {
+                if (testStatus.Test == null)
+                    testStatus.Test = this;
+                return testStatus;
+            }
+        }
 
         public string TestStatusTxt
         {
@@ -186,17 +194,20 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         {
             get
             {
-                return TestStatus.ShowQuestionDig;
+                return TestStatus.ShowQuestionDlg;
             }
             set
             {
-                TestStatus.ShowQuestionDig = value;
+                TestStatus.ShowQuestionDlg = value;
                 OnPropertyChanged("ShowQuestionDiag");
             }
         }
 
-        Form _parentForm = null;
-        public Form ParentForm { get => _parentForm; set => _parentForm = value; }
+        CancellationToken cancelToken;
+        public CancellationToken CancelToken
+        {
+            set { cancelToken = value; }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -213,53 +224,29 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
                     new PrivateKeyAuthenticationMethod("support", keyFile));
 
-            try
-            {
-                logger.Trace("Connect");
-                sshClient = new SshClient(connectionInformation);
-                sshClient.Connect();
+            logger.Trace("Connect");
+            sshClient = new SshClient(connectionInformation);
+            sshClient.Connect();
 
-                shellStream = sshClient.CreateShellStream("SSH Shell", 80, 24, 800, 600, 1024);
+            shellStream = sshClient.CreateShellStream("SSH Shell", 80, 24, 800, 600, 1024);
 
-                streamWriter = new StreamWriter(shellStream);
-                streamWriter.AutoFlush = true;
-                streamReader = new StreamReader(shellStream);
+            streamWriter = new StreamWriter(shellStream);
+            streamWriter.AutoFlush = true;
+            streamReader = new StreamReader(shellStream);
 
-                //var d = streamWriter.NewLine;
-                streamWriter.NewLine = "\n";
+            //var d = streamWriter.NewLine;
+            streamWriter.NewLine = "\n";
 
-                WriteLine("su - root");
-                Thread.Sleep(100);
-                // Consume password prompt
-                streamReader.ReadToEnd();
+            WriteLine("su - root");
+            Thread.Sleep(100);
+            // Consume password prompt
+            streamReader.ReadToEnd();
 
-                streamWriter.WriteLine("A1l3r0nR0!!");
-                //WriteLine("A1l3r0nR0!!");
+            streamWriter.WriteLine("A1l3r0nR0!!");
+            //WriteLine("A1l3r0nR0!!");  // Use streamm directly so it won't log it
 
-                // See if root login is successful
-                int retries = 0;
-                while (!streamReader.ReadToEnd().Contains(@"root@zeushub:~#"))
-                {
-                    if (retries >= LOGIN_RETRIES)
-                    {
-                        result = false;
-                        break;
-                    }
-
-                    retries++;
-                    Thread.Sleep(500);
-                }
-            }
-            catch(Exception ex)
-            {
-                TestStatusException = ex;
-                result = false;
-            }
-
-            if (!result)
-            {
-                TestStatusTxt = "Setup Failure";
-            }
+            // See if root login is successful
+            ReadUntil(new Regex(_prompt_pattern));
 
             return result;
         }

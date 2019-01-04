@@ -12,7 +12,9 @@ namespace HubTests.Tests
         public string Status { get; set; }
         public Exception Exception { get; set; }
 
-        public ShowQuestionDlg ShowQuestionDig { get; set; }
+        public ShowQuestionDlg ShowQuestionDlg { get; set; }
+
+        public ITest Test { get; set; }
     }
 
     public class ShowQuestionDlg

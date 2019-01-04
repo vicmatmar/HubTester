@@ -2,12 +2,15 @@
 using System.ComponentModel;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace HubTests.Tests
 {
     public class PrintLabel : ITest
     {
+        public CancellationToken CancelToken { set => throw new NotImplementedException(); }
+
         // {0} = UID
         // {1} = MAC
         // {2} = Formated BoardID
@@ -54,7 +57,6 @@ namespace HubTests.Tests
             }
         }
 
-        public Form ParentForm { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -66,6 +68,10 @@ namespace HubTests.Tests
         {
             this.hubLabelPrinterAddress = hubLabelPrinterAddress;
             this.activationCodePrinterAddress = activationCodePrinterAddress;
+        }
+
+        public PrintLabel()
+        {
         }
 
         public bool Setup()

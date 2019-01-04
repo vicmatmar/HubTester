@@ -15,8 +15,12 @@ namespace HubTester
 {
     public partial class MainForm : Form
     {
+        static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         IProgress<TestStatus> _progress;
+
+        CancellationTokenSource test_cancel_ts = new CancellationTokenSource();
+
 
         string _ipaddress = "192.168.10.2";
         protected string Ipaddress { get => _ipaddress; }
@@ -42,9 +46,9 @@ namespace HubTester
 
         void AddTest(ITest test)
         {
+            test.CancelToken = test_cancel_ts.Token;
             test.PropertyChanged -= Test_PropertyChanged;
             test.PropertyChanged += Test_PropertyChanged;
-            test.ParentForm = this;
             Tests.Add(test);
         }
 
@@ -107,12 +111,23 @@ namespace HubTester
 
                 TestStatus reportTestStatus = new TestStatus
                 {
+                    Test = test,
                     Status = test.GetType().Name,
                     Exception = null
                 };
                 progress.Report(reportTestStatus);
 
-                testPassed &= test.Setup();
+                try
+                {
+                    testPassed &= test.Setup();
+                }
+                catch (Exception ex)
+                {
+                    testPassed &= false;
+                    reportTestStatus.Status = test.GetType().Name + " Setup Exception";
+                    reportTestStatus.Exception = ex;
+                    progress.Report(reportTestStatus);
+                }
 
                 // If setup fails, no reason to run test
                 if (testPassed)
@@ -124,12 +139,8 @@ namespace HubTester
                     catch (Exception ex)
                     {
                         testPassed &= false;
-                        test.TestStatus.Exception = ex;
-                    }
-                    if (!testPassed && test.TestStatus.Exception != null)
-                    {
                         reportTestStatus.Status = test.GetType().Name + " Run Exception";
-                        reportTestStatus.Exception = test.TestStatus.Exception;
+                        reportTestStatus.Exception = ex;
                         progress.Report(reportTestStatus);
                     }
                 }
@@ -141,9 +152,8 @@ namespace HubTester
                 catch (Exception ex)
                 {
                     testPassed &= false;
-                    test.TestStatus.Exception = ex;
                     reportTestStatus.Status = test.GetType().Name + " Teardown Exception";
-                    reportTestStatus.Exception = test.TestStatus.Exception;
+                    reportTestStatus.Exception = ex;
                     progress.Report(reportTestStatus);
                 }
 
@@ -176,12 +186,12 @@ namespace HubTester
 
             if (e.PropertyName == "ShowQuestionDiag")
             {
-                test.TestStatus.ShowQuestionDig.DialogResult = DialogResult.None;
+                test.TestStatus.ShowQuestionDlg.DialogResult = DialogResult.None;
 
                 _progress.Report(test.TestStatus);
 
                 // TODO: This is ugly
-                while (test.TestStatus.ShowQuestionDig.DialogResult == DialogResult.None) ;
+                while (test.TestStatus.ShowQuestionDlg.DialogResult == DialogResult.None) ;
 
                 TestStatus t = test.TestStatus;
             }
@@ -193,6 +203,8 @@ namespace HubTester
 
         private async void RunButton_Click(object sender, EventArgs e)
         {
+            _logger.Debug("Run button clicked");
+
             RunButton.Enabled = false;
 
             if (TestIndex == 0)
@@ -201,18 +213,24 @@ namespace HubTester
             var progress =
                 new Progress<TestStatus>(s =>
                     {
-                        if (s.ShowQuestionDig != null && s.ShowQuestionDig.ShowDialog)
+                        if (s.ShowQuestionDlg != null && s.ShowQuestionDlg.ShowDialog)
                         {
-                            ShowQuestionDlg dlgt = s.ShowQuestionDig;
+                            ShowQuestionDlg dlgt = s.ShowQuestionDlg;
+
+                            _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
+
                             dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
-                            s.ShowQuestionDig.ShowDialog = false;
+                            s.ShowQuestionDlg.ShowDialog = false;
                         }
                         else
                         {
                             runTextBox.AppendText(s.Status + "\r\n");
 
                             if (s.Exception != null)
+                            {
+                                _logger.Error(s.Exception, s.Test.GetType().Name);
                                 runTextBox.AppendText(s.Exception.Message + "\r\n" + s.Exception.StackTrace + "\r\n");
+                            }
                         }
                     }
                 );
@@ -224,3 +242,4 @@ namespace HubTester
         }
     }
 }
+

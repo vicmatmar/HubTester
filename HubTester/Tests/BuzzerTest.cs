@@ -26,7 +26,7 @@ namespace HubTests.Tests
 
             //var dialogResult = MessageBox.Show(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
             TestStatusQuestion = new ShowQuestionDlg(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
-            var dialogResult = TestStatus.ShowQuestionDig.DialogResult;
+            var dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
 
             // Trun it off
             rs = WriteCommand($"echo 0 > {BUZZER_PATH}/enable");
