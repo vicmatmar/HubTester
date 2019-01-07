@@ -8,15 +8,19 @@ using System.Drawing;
 
 namespace HubTests.Tests
 {
+    public enum TestStatusPropertyNames { Status, ErrorMsg, Exception, ShowQuestionDlg };
+
     public class TestStatus
     {
         public TestStatus()
         {
-            StatusColor = Color.Black;
+            Status = "";
+            ErrorMsg = "";
         }
 
+        public TestStatusPropertyNames PropertyName { get; set; }
         public string Status { get; set; }
-        public Color StatusColor { get; set; }
+        public string ErrorMsg { get; set; }
 
         public Exception Exception { get; set; }
 

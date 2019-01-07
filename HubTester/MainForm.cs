@@ -107,44 +107,58 @@ namespace HubTester
             {
                 TestSequenceRunning = true;
 
-                bool testPassed = true;
+                bool setupPassed = false;
+                bool runPassed = false;
+                bool tearDownPassed = false;
 
                 ITest test = Tests[TestIndex];
                 test.CancelToken = test_cancel_ts.Token;
 
-                _logger.Debug($"Run Test Index {TestIndex}: {test.GetType().Name}");
+                _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
 
 
                 TestStatus reportTestStatus = new TestStatus
                 {
                     Test = test,
-                    Status = test.GetType().Name,
+                    Status = $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})",
                     Exception = null
                 };
                 progress.Report(reportTestStatus);
 
                 try
                 {
-                    testPassed &= test.Setup();
+                    setupPassed = test.Setup();
+
+                    if (!setupPassed)
+                    {
+                        reportTestStatus.Status = test.GetType().Name + " Setup Failed.";
+                        progress.Report(reportTestStatus);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    testPassed &= false;
+                    setupPassed = false;
                     reportTestStatus.Status = test.GetType().Name + " Setup Exception";
                     reportTestStatus.Exception = ex;
                     progress.Report(reportTestStatus);
                 }
 
                 // If setup fails, no reason to run test
-                if (testPassed && !test_cancel_ts.IsCancellationRequested)
+                if (setupPassed && !test_cancel_ts.IsCancellationRequested)
                 {
                     try
                     {
-                        testPassed &= test.Run();
+                        runPassed = test.Run();
+                        if (!runPassed)
+                        {
+                            reportTestStatus.Status = test.GetType().Name + " Run Failed";
+                            progress.Report(reportTestStatus);
+                        }
+
                     }
                     catch (Exception ex)
                     {
-                        testPassed &= false;
+                        runPassed = false;
                         reportTestStatus.Status = test.GetType().Name + " Run Exception";
                         reportTestStatus.Exception = ex;
                         progress.Report(reportTestStatus);
@@ -153,29 +167,32 @@ namespace HubTester
 
                 try
                 {
-                    testPassed &= test.TearDown();
+                    tearDownPassed = test.TearDown();
+                    if (!tearDownPassed)
+                    {
+                        reportTestStatus.Status = test.GetType().Name + " Teardown Failure.";
+                        progress.Report(reportTestStatus);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    testPassed &= false;
+                    tearDownPassed = false;
                     reportTestStatus.Status = test.GetType().Name + " Teardown Exception";
                     reportTestStatus.Exception = ex;
                     progress.Report(reportTestStatus);
                 }
 
-
-
-                if (testPassed)
+                if (setupPassed && runPassed && tearDownPassed)
                 {
-                    reportTestStatus.Status = "Test Passed\r\n";
+                    reportTestStatus.Status = $"Test Passed\r\n";
                     progress.Report(reportTestStatus);
 
+                    // next test
                     TestIndex++;
                 }
                 else
                 {
-                    reportTestStatus.Status = "Test Failed\r\n";
-                    reportTestStatus.StatusColor = Color.Red;
+                    reportTestStatus.Status = $"Test Failed\r\n";
                     progress.Report(reportTestStatus);
 
                     break;
@@ -197,7 +214,7 @@ namespace HubTester
         {
             ITest test = (ITest)sender;
 
-            if (e.PropertyName == "ShowQuestionDiag")
+            if (e.PropertyName == TestStatusPropertyNames.ShowQuestionDlg.ToString())
             {
                 test.TestStatus.ShowQuestionDlg.DialogResult = DialogResult.None;
 
@@ -231,6 +248,8 @@ namespace HubTester
             var progress =
                 new Progress<TestStatus>(s =>
                     {
+                        string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
+
                         if (s.ShowQuestionDlg != null && s.ShowQuestionDlg.ShowDialog)
                         {
                             ShowQuestionDlg dlgt = s.ShowQuestionDlg;
@@ -242,18 +261,26 @@ namespace HubTester
                         }
                         else
                         {
-                            if(s.Test != null)
+                            if (s.Test != null)
                                 _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
                             else
                                 _logger.Debug($"Status: {s.Status}");
 
-                            //runTextBox.ForeColor = s.StatusColor;
-                            runTextBox.AppendText($"{DateTime.Now.ToString("hh:mm:ss")}: {s.Status}\r\n");
-
-                            if (s.Exception != null)
+                            switch (s.PropertyName)
                             {
-                                _logger.Error(s.Exception, s.Test.GetType().Name);
-                                runTextBox.AppendText(s.Exception.Message + "\r\n" + s.Exception.StackTrace + "\r\n");
+                                case TestStatusPropertyNames.Status:
+                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                    break;
+                                case TestStatusPropertyNames.ErrorMsg:
+                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                    break;
+                                case TestStatusPropertyNames.Exception:
+                                    _logger.Error(s.Exception, s.Test.GetType().Name);
+                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                    break;
+                                default:
+                                    runTextBox.AppendText($"{timestamp_str}: Unhandled PropertyName\r\n");
+                                    break;
                             }
                         }
                     }

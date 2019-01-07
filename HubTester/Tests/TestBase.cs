@@ -161,6 +161,23 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
         }
 
+        public string TestErrorTxt
+        {
+            get
+            {
+                return TestStatus.ErrorMsg;
+            }
+            set
+            {
+                logger.Error($"TestError: {value}");
+
+                TestStatus.Status = value;
+
+                TestStatus.PropertyName = TestStatusPropertyNames.ErrorMsg;
+                OnPropertyChanged(TestStatus.PropertyName.ToString());
+            }
+        }
+
         public string TestStatusTxt
         {
             get
@@ -173,7 +190,8 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
                 TestStatus.Status = value;
 
-                OnPropertyChanged("Status");
+                TestStatus.PropertyName = TestStatusPropertyNames.Status;
+                OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }
 
@@ -185,8 +203,12 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
             set
             {
+                logger.Error(value, "TestStatusExecption");
+
                 TestStatus.Exception = value;
-                OnPropertyChanged("Exception");
+
+                TestStatus.PropertyName = TestStatusPropertyNames.Exception;
+                OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }
 
@@ -198,8 +220,12 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
             set
             {
+                logger.Trace($"TestStatusQuestion: {value.Caption}");
+
                 TestStatus.ShowQuestionDlg = value;
-                OnPropertyChanged("ShowQuestionDiag");
+
+                TestStatus.PropertyName = TestStatusPropertyNames.ShowQuestionDlg;
+                OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }
 

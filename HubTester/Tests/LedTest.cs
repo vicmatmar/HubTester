@@ -15,7 +15,6 @@ namespace HubTests.Tests
         public override bool Run()
         {
             TestStatusTxt = "Testing LEDs";
-            bool result = false;
 
             WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
             WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
@@ -51,14 +50,21 @@ namespace HubTests.Tests
             //dialogResult = MessageBox.Show("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             TestStatusQuestion = new ShowQuestionDlg("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
-            result = dialogResult == DialogResult.Yes;
 
             // Leave leds on
             WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
             WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
             WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
 
-            return result;
+            if (dialogResult == DialogResult.Yes)
+            {
+                return true;
+            }
+            else
+            {
+                TestStatus.ErrorMsg = "LEDs were not all flashing";
+                return false;
+            }
         }
     }
 }
