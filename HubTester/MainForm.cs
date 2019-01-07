@@ -56,6 +56,8 @@ namespace HubTester
         private void LoadTests()
         {
 
+            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+
             AddTest(new LedTest());
             AddTest(new TamperTest());
             AddTest(new BuzzerTest("Is Buzzer Active?"));
@@ -65,7 +67,6 @@ namespace HubTester
             //AddTest(new BluetoothTest());
             AddTest(new ZwaveTest());
 
-            //tests.Add(new EmberTest(IpAddress, RsaFile, TestEui));
 
             // Generate next MAC address and write to board
             //tests.Add(new MacTest(IpAddress, RsaFile, StartBlock, EndBlock));
@@ -117,13 +118,13 @@ namespace HubTester
                 _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
 
 
-                TestStatus reportTestStatus = new TestStatus
+                TestStatus ts = new TestStatus
                 {
                     Test = test,
                     Status = $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})",
                     Exception = null
                 };
-                progress.Report(reportTestStatus);
+                progress.Report(ts);
 
                 try
                 {
@@ -131,16 +132,17 @@ namespace HubTester
 
                     if (!setupPassed)
                     {
-                        reportTestStatus.Status = test.GetType().Name + " Setup Failed.";
-                        progress.Report(reportTestStatus);
+                        ts.Status = test.GetType().Name + " Setup Failed.";
+                        progress.Report(ts);
                     }
                 }
                 catch (Exception ex)
                 {
                     setupPassed = false;
-                    reportTestStatus.Status = test.GetType().Name + " Setup Exception";
-                    reportTestStatus.Exception = ex;
-                    progress.Report(reportTestStatus);
+                    ts.Status = test.GetType().Name + " Setup Exception";
+                    ts.PropertyName = TestStatusPropertyNames.Exception;
+                    ts.Exception = ex;
+                    progress.Report(ts);
                 }
 
                 // If setup fails, no reason to run test
@@ -151,17 +153,18 @@ namespace HubTester
                         runPassed = test.Run();
                         if (!runPassed)
                         {
-                            reportTestStatus.Status = test.GetType().Name + " Run Failed";
-                            progress.Report(reportTestStatus);
+                            ts.Status = test.GetType().Name + " Run Failed";
+                            progress.Report(ts);
                         }
 
                     }
                     catch (Exception ex)
                     {
                         runPassed = false;
-                        reportTestStatus.Status = test.GetType().Name + " Run Exception";
-                        reportTestStatus.Exception = ex;
-                        progress.Report(reportTestStatus);
+                        ts.Status = test.GetType().Name + " Run Exception";
+                        ts.PropertyName = TestStatusPropertyNames.Exception;
+                        ts.Exception = ex;
+                        progress.Report(ts);
                     }
                 }
 
@@ -170,30 +173,31 @@ namespace HubTester
                     tearDownPassed = test.TearDown();
                     if (!tearDownPassed)
                     {
-                        reportTestStatus.Status = test.GetType().Name + " Teardown Failure.";
-                        progress.Report(reportTestStatus);
+                        ts.Status = test.GetType().Name + " Teardown Failure.";
+                        progress.Report(ts);
                     }
                 }
                 catch (Exception ex)
                 {
                     tearDownPassed = false;
-                    reportTestStatus.Status = test.GetType().Name + " Teardown Exception";
-                    reportTestStatus.Exception = ex;
-                    progress.Report(reportTestStatus);
+                    ts.Status = test.GetType().Name + " Teardown Exception";
+                    ts.PropertyName = TestStatusPropertyNames.Exception;
+                    ts.Exception = ex;
+                    progress.Report(ts);
                 }
 
                 if (setupPassed && runPassed && tearDownPassed)
                 {
-                    reportTestStatus.Status = $"Test Passed\r\n";
-                    progress.Report(reportTestStatus);
+                    ts.Status = $"Test Passed\r\n";
+                    progress.Report(ts);
 
                     // next test
                     TestIndex++;
                 }
                 else
                 {
-                    reportTestStatus.Status = $"Test Failed\r\n";
-                    progress.Report(reportTestStatus);
+                    ts.Status = $"Test Failed\r\n";
+                    progress.Report(ts);
 
                     break;
                 }
@@ -277,6 +281,8 @@ namespace HubTester
                                 case TestStatusPropertyNames.Exception:
                                     _logger.Error(s.Exception, s.Test.GetType().Name);
                                     runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                    runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
+                                    runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
                                     break;
                                 default:
                                     runTextBox.AppendText($"{timestamp_str}: Unhandled PropertyName\r\n");

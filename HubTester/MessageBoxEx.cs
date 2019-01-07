@@ -164,7 +164,9 @@ public class MessageBoxEx
 
         if (_owner != null)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 

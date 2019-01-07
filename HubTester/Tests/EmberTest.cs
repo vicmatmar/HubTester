@@ -40,69 +40,38 @@ namespace HubTests.Tests
             if (!result)
                 return result;
 
-            string output = "";
-            try
-            {
-                TestStatusTxt = "Stop gateway";
-                WriteLine("monit stop stratus");
-                output += ReadLine();
+            TestStatusTxt = "Stop gateway";
+            string line = WriteCommand("monit stop stratus");
 
-                TestStatusTxt = "Clearing Database";
-                WriteLine("rm -f /tmp/zigbee-ember.db");
-                output += ReadLine();
-
-                //if(File.Exists())
+            TestStatusTxt = "Clearing Database";
+            line = WriteCommand("rm -f /tmp/zigbee-ember.db");
 
 
-                TestStatusTxt = "Starting Stratus Gateway";
-                WriteLine("cd /data/run/v*/zigbee; ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2");
-                Thread.Sleep(250);
-
-                string line = ReadLine();
-                output += line;
-                while (!string.IsNullOrWhiteSpace(line))
-                {
-                    Thread.Sleep(500);
-                    line = ReadToEnd();
-                    output += line;
-                }
-            }
-            catch
-            {
-                result = false;
-            }
+            TestStatusTxt = "Starting Stratus Gateway";
+            line = WriteCommand("cd /data/run/v*/zigbee");
+            line = WriteCommand("export ZIGBEE_DEBUG=1");
+            line = WriteCommand("export RPC_HOST=1338");
+            line = WriteCommand("export DB_BASE_PATH=/tmp");
+            line = WriteCommand("./stratus_gateway -p ttyO2", 30, "EMBER_NETWORK_UP");
 
             return result;
         }
 
         public override bool Run()
         {
-
+            string prompt = "stratus_gateway";
             bool testResult = false;
 
-            string line = "";
-            line = ReadToEnd();
-            while (!string.IsNullOrWhiteSpace(line))
-            {
-                Thread.Sleep(500);
-                line += ReadToEnd();
-            }
+            WriteLine("");
 
-            WriteLine($"network form 12 0 0x2222");
-            Thread.Sleep(500);
-            line = ReadToEnd();
+            string line = WriteCommand($"network form 12 0 0x2222", prompt: prompt);
 
             const int pjoin_access_time = 30;
-            WriteLine($"network pjoin {pjoin_access_time}");
+            line = WriteCommand($"network pjoin {pjoin_access_time}", prompt: prompt);
 
             var stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Start();
 
-            Thread.Sleep(500);
-            line = ReadToEnd();
-
-
-            string buffer = "";
             int device_found_timeout = 60;
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
@@ -117,44 +86,27 @@ namespace HubTests.Tests
                     TestStatusTxt = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
                 }
 
-                WriteLine("custom listDevice");
-                Thread.Sleep(500);
-                line = ReadToEnd();
-                buffer += line;
-
+                line = WriteCommand("custom listDevice");
                 while (!string.IsNullOrWhiteSpace(line))
                 {
-                    if (Regex.IsMatch(buffer, EUIRegex))
+                    if (Regex.IsMatch(line, EUIRegex))
                     {
-                        var matches = Regex.Matches(buffer, EUIRegex);
+                        var matches = Regex.Matches(line, EUIRegex);
 
                         foreach (Match match in matches)
                         {
                             if (match.Groups[2].Value == testDeviceEui)
                             {
                                 testResult = true;
-
-                                WriteLine($"network pjoin -1");
-                                Thread.Sleep(250);
-                                line = ReadToEnd();
-                                buffer += line;
+                                WriteCommand($"network pjoin -1");
                             }
 
                             TestStatusTxt = string.Format("Leave {0}", match.Groups[2].Value);
 
-                            WriteLine("zdo leave {0} 1 0", match.Groups[4].Value);
-                            Thread.Sleep(250);
-                            line = ReadToEnd();
-                            buffer += line;
+                            WriteCommand($"zdo leave {match.Groups[4].Value} 1 0");
 
-                            WriteLine($"network pjoin -1");
-                            Thread.Sleep(250);
-                            line = ReadToEnd();
-                            buffer += line;
+                            WriteCommand($"network pjoin -1");
 
-                            System.Diagnostics.Debug.WriteLine("=====================================");
-                            System.Diagnostics.Debug.WriteLine(buffer);
-                            System.Diagnostics.Debug.WriteLine("=====================================");
                         }
 
                         if (testResult)
@@ -163,45 +115,31 @@ namespace HubTests.Tests
 
                     if (testResult)
                         break;
-
-                    Thread.Sleep(1000);
-                    line = ReadToEnd();
-                    buffer += line;
                 }
 
                 if (testResult)
                     break;
             }
 
-            WriteLine("custom exit");
-            Thread.Sleep(50);
+            WriteCommand("custom exit");
 
             if (testResult)
             {
-                TestStatusTxt = "Test Passed";
+                return true;
             }
             else
             {
-                TestStatusTxt = "Test Failed";
+                return false;
             }
-
-            return testResult;
         }
 
         public override bool TearDown()
         {
             bool tearDownResult = true;
-            try
-            {
-                WriteLine("rm -f /tmp/zigbee-ember.db");
-                Thread.Sleep(50);
 
-                tearDownResult &= base.TearDown();
-            }
-            catch
-            {
-                tearDownResult = false;
-            }
+            WriteCommand("rm -f /tmp/zigbee-ember.db");
+
+            tearDownResult &= base.TearDown();
 
             return tearDownResult;
         }

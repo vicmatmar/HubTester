@@ -34,5 +34,17 @@ namespace HubTester.Properties {
                 this["HubIpAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("000D6F00057603C0")]
+        public string TestEui {
+            get {
+                return ((string)(this["TestEui"]));
+            }
+            set {
+                this["TestEui"] = value;
+            }
+        }
     }
 }

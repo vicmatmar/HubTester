@@ -73,25 +73,30 @@ namespace HubTests.Tests
             }
         }
 
-        protected string WaitForPrompt(int timeout_sec = 1)
-        {
-            return ReadUntil(new Regex(_prompt_pattern));
-        }
-
-        protected string WriteCommand(string command, int timeout_sec = 1)
+        protected string WriteCommand(string command, int timeout_sec = 1, string prompt=_prompt_pattern)
         {
             ReadToEnd();
 
             WriteLine(command);
 
             string ecmd = Regex.Escape(command + "\r\n");
-            Regex regex = new Regex($"({ecmd})(.*)({_prompt_pattern})", RegexOptions.Singleline);
+            Regex regx = new Regex($"({ecmd})(.*)({prompt})", RegexOptions.Singleline);
 
-            string rs = ReadUntil(regex, timeout_sec);
+            string rs = "";
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Restart();
+            while (true)
+            {
+                rs += ReadToEnd();
+                if (regx.Match(rs).Success)
+                    break;
+                if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
+                    throw new ReadUntilTimeoutException($"Timeout({timeout_sec}sec) waiting for: {command}.\r\nOutput =\r\n{rs}");
+            }
 
             // We should get 4 groups, g0=all,g1=command,g2=result,g3=prompt
             // Note that streamWriter.NewLine should be set to "\n"
-            var m = regex.Match(rs);
+            var m = regx.Match(rs);
 
             if (m.Groups.Count < 4)
                 throw new WriteCommandException(
