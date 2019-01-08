@@ -56,7 +56,7 @@ namespace HubTester
         private void LoadTests()
         {
 
-            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
             AddTest(new LedTest());
             AddTest(new TamperTest());
@@ -104,6 +104,7 @@ namespace HubTester
                 TestIndex = 0;
             }
 
+            TestStatus ts;
             while (TestIndex < Tests.Count)
             {
                 TestSequenceRunning = true;
@@ -117,13 +118,11 @@ namespace HubTester
 
                 _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
 
-
-                TestStatus ts = new TestStatus
-                {
-                    Test = test,
-                    Status = $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})",
-                    Exception = null
-                };
+                ts = new TestStatus();
+                ts.Test = test;
+                ts.PropertyName = TestStatusPropertyNames.Status;
+                ts.Status = $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})";
+                ts.Exception = null;
                 progress.Report(ts);
 
                 try
@@ -133,6 +132,7 @@ namespace HubTester
                     if (!setupPassed)
                     {
                         ts.Status = test.GetType().Name + " Setup Failed.";
+                        ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
                         progress.Report(ts);
                     }
                 }
@@ -154,6 +154,7 @@ namespace HubTester
                         if (!runPassed)
                         {
                             ts.Status = test.GetType().Name + " Run Failed";
+                            ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
                             progress.Report(ts);
                         }
 
@@ -174,12 +175,14 @@ namespace HubTester
                     if (!tearDownPassed)
                     {
                         ts.Status = test.GetType().Name + " Teardown Failure.";
+                        ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
                         progress.Report(ts);
                     }
                 }
                 catch (Exception ex)
                 {
                     tearDownPassed = false;
+
                     ts.Status = test.GetType().Name + " Teardown Exception";
                     ts.PropertyName = TestStatusPropertyNames.Exception;
                     ts.Exception = ex;
@@ -188,7 +191,9 @@ namespace HubTester
 
                 if (setupPassed && runPassed && tearDownPassed)
                 {
+                    ts = new TestStatus();
                     ts.Status = $"Test Passed\r\n";
+                    ts.PropertyName = TestStatusPropertyNames.Status;
                     progress.Report(ts);
 
                     // next test
@@ -196,7 +201,9 @@ namespace HubTester
                 }
                 else
                 {
+                    ts = new TestStatus();
                     ts.Status = $"Test Failed\r\n";
+                    ts.PropertyName = TestStatusPropertyNames.Status;
                     progress.Report(ts);
 
                     break;
@@ -210,7 +217,12 @@ namespace HubTester
                 TestSequenceRunning = false;
 
                 if (!test_cancel_ts.IsCancellationRequested)
-                    progress.Report(new TestStatus { Status = "All tests passed successfully" });
+                {
+                    ts = new TestStatus();
+                    ts.Status = $"All tests passed successfully";
+                    ts.PropertyName = TestStatusPropertyNames.Status;
+                    progress.Report(ts);
+                }
             }
         }
 
@@ -254,40 +266,39 @@ namespace HubTester
                     {
                         string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
 
-                        if (s.ShowQuestionDlg != null && s.ShowQuestionDlg.ShowDialog)
-                        {
-                            ShowQuestionDlg dlgt = s.ShowQuestionDlg;
-
-                            _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
-
-                            dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
-                            s.ShowQuestionDlg.ShowDialog = false;
-                        }
+                        if (s.Test != null)
+                            _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
                         else
-                        {
-                            if (s.Test != null)
-                                _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
-                            else
-                                _logger.Debug($"Status: {s.Status}");
+                            _logger.Debug($"Status: {s.Status}");
 
-                            switch (s.PropertyName)
-                            {
-                                case TestStatusPropertyNames.Status:
-                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
-                                    break;
-                                case TestStatusPropertyNames.ErrorMsg:
-                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
-                                    break;
-                                case TestStatusPropertyNames.Exception:
-                                    _logger.Error(s.Exception, s.Test.GetType().Name);
-                                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
-                                    runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
-                                    runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
-                                    break;
-                                default:
-                                    runTextBox.AppendText($"{timestamp_str}: Unhandled PropertyName\r\n");
-                                    break;
-                            }
+                        switch (s.PropertyName)
+                        {
+                            case TestStatusPropertyNames.Status:
+                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                break;
+                            case TestStatusPropertyNames.ErrorMsg:
+                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                break;
+                            case TestStatusPropertyNames.Exception:
+                                _logger.Error(s.Exception, s.Test.GetType().Name);
+
+                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
+                                runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
+
+                                break;
+                            case TestStatusPropertyNames.ShowQuestionDlg:
+                                ShowQuestionDlg dlgt = s.ShowQuestionDlg;
+
+                                _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
+
+                                dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
+                                s.ShowQuestionDlg.ShowDialog = false;
+
+                                break;
+                            default:
+                                runTextBox.AppendText($"{timestamp_str}: Unhandled PropertyName\r\n");
+                                break;
                         }
                     }
                 );

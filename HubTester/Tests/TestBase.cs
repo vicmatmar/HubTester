@@ -73,11 +73,12 @@ namespace HubTests.Tests
             }
         }
 
-        protected string WriteCommand(string command, int timeout_sec = 1, string prompt=_prompt_pattern)
+        protected string WriteCommand(string command, int timeout_sec = 1, string prompt=_prompt_pattern, int cmd_delay_ms=150)
         {
             ReadToEnd();
 
             WriteLine(command);
+            Thread.Sleep(cmd_delay_ms);
 
             string ecmd = Regex.Escape(command + "\r\n");
             Regex regx = new Regex($"({ecmd})(.*)({prompt})", RegexOptions.Singleline);
@@ -93,6 +94,9 @@ namespace HubTests.Tests
                 if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
                     throw new ReadUntilTimeoutException($"Timeout({timeout_sec}sec) waiting for: {command}.\r\nOutput =\r\n{rs}");
             }
+
+            // flush
+            ReadToEnd();
 
             // We should get 4 groups, g0=all,g1=command,g2=result,g3=prompt
             // Note that streamWriter.NewLine should be set to "\n"

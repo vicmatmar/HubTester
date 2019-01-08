@@ -8,9 +8,9 @@ namespace HubTests.Tests
 {
     public class EmberTest : TestBase
     {
-        private const string EUIRegex = "(([0-9a-fA-F]{16})\\.([0-9])\\ \\((0x[0-9a-fA-F]{4})\\))";
-
-        string testDeviceEui;
+        private const string _eUIRegex = @"Device\ [0-9]:\ ([0-9a-fA-F]{16})\.([0-9])\ \((0x[0-9a-fA-F]{4})\)";
+        string _testDeviceEui;
+        const string _gateway_prompt = @"stratus_gateway>";
 
         public EmberTest(string testDeviceEui) : base()
         {
@@ -30,7 +30,7 @@ namespace HubTests.Tests
 
             //this.testDeviceEui = builder.ToString();
 
-            this.testDeviceEui = testDeviceEui;
+            this._testDeviceEui = testDeviceEui;
         }
 
         public override bool Setup()
@@ -40,8 +40,21 @@ namespace HubTests.Tests
             if (!result)
                 return result;
 
+            WriteLine("");
+            WriteLine("");
+            string rs = ReadToEnd();
+            if (rs.Contains(_gateway_prompt))
+            {
+                WriteGatewayCmd("cu exit");
+                WriteLine("");
+                WriteLine("");
+                rs = ReadToEnd();
+            }
+
+            string line = WriteCommand("");
+
             TestStatusTxt = "Stop gateway";
-            string line = WriteCommand("monit stop stratus");
+            line = WriteCommand("monit stop stratus");
 
             TestStatusTxt = "Clearing Database";
             line = WriteCommand("rm -f /tmp/zigbee-ember.db");
@@ -54,74 +67,72 @@ namespace HubTests.Tests
             line = WriteCommand("export DB_BASE_PATH=/tmp");
             line = WriteCommand("./stratus_gateway -p ttyO2", 30, "EMBER_NETWORK_UP");
 
+            line = WriteGatewayCmd("", timeout_sec: 5);
+            line = WriteGatewayCmd("");
+
             return result;
+        }
+
+        string WriteGatewayCmd(string comand, int timeout_sec = 1, string prompt = _gateway_prompt, int cmd_delay_ms = 100)
+        {
+            return WriteCommand(comand, timeout_sec: timeout_sec, prompt: prompt, cmd_delay_ms: cmd_delay_ms);
         }
 
         public override bool Run()
         {
-            string prompt = "stratus_gateway";
             bool testResult = false;
 
-            WriteLine("");
 
-            string line = WriteCommand($"network form 12 0 0x2222", prompt: prompt);
+            string line = WriteGatewayCmd($"network form 12 0 0x2222");
 
             const int pjoin_access_time = 30;
-            line = WriteCommand($"network pjoin {pjoin_access_time}", prompt: prompt);
+            line = WriteGatewayCmd($"network pjoin {pjoin_access_time}");
 
             var stopWatch = new System.Diagnostics.Stopwatch();
-            stopWatch.Start();
+            stopWatch.Restart();
 
-            int device_found_timeout = 60;
+            int device_found_timeout = 120;
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
                 double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
                 double timeout_time = device_found_timeout - stopWatch.Elapsed.TotalSeconds;
                 if (pjoin_etime > 0.0)
                 {
-                    TestStatusTxt = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
+                    //TestStatusTxt = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
                 }
                 else
                 {
-                    TestStatusTxt = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
+                    //TestStatusTxt = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
                 }
 
-                line = WriteCommand("custom listDevice");
-                while (!string.IsNullOrWhiteSpace(line))
+                line = WriteGatewayCmd("custom listDevice", cmd_delay_ms: 1000);
+                if (Regex.IsMatch(line, _eUIRegex))
                 {
-                    if (Regex.IsMatch(line, EUIRegex))
+                    TestStatusTxt = line;
+                    var matches = Regex.Matches(line, _eUIRegex);
+                    foreach (Match match in matches)
                     {
-                        var matches = Regex.Matches(line, EUIRegex);
-
-                        foreach (Match match in matches)
+                        if (match.Groups[2].Value == _testDeviceEui)
                         {
-                            if (match.Groups[2].Value == testDeviceEui)
-                            {
-                                testResult = true;
-                                WriteCommand($"network pjoin -1");
-                            }
-
-                            TestStatusTxt = string.Format("Leave {0}", match.Groups[2].Value);
-
-                            WriteCommand($"zdo leave {match.Groups[4].Value} 1 0");
-
-                            WriteCommand($"network pjoin -1");
-
+                            testResult = true;
                         }
 
-                        if (testResult)
-                            break;
+                        TestStatusTxt = $"Leave {match.Groups[1].Value}";
+                        WriteGatewayCmd($"zdo leave {match.Groups[3].Value} 1 0");
                     }
 
                     if (testResult)
+                    {
+                        WriteGatewayCmd($"network pjoin -1");
                         break;
+                    }
                 }
-
                 if (testResult)
                     break;
             }
 
-            WriteCommand("custom exit");
+            WriteGatewayCmd($"network pjoin -1");
+            line = WriteGatewayCmd("custom exit");
 
             if (testResult)
             {
@@ -136,6 +147,17 @@ namespace HubTests.Tests
         public override bool TearDown()
         {
             bool tearDownResult = true;
+
+            WriteLine("");
+            WriteLine("");
+            string rs = ReadToEnd();
+            if (rs.Contains(_gateway_prompt))
+            {
+                WriteGatewayCmd("cu exit");
+                WriteLine("");
+                WriteLine("");
+                rs = ReadToEnd();
+            }
 
             WriteCommand("rm -f /tmp/zigbee-ember.db");
 

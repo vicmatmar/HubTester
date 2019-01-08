@@ -16,16 +16,23 @@ namespace HubTests.Tests
         {
             TestStatusTxt = "Testing LEDs";
 
+            string line = WriteCommand("");
+            WriteCommand("");
+
             WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "red"));
             WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "yellow"));
             WriteCommand("echo none > " + string.Format(LED_TRIGGER_PATH, "green"));
 
             DialogResult dialogResult = DialogResult.None;
 
-            Task.Factory.StartNew(() =>
+            CancellationTokenSource cts = new CancellationTokenSource();
+            var task = Task.Factory.StartNew(() =>
             {
                 while (dialogResult == DialogResult.None)
                 {
+                    if (cts.Token.IsCancellationRequested)
+                        break;
+
                     try
                     {
                         WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
@@ -45,16 +52,19 @@ namespace HubTests.Tests
                         break;
                     }
                 }
-            });
+            }, cts.Token);
 
             //dialogResult = MessageBox.Show("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             TestStatusQuestion = new ShowQuestionDlg("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
 
+            cts.Cancel();
+            task.Wait();
+
             // Leave leds on
-            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"), timeout_sec: 2);
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"), timeout_sec: 2);
+            WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"), timeout_sec: 2);
 
             if (dialogResult == DialogResult.Yes)
             {
