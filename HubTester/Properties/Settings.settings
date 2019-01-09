@@ -6,7 +6,7 @@
       <Value Profile="(Default)">192.168.10.2</Value>
     </Setting>
     <Setting Name="TestEui" Type="System.String" Scope="User">
-      <Value Profile="(Default)">000D6F00057603C0</Value>
+      <Value Profile="(Default)">000D6F000BDD1156</Value>
     </Setting>
   </Settings>
 </SettingsFile>

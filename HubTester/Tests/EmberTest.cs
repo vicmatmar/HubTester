@@ -40,18 +40,8 @@ namespace HubTests.Tests
             if (!result)
                 return result;
 
-            WriteLine("");
-            WriteLine("");
-            string rs = ReadToEnd();
-            if (rs.Contains(_gateway_prompt))
-            {
-                WriteGatewayCmd("cu exit");
-                WriteLine("");
-                WriteLine("");
-                rs = ReadToEnd();
-            }
-
             string line = WriteCommand("");
+            line = WriteCommand("");
 
             TestStatusTxt = "Stop gateway";
             line = WriteCommand("monit stop stratus");
@@ -65,7 +55,7 @@ namespace HubTests.Tests
             line = WriteCommand("export ZIGBEE_DEBUG=1");
             line = WriteCommand("export RPC_HOST=1338");
             line = WriteCommand("export DB_BASE_PATH=/tmp");
-            line = WriteCommand("./stratus_gateway -p ttyO2", 30, "EMBER_NETWORK_UP");
+            line = WriteCommand("./stratus_gateway -p ttyO2", 15, "EMBER_NETWORK_UP");
 
             line = WriteGatewayCmd("", timeout_sec: 5);
             line = WriteGatewayCmd("");
@@ -82,42 +72,47 @@ namespace HubTests.Tests
         {
             bool testResult = false;
 
+            string rexpeui = EUIToLittleEndian(_testDeviceEui);
 
             string line = WriteGatewayCmd($"network form 12 0 0x2222");
 
-            const int pjoin_access_time = 30;
+            const int pjoin_access_time = 10;
+            TestStatusTxt = $"Permit Join for {pjoin_access_time} sec";
             line = WriteGatewayCmd($"network pjoin {pjoin_access_time}");
 
             var stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Restart();
 
-            int device_found_timeout = 120;
+            int device_found_timeout = 60;
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
                 double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
                 double timeout_time = device_found_timeout - stopWatch.Elapsed.TotalSeconds;
                 if (pjoin_etime > 0.0)
                 {
-                    //TestStatusTxt = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
+                    string msg = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
+                    logger.Debug(msg);
                 }
                 else
                 {
-                    //TestStatusTxt = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
+                    string msg = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
+                    logger.Debug(msg);
                 }
 
-                line = WriteGatewayCmd("custom listDevice", cmd_delay_ms: 1000);
+                line = WriteGatewayCmd("custom listDevice");
                 if (Regex.IsMatch(line, _eUIRegex))
                 {
-                    TestStatusTxt = line;
+                    logger.Debug(line);
                     var matches = Regex.Matches(line, _eUIRegex);
                     foreach (Match match in matches)
                     {
-                        if (match.Groups[2].Value == _testDeviceEui)
+                        if (match.Groups[1].Value == rexpeui)
                         {
                             testResult = true;
                         }
+                        logger.Debug($"EUI:{EUIToLittleEndian(match.Groups[1].Value)}");
 
-                        TestStatusTxt = $"Leave {match.Groups[1].Value}";
+                        // Device stays on the custom listDevice list even after it leaves
                         WriteGatewayCmd($"zdo leave {match.Groups[3].Value} 1 0");
                     }
 

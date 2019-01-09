@@ -56,7 +56,7 @@ namespace HubTester
         private void LoadTests()
         {
 
-            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
             AddTest(new LedTest());
             AddTest(new TamperTest());

@@ -340,5 +340,21 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             scp.Dispose();
         }
 
+        public string EUIToLittleEndian(string BigEndianEUI)
+        {
+            byte[] beui = Encoding.ASCII.GetBytes(BigEndianEUI);
+            Array.Reverse(beui);
+            string eui = "";
+            for (int i = 0; i < beui.Length; i += 2)
+            {
+                char n1 = (char)beui[i];
+                char n2 = (char)beui[i + 1];
+
+                eui += string.Format("{0}{1}", n2, n1);
+            }
+
+            return eui;
+        }
+
     }
 }

@@ -37,7 +37,7 @@ namespace HubTester.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("000D6F00057603C0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("000D6F000BDD1156")]
         public string TestEui {
             get {
                 return ((string)(this["TestEui"]));
