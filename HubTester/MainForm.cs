@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -56,16 +57,19 @@ namespace HubTester
         private void LoadTests()
         {
 
-            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            AddTest(new EthernetTest(120));
+
+            AddTest(new BuzzerTest());
 
             AddTest(new LedTest());
             AddTest(new TamperTest());
-            AddTest(new BuzzerTest("Is Buzzer Active?"));
 
             AddTest(new UsbTest());
 
             //AddTest(new BluetoothTest());
             AddTest(new ZwaveTest());
+
+            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
 
             // Generate next MAC address and write to board
@@ -93,6 +97,10 @@ namespace HubTester
         {
             _progress = progress;
 
+            Stopwatch sequenceStopWatch = new Stopwatch();
+            sequenceStopWatch.Restart();
+
+            Stopwatch testStopWatch = new Stopwatch();
 
             if (!TestsLoaded)
                 LoadTests();
@@ -107,6 +115,8 @@ namespace HubTester
             TestStatus ts;
             while (TestIndex < Tests.Count)
             {
+                testStopWatch.Restart();
+
                 TestSequenceRunning = true;
 
                 bool setupPassed = false;
@@ -118,11 +128,7 @@ namespace HubTester
 
                 _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
 
-                ts = new TestStatus();
-                ts.Test = test;
-                ts.PropertyName = TestStatusPropertyNames.Status;
-                ts.Status = $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})";
-                ts.Exception = null;
+                ts = new TestStatus(test, $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})");
                 progress.Report(ts);
 
                 try
@@ -131,16 +137,16 @@ namespace HubTester
 
                     if (!setupPassed)
                     {
-                        ts.Status = test.GetType().Name + " Setup Failed.";
-                        ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
+                        ts = new TestStatus(test, test.GetType().Name + " Setup Failed");
                         progress.Report(ts);
                     }
                 }
                 catch (Exception ex)
                 {
                     setupPassed = false;
+
+                    ts = new TestStatus(test, TestStatusPropertyNames.Exception);
                     ts.Status = test.GetType().Name + " Setup Exception";
-                    ts.PropertyName = TestStatusPropertyNames.Exception;
                     ts.Exception = ex;
                     progress.Report(ts);
                 }
@@ -153,8 +159,7 @@ namespace HubTester
                         runPassed = test.Run();
                         if (!runPassed)
                         {
-                            ts.Status = test.GetType().Name + " Run Failed";
-                            ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
+                            ts = new TestStatus(test, test.GetType().Name + " Run Failed");
                             progress.Report(ts);
                         }
 
@@ -162,8 +167,9 @@ namespace HubTester
                     catch (Exception ex)
                     {
                         runPassed = false;
+
+                        ts = new TestStatus(test, TestStatusPropertyNames.Exception);
                         ts.Status = test.GetType().Name + " Run Exception";
-                        ts.PropertyName = TestStatusPropertyNames.Exception;
                         ts.Exception = ex;
                         progress.Report(ts);
                     }
@@ -174,8 +180,8 @@ namespace HubTester
                     tearDownPassed = test.TearDown();
                     if (!tearDownPassed)
                     {
+                        ts = new TestStatus(test);
                         ts.Status = test.GetType().Name + " Teardown Failure.";
-                        ts.PropertyName = TestStatusPropertyNames.ErrorMsg;
                         progress.Report(ts);
                     }
                 }
@@ -183,17 +189,19 @@ namespace HubTester
                 {
                     tearDownPassed = false;
 
+                    ts = new TestStatus(test, TestStatusPropertyNames.Exception);
                     ts.Status = test.GetType().Name + " Teardown Exception";
-                    ts.PropertyName = TestStatusPropertyNames.Exception;
                     ts.Exception = ex;
                     progress.Report(ts);
                 }
 
+                testStopWatch.Stop();
+                string etimestr = $"({testStopWatch.Elapsed.ToString(@"m\:ss")} sec)";
+
                 if (setupPassed && runPassed && tearDownPassed)
                 {
-                    ts = new TestStatus();
-                    ts.Status = $"Test Passed\r\n";
-                    ts.PropertyName = TestStatusPropertyNames.Status;
+                    ts = new TestStatus(test);
+                    ts.Status = $"Test Passed {etimestr}\r\n";
                     progress.Report(ts);
 
                     // next test
@@ -201,9 +209,8 @@ namespace HubTester
                 }
                 else
                 {
-                    ts = new TestStatus();
-                    ts.Status = $"Test Failed\r\n";
-                    ts.PropertyName = TestStatusPropertyNames.Status;
+                    ts = new TestStatus(test);
+                    ts.Status = $"Test Failed {etimestr}\r\n";
                     progress.Report(ts);
 
                     break;
@@ -216,13 +223,20 @@ namespace HubTester
                 TestIndex = 0;
                 TestSequenceRunning = false;
 
+                sequenceStopWatch.Stop();
+                string etimestr = $"({sequenceStopWatch.Elapsed.ToString(@"m\:ss")})";
+
+                ts = new TestStatus();
+                ts.PropertyName = TestStatusPropertyNames.Status;
                 if (!test_cancel_ts.IsCancellationRequested)
                 {
-                    ts = new TestStatus();
-                    ts.Status = $"All tests passed successfully";
-                    ts.PropertyName = TestStatusPropertyNames.Status;
-                    progress.Report(ts);
+                    ts.Status = $"All tests passed successfully {etimestr}";
                 }
+                else
+                {
+                    ts.Status = $"Test sequence canceled {etimestr}";
+                }
+                progress.Report(ts);
             }
         }
 
@@ -251,6 +265,9 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
+            Stopwatch sequesnceStopWatch = new Stopwatch();
+            sequesnceStopWatch.Restart();
+
             test_cancel_ts = new CancellationTokenSource();
 
             runButton.Enabled = false;
@@ -277,7 +294,7 @@ namespace HubTester
                                 runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
                                 break;
                             case TestStatusPropertyNames.ErrorMsg:
-                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                                runTextBox.AppendText($"{timestamp_str}: {s.ErrorMsg}\r\n");
                                 break;
                             case TestStatusPropertyNames.Exception:
                                 _logger.Error(s.Exception, s.Test.GetType().Name);
@@ -317,6 +334,9 @@ namespace HubTester
             }
 
             runButton.Enabled = true;
+
+            sequesnceStopWatch.Stop();
+            string etimestr = $"({sequesnceStopWatch.Elapsed.TotalSeconds} sec)";
 
         }
 

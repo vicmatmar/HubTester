@@ -79,6 +79,7 @@
     <Compile Include="Tests\BluetoothTest.cs" />
     <Compile Include="Tests\BuzzerTest.cs" />
     <Compile Include="Tests\EmberTest.cs" />
+    <Compile Include="Tests\EthernetTest.cs" />
     <Compile Include="Tests\ITest.cs" />
     <Compile Include="Tests\LedTest.cs" />
     <Compile Include="Tests\MacTest.cs" />

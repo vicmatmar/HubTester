@@ -9,7 +9,7 @@ namespace HubTests.Tests
         private const int BUZZER_HZ = 370370;
         private const string BUZZER_PATH = @"/sys/class/pwm/pwmchip0/pwm1";
     
-        public BuzzerTest(string userPrompt = null) : base()
+        public BuzzerTest() : base()
         {
         }
 
@@ -27,7 +27,10 @@ namespace HubTests.Tests
             rs = WriteCommand($"echo 0 > {BUZZER_PATH}/enable");
 
             if (dialogResult == DialogResult.No || dialogResult == DialogResult.Cancel)
+            {
+                TestErrorTxt = "Buzzer was not active";
                 return false;
+            }
 
             return true;
         }

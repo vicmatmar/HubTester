@@ -84,6 +84,8 @@ namespace HubTests.Tests
             stopWatch.Restart();
 
             int device_found_timeout = 60;
+            TestStatusTxt = $"Waiting on device EUI {_testDeviceEui} for {device_found_timeout} sec";
+            string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
                 double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
@@ -99,11 +101,13 @@ namespace HubTests.Tests
                     logger.Debug(msg);
                 }
 
-                line = WriteGatewayCmd("custom listDevice");
-                if (Regex.IsMatch(line, _eUIRegex))
+                ReadToEnd();
+                devlist = WriteGatewayCmd("custom listDevice");
+
+                if (Regex.IsMatch(devlist, _eUIRegex))
                 {
-                    logger.Debug(line);
-                    var matches = Regex.Matches(line, _eUIRegex);
+                    logger.Debug(devlist);
+                    var matches = Regex.Matches(devlist, _eUIRegex);
                     foreach (Match match in matches)
                     {
                         if (match.Groups[1].Value == rexpeui)
@@ -135,6 +139,7 @@ namespace HubTests.Tests
             }
             else
             {
+                TestErrorTxt = $"Zigbee device EUI {_testDeviceEui} not found. Devlist =\r\n {devlist}";
                 return false;
             }
         }

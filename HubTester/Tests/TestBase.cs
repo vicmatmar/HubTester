@@ -180,7 +180,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             {
                 logger.Error($"TestError: {value}");
 
-                TestStatus.Status = value;
+                TestStatus.ErrorMsg = value;
 
                 TestStatus.PropertyName = TestStatusPropertyNames.ErrorMsg;
                 OnPropertyChanged(TestStatus.PropertyName.ToString());
@@ -248,20 +248,22 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
-
-            bool result = true;
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Connection Cancelled"; return false; }
 
             TestStatusTxt = "Setting up test";
+            Connect();
 
+            return true;
+        }
+
+        public void Connect()
+        {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
                     new PrivateKeyAuthenticationMethod("support", keyFile));
 
             logger.Trace("Connect");
             sshClient = new SshClient(connectionInformation);
             sshClient.Connect();
-
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
 
             shellStream = sshClient.CreateShellStream("SSH Shell", 80, 24, 800, 600, 1024);
 
@@ -281,13 +283,18 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             //WriteLine("A1l3r0nR0!!");  // Use streamm directly so it won't log it
 
             // See if root login is successful
-            ReadUntil(new Regex(_prompt_pattern));
 
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+            try
+            {
+                ReadUntil(new Regex(_prompt_pattern));
+            }catch(ReadUntilTimeoutException)
+            {
+                // this is to hide passwd from logger output
+                throw new ReadUntilTimeoutException("Timeout waiting for prompt after login in");
+            }
 
-            return result;
+
         }
-
         public abstract bool Run();
 
         public virtual bool TearDown()

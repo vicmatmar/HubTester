@@ -72,7 +72,7 @@ namespace HubTests.Tests
             }
             else
             {
-                TestStatus.ErrorMsg = "LEDs were not all flashing";
+                TestErrorTxt = "LEDs were not all flashing";
                 return false;
             }
         }

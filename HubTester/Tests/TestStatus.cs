@@ -12,15 +12,29 @@ namespace HubTests.Tests
 
     public class TestStatus
     {
+        private string _status = "";
+        private string _errorMsg = "";
+        private TestStatusPropertyNames _propertyName = TestStatusPropertyNames.Status;
+
         public TestStatus()
         {
-            Status = "";
-            ErrorMsg = "";
         }
 
-        public TestStatusPropertyNames PropertyName { get; set; }
-        public string Status { get; set; }
-        public string ErrorMsg { get; set; }
+        public TestStatus(ITest test, TestStatusPropertyNames propertyName = TestStatusPropertyNames.Status)
+        {
+            this.Test = test;
+            this.PropertyName = propertyName;
+        }
+
+        public TestStatus(ITest test, string status)
+        {
+            this.Test = test;
+            this.Status = status;
+        }
+
+        public TestStatusPropertyNames PropertyName { get => _propertyName; set => _propertyName = value; }
+        public string Status { get => _status; set => _status = value; }
+        public string ErrorMsg { get => _errorMsg; set => _errorMsg = value; }
 
         public Exception Exception { get; set; }
 
