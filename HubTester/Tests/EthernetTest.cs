@@ -9,7 +9,7 @@ namespace HubTests.Tests
 {
     /// <summary>
     /// Simple test to make sure we can connect to the target
-    /// Recomend to run it as the first test
+    /// Recommend to run it as the first test
     /// </summary>
 
     public class EthernetTest : TestBase

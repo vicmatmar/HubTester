@@ -120,7 +120,7 @@ namespace HubTests.Tests
             streamWriter.WriteLine(value);
         }
 
-        PrivateKeyFile keyFile
+        PrivateKeyFile KeyFile
         {
             get
             {
@@ -259,7 +259,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         public void Connect()
         {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
-                    new PrivateKeyAuthenticationMethod("support", keyFile));
+                    new PrivateKeyAuthenticationMethod("support", KeyFile));
 
             logger.Trace("Connect");
             sshClient = new SshClient(connectionInformation);
@@ -267,12 +267,13 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
             shellStream = sshClient.CreateShellStream("SSH Shell", 80, 24, 800, 600, 1024);
 
-            streamWriter = new StreamWriter(shellStream);
-            streamWriter.AutoFlush = true;
+            streamWriter = new StreamWriter(shellStream)
+            {
+                AutoFlush = true,
+                NewLine = "\n"
+            };
             streamReader = new StreamReader(shellStream);
 
-            //var d = streamWriter.NewLine;
-            streamWriter.NewLine = "\n";
 
             WriteLine("su - root");
             Thread.Sleep(100);
@@ -280,7 +281,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             streamReader.ReadToEnd();
 
             streamWriter.WriteLine("A1l3r0nR0!!");
-            //WriteLine("A1l3r0nR0!!");  // Use streamm directly so it won't log it
+            //WriteLine("A1l3r0nR0!!");  // Use stream directly so it won't log it
 
             // See if root login is successful
 
@@ -327,7 +328,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         public void ScpUpload(string local, string remote)
         {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
-                    new PrivateKeyAuthenticationMethod("support", keyFile));
+                    new PrivateKeyAuthenticationMethod("support", KeyFile));
 
             ScpClient scp = new Renci.SshNet.ScpClient(connectionInformation);
             scp.Connect();
@@ -339,7 +340,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         public void ScpDownload(string remote, string local)
         {
             var connectionInformation = new ConnectionInfo(ipAddress, "support",
-                    new PrivateKeyAuthenticationMethod("support", keyFile));
+                    new PrivateKeyAuthenticationMethod("support", KeyFile));
 
             ScpClient scp = new Renci.SshNet.ScpClient(connectionInformation);
             scp.Connect();

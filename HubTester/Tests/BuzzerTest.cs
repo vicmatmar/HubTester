@@ -23,7 +23,7 @@ namespace HubTests.Tests
             TestStatusQuestion = new ShowQuestionDlg("Is Buzzer Active?", "Buzzer?", MessageBoxButtons.YesNo);
             var dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
 
-            // Trun it off
+            // Turn it off
             rs = WriteCommand($"echo 0 > {BUZZER_PATH}/enable");
 
             if (dialogResult == DialogResult.No || dialogResult == DialogResult.Cancel)
