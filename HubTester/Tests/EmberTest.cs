@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -43,6 +45,48 @@ namespace HubTests.Tests
             string line = WriteCommand("");
             line = WriteCommand("");
 
+            // We need to wait for these files to be created before we
+            // stop the monitor
+            // /config/activation_key
+            // /data/run/.system
+            var map = new Dictionary<string, bool>();
+            map.Add(@"/config/activation_key", false);
+            map.Add(@"/data/run/.system", false);
+            string[] files = new string[map.Count];
+            map.Keys.CopyTo(files, 0);
+            bool found_files = true;
+            int timeout_sec = 10;
+            TestStatusTxt = $"Wait for hub init files {timeout_sec}s";
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Restart();
+            while (stopwatch.Elapsed.TotalSeconds < timeout_sec)
+            {
+                foreach(string file in files)
+                {
+                    if (!map[file])
+                    {
+                        line = WriteCommand($"ls {file}");
+                        if (line == file)
+                            map[file] = true;
+                    }
+                }
+
+                found_files = true;
+                foreach (string file in map.Keys)
+                    found_files &= map[file];
+
+                if (found_files)
+                    break;
+
+                Thread.Sleep(500);
+            }
+            if(!found_files)
+            {
+                TestErrorTxt = "Hub init files not found";
+                return false;
+            }
+
+
             TestStatusTxt = "Stop gateway";
             line = WriteCommand("monit stop stratus");
 
@@ -77,29 +121,29 @@ namespace HubTests.Tests
             string line = WriteGatewayCmd($"network form 12 0 0x2222");
 
             const int pjoin_access_time = 10;
-            TestStatusTxt = $"Permit Join for {pjoin_access_time} sec";
+            TestStatusTxt = $"Permit Join for {pjoin_access_time}s";
             line = WriteGatewayCmd($"network pjoin {pjoin_access_time}");
 
             var stopWatch = new System.Diagnostics.Stopwatch();
             stopWatch.Restart();
 
             int device_found_timeout = 60;
-            TestStatusTxt = $"Waiting on device EUI {_testDeviceEui} for {device_found_timeout} sec";
+            TestStatusTxt = $"Waiting on device EUI {_testDeviceEui} for {device_found_timeout}s";
             string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
-                double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
-                double timeout_time = device_found_timeout - stopWatch.Elapsed.TotalSeconds;
-                if (pjoin_etime > 0.0)
-                {
-                    string msg = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
-                    logger.Debug(msg);
-                }
-                else
-                {
-                    string msg = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
-                    logger.Debug(msg);
-                }
+                //double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
+                //double timeout_time = device_found_timeout - stopWatch.Elapsed.TotalSeconds;
+                //if (pjoin_etime > 0.0)
+                //{
+                //    string msg = $"PJoin Enabled: {pjoin_etime.ToString("F2")}. Timeout: {timeout_time.ToString("F2")}";
+                //    logger.Debug(msg);
+                //}
+                //else
+                //{
+                //    string msg = $"PJoin Expired. Timeout: {timeout_time.ToString("F2")}";
+                //    logger.Debug(msg);
+                //}
 
                 ReadToEnd();
                 devlist = WriteGatewayCmd("custom listDevice");
@@ -128,7 +172,12 @@ namespace HubTests.Tests
                 }
                 if (testResult)
                     break;
+
+                Thread.Sleep(500);
             }
+
+            string devlist2 = WriteGatewayCmd("custom listDevice 1");
+            logger.Debug($"DevList\r\n{devlist2}");
 
             WriteGatewayCmd($"network pjoin -1");
             line = WriteGatewayCmd("custom exit");

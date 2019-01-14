@@ -22,7 +22,7 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
 
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "1")
@@ -41,7 +41,7 @@ namespace HubTests.Tests
             TestStatusTxt = "Press Tamper/Button";
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
 
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "0")
@@ -51,7 +51,7 @@ namespace HubTests.Tests
                 }
                 if (stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
                 {
-                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}sec waiting for Tamper button pressed";
+                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}s waiting for Tamper button pressed";
                     return false;
                 }
 
@@ -66,7 +66,7 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (true)
             {
-                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Cancelled"; return false; }
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
 
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "1")
@@ -76,7 +76,7 @@ namespace HubTests.Tests
                 }
                 if(stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
                 {
-                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}sec waiting for Tamper button unpressed";
+                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}s waiting for Tamper button unpressed";
                     return false;
                 }
             }

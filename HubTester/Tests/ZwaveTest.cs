@@ -15,7 +15,7 @@ namespace HubTests.Tests
             if (!base.Setup())
                 return false;
 
-            // Check whether we need to copy supporting test util
+            // Check whether we need to copy supporting test until
             string remote_path = "/data/support/zwave_nvram";
 
             //bool need_to_copy = false;

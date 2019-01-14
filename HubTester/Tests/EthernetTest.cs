@@ -35,7 +35,7 @@ namespace HubTests.Tests
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Restart();
 
-            TestStatusTxt = $"Try to connect to hub for {Timeout_sec} sec";
+            TestStatusTxt = $"Try to connect to hub for {Timeout_sec}s";
             int connect_try = 0;
             while (stopWatch.Elapsed.TotalSeconds < Timeout_sec)
             {
@@ -43,7 +43,7 @@ namespace HubTests.Tests
                 {
                     
                     Connect();
-                    TestStatusTxt = $"Connection successfull after {stopWatch.Elapsed.ToString(@"m\:ss")} sec.";
+                    TestStatusTxt = $"Connection successful after {stopWatch.Elapsed.ToString(@"m\:ss")}";
                     break;
                 }
                 catch(Exception ex)

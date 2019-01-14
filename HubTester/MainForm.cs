@@ -204,7 +204,7 @@ namespace HubTester
                 }
 
                 testStopWatch.Stop();
-                string etimestr = $"({testStopWatch.Elapsed.ToString(@"m\:ss")} sec)";
+                string etimestr = $"({testStopWatch.Elapsed.ToString(@"m\:ss")})";
 
                 if (setupPassed && runPassed && tearDownPassed)
                 {
@@ -322,7 +322,7 @@ namespace HubTester
 
                                 break;
                             default:
-                                runTextBox.AppendText($"{timestamp_str}: Unhandled PropertyName\r\n");
+                                runTextBox.AppendText($"{timestamp_str}: Unhanded PropertyName\r\n");
                                 break;
                         }
                     }
@@ -344,7 +344,7 @@ namespace HubTester
             runButton.Enabled = true;
 
             sequesnceStopWatch.Stop();
-            string etimestr = $"({sequesnceStopWatch.Elapsed.TotalSeconds} sec)";
+//            string etimestr = $"({sequesnceStopWatch.Elapsed.TotalSeconds}s)";
 
         }
 

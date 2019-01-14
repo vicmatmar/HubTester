@@ -69,7 +69,7 @@ namespace HubTests.Tests
                 if (regx.Match(buffer).Success)
                     return buffer;
                 if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
-                    throw new ReadUntilTimeoutException($"Timeout waiting for {regx} after {timeout_sec} sec.\r\nOutput =\r\n{buffer}");
+                    throw new ReadUntilTimeoutException($"Timeout waiting for {regx} after {timeout_sec}s.\r\nOutput =\r\n{buffer}");
             }
         }
 
@@ -92,7 +92,7 @@ namespace HubTests.Tests
                 if (regx.Match(rs).Success)
                     break;
                 if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
-                    throw new ReadUntilTimeoutException($"Timeout({timeout_sec}sec) waiting for: {command}.\r\nOutput =\r\n{rs}");
+                    throw new ReadUntilTimeoutException($"Timeout({timeout_sec}s) waiting for: {command}.\r\nOutput =\r\n{rs}");
             }
 
             // flush
@@ -195,7 +195,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
             set
             {
-                logger.Trace($"TestStatus: {value}");
+                logger.Debug($"TestStatus: {value}");
 
                 TestStatus.Status = value;
 
@@ -248,7 +248,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Connection Cancelled"; return false; }
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Connection Canceled"; return false; }
 
             TestStatusTxt = "Setting up test";
             Connect();
@@ -277,23 +277,13 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
             WriteLine("su - root");
             Thread.Sleep(100);
-            // Consume password prompt
+            //streamReader.ReadToEnd();
+            streamWriter.WriteLine("A1l3r0nR0!!");
+            Thread.Sleep(100);
             streamReader.ReadToEnd();
 
-            streamWriter.WriteLine("A1l3r0nR0!!");
-            //WriteLine("A1l3r0nR0!!");  // Use stream directly so it won't log it
-
             // See if root login is successful
-
-            try
-            {
-                ReadUntil(new Regex(_prompt_pattern));
-            }catch(ReadUntilTimeoutException)
-            {
-                // this is to hide passwd from logger output
-                throw new ReadUntilTimeoutException("Timeout waiting for prompt after login in");
-            }
-
+            WriteCommand("");
 
         }
         public abstract bool Run();
