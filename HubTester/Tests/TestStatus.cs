@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace HubTests.Tests
 {
-    public enum TestStatusPropertyNames { Status, ErrorMsg, Exception, ShowQuestionDlg };
+    public enum TestStatusPropertyNames { Status, ErrorMsg, Exception, ShowQuestionDlg, HUB_EUI };
 
     public class TestStatus
     {

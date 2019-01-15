@@ -30,7 +30,6 @@ namespace HubTests.Tests
 
         const string _prompt_pattern = "root@zeushub:.*#";
 
-
         public TestBase()
         {
         }
@@ -164,10 +163,13 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
         {
             get
             {
-                if (testStatus.Test == null)
-                    testStatus.Test = this;
                 return testStatus;
             }
+            set
+            {
+                testStatus = value;
+            }
+
         }
 
         public string TestErrorTxt
@@ -180,9 +182,12 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             {
                 logger.Error($"TestError: {value}");
 
-                TestStatus.ErrorMsg = value;
-
-                TestStatus.PropertyName = TestStatusPropertyNames.ErrorMsg;
+                TestStatus = new TestStatus
+                {
+                    Test = this,
+                    ErrorMsg = value,
+                    PropertyName = TestStatusPropertyNames.ErrorMsg
+                };
                 OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }
@@ -197,9 +202,12 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             {
                 logger.Debug($"TestStatus: {value}");
 
-                TestStatus.Status = value;
-
-                TestStatus.PropertyName = TestStatusPropertyNames.Status;
+                TestStatus = new TestStatus
+                {
+                    Test = this,
+                    Status = value,
+                    PropertyName = TestStatusPropertyNames.Status
+                };
                 OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }
@@ -214,9 +222,33 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             {
                 logger.Error(value, "TestStatusExecption");
 
-                TestStatus.Exception = value;
+                TestStatus = new TestStatus
+                {
+                    Test = this,
+                    Exception = value,
+                    PropertyName = TestStatusPropertyNames.Exception
+                };
+                OnPropertyChanged(TestStatus.PropertyName.ToString());
+            }
+        }
 
-                TestStatus.PropertyName = TestStatusPropertyNames.Exception;
+        string hub_eui;
+        public string HUB_EUI
+        {
+            get
+            {
+                return hub_eui;
+            }
+            set
+            {
+                hub_eui = value;
+
+                TestStatus = new TestStatus
+                {
+                    Test = this,
+                    Status = value,
+                    PropertyName = TestStatusPropertyNames.HUB_EUI
+                };
                 OnPropertyChanged(TestStatus.PropertyName.ToString());
             }
         }

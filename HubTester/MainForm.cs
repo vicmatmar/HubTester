@@ -321,6 +321,11 @@ namespace HubTester
                                 s.ShowQuestionDlg.ShowDialog = false;
 
                                 break;
+                            case TestStatusPropertyNames.HUB_EUI:
+                                string euistr = s.Status;
+                                long hub_eui = Convert.ToInt64(euistr, 16);
+                                runTextBox.AppendText($"{timestamp_str}: HUB EUI LONG: {hub_eui}\r\n");
+                                break;
                             default:
                                 runTextBox.AppendText($"{timestamp_str}: Unhanded PropertyName\r\n");
                                 break;

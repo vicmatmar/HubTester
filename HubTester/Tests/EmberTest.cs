@@ -10,11 +10,13 @@ namespace HubTests.Tests
 {
     public class EmberTest : TestBase
     {
-        private const string _eUIRegex = @"Device\ [0-9]:\ ([0-9a-fA-F]{16})\.([0-9])\ \((0x[0-9a-fA-F]{4})\)";
-        string _testDeviceEui;
+        private const string _device_to_join_EUIRegex = @"Device\ [0-9]:\ ([0-9a-fA-F]{16})\.([0-9])\ \((0x[0-9a-fA-F]{4})\)";
+        private const string _hub_EUIRegex = @"\[\(>\)([0-9,A-F]{16})\]";
+
+        string _expected_device_to_join_EUI;
         const string _gateway_prompt = @"stratus_gateway>";
 
-        public EmberTest(string testDeviceEui) : base()
+        public EmberTest(string device_to_join_eui) : base()
         {
             StringBuilder builder = new StringBuilder();
 
@@ -32,7 +34,7 @@ namespace HubTests.Tests
 
             //this.testDeviceEui = builder.ToString();
 
-            this._testDeviceEui = testDeviceEui;
+            this._expected_device_to_join_EUI = device_to_join_eui;
         }
 
         public override bool Setup()
@@ -49,14 +51,20 @@ namespace HubTests.Tests
             // stop the monitor
             // /config/activation_key
             // /data/run/.system
+            string[] files = new string[]
+            {
+                @"/config/activation_key",
+                @"/data/run/.system"
+            };
+
+
             var map = new Dictionary<string, bool>();
-            map.Add(@"/config/activation_key", false);
-            map.Add(@"/data/run/.system", false);
-            string[] files = new string[map.Count];
-            map.Keys.CopyTo(files, 0);
-            bool found_files = true;
+            foreach(var file in files)
+                map.Add(file, false);
+
             int timeout_sec = 10;
             TestStatusTxt = $"Wait for hub init files {timeout_sec}s";
+            bool found_files = false;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
             while (stopwatch.Elapsed.TotalSeconds < timeout_sec)
@@ -99,10 +107,17 @@ namespace HubTests.Tests
             line = WriteCommand("export ZIGBEE_DEBUG=1");
             line = WriteCommand("export RPC_HOST=1338");
             line = WriteCommand("export DB_BASE_PATH=/tmp");
-            line = WriteCommand("./stratus_gateway -p ttyO2", 15, "EMBER_NETWORK_UP");
+            line = WriteCommand("./stratus_gateway -p ttyO2", 20, "EMBER_NETWORK_UP");
 
             line = WriteGatewayCmd("", timeout_sec: 5);
             line = WriteGatewayCmd("");
+
+            // Get hub EUI
+            TestStatusTxt = "Get hub EUI";
+            string info = WriteGatewayCmd("info");
+            string hub_eui = Regex.Match(info, _hub_EUIRegex).Groups[1].Value;
+            TestStatusTxt = $"Hub EUI String: {hub_eui}";
+            HUB_EUI = hub_eui;
 
             return result;
         }
@@ -116,7 +131,7 @@ namespace HubTests.Tests
         {
             bool testResult = false;
 
-            string rexpeui = EUIToLittleEndian(_testDeviceEui);
+            string rexpeui = EUIToLittleEndian(_expected_device_to_join_EUI);
 
             string line = WriteGatewayCmd($"network form 12 0 0x2222");
 
@@ -128,7 +143,7 @@ namespace HubTests.Tests
             stopWatch.Restart();
 
             int device_found_timeout = 60;
-            TestStatusTxt = $"Waiting on device EUI {_testDeviceEui} for {device_found_timeout}s";
+            TestStatusTxt = $"Waiting on device EUI {_expected_device_to_join_EUI} for {device_found_timeout}s";
             string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
@@ -148,10 +163,10 @@ namespace HubTests.Tests
                 ReadToEnd();
                 devlist = WriteGatewayCmd("custom listDevice");
 
-                if (Regex.IsMatch(devlist, _eUIRegex))
+                if (Regex.IsMatch(devlist, _device_to_join_EUIRegex))
                 {
                     logger.Debug(devlist);
-                    var matches = Regex.Matches(devlist, _eUIRegex);
+                    var matches = Regex.Matches(devlist, _device_to_join_EUIRegex);
                     foreach (Match match in matches)
                     {
                         if (match.Groups[1].Value == rexpeui)
@@ -188,7 +203,7 @@ namespace HubTests.Tests
             }
             else
             {
-                TestErrorTxt = $"Zigbee device EUI {_testDeviceEui} not found. Devlist =\r\n {devlist}";
+                TestErrorTxt = $"Zigbee device EUI {_expected_device_to_join_EUI} not found. Devlist =\r\n {devlist}";
                 return false;
             }
         }
