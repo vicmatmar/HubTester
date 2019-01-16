@@ -280,7 +280,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Connection Canceled"; return false; }
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Setup Canceled"; return false; }
 
             TestStatusTxt = "Setting up test";
             Connect();
@@ -307,8 +307,9 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             streamReader = new StreamReader(shellStream);
 
 
-            WriteLine("su - root");
-            Thread.Sleep(100);
+            WriteLine("");
+            WriteCommand("", prompt: Regex.Escape("support@zeushub:~$"));
+            WriteCommand("su - root", prompt: Regex.Escape("Password:"));
             //streamReader.ReadToEnd();
             streamWriter.WriteLine("A1l3r0nR0!!");
             Thread.Sleep(100);

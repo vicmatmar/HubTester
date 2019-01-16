@@ -4,6 +4,10 @@ using System.Windows.Forms;
 
 namespace HubTests.Tests
 {
+    /// <summary>
+    /// To create a disk
+    /// fdisk sdb, then delete all partitions and create a one
+    /// </summary>
     public class UsbTest : TestBase
     {
         const string TESTING_STRING = "Testing String";

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HubTests.Tests
@@ -32,6 +33,9 @@ namespace HubTests.Tests
 
         public override bool Run()
         {
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
+
+            bool connected = false;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Restart();
 
@@ -39,25 +43,29 @@ namespace HubTests.Tests
             int connect_try = 0;
             while (stopWatch.Elapsed.TotalSeconds < Timeout_sec)
             {
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
                 try
                 {
                     
                     Connect();
+                    connected = true;
                     TestStatusTxt = $"Connection successful after {stopWatch.Elapsed.ToString(@"m\:ss")}";
                     break;
                 }
                 catch(Exception ex)
                 {
                     logger.Error(ex, $"Ethernet test connect try {++connect_try}");
+                    Thread.Sleep(1000);
                 }
             }
 
-            if (stopWatch.Elapsed.TotalSeconds >= Timeout_sec)
+            if (!connected)
             {
                 TestErrorTxt = "Timeout waiting for connection";
                 return false;
             }
-            return true;
+            else
+                return true;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace HubTests.Tests
             stopWatch.Restart();
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Run Canceled"; return false; }
 
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "1")
@@ -41,7 +41,7 @@ namespace HubTests.Tests
             TestStatusTxt = "Press Tamper/Button";
             while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
             {
-                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Run Canceled"; return false; }
 
                 rs = WriteCommand("cat /sys/class/gpio/gpio44/value");
                 if (rs == "0")

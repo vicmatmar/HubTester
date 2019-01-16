@@ -35,17 +35,17 @@ namespace HubTests.Tests
 
                     try
                     {
-                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "red"), cmd_delay_ms: 100);
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"), cmd_delay_ms: 100);
+                        WriteCommand("echo 0 > " + string.Format(LED_BRIGHTNESS_PATH, "green"), cmd_delay_ms: 100);
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(250);
 
-                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"));
-                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"));
-                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"));
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "red"), cmd_delay_ms: 100);
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "yellow"), cmd_delay_ms: 100);
+                        WriteCommand("echo 1 > " + string.Format(LED_BRIGHTNESS_PATH, "green"), cmd_delay_ms: 100);
 
-                        Thread.Sleep(500);
+                        Thread.Sleep(250);
                     }
                     catch
                     {

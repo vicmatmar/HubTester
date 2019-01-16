@@ -12,8 +12,7 @@ namespace HubTests.Tests
     {
         private const string _device_to_join_EUIRegex = @"Device\ [0-9]:\ ([0-9a-fA-F]{16})\.([0-9])\ \((0x[0-9a-fA-F]{4})\)";
         private const string _hub_EUIRegex = @"\[\(>\)([0-9,A-F]{16})\]";
-
-        string _expected_device_to_join_EUI;
+        readonly string _expected_device_to_join_EUI;
         const string _gateway_prompt = @"stratus_gateway>";
 
         public EmberTest(string device_to_join_eui) : base()
@@ -57,18 +56,19 @@ namespace HubTests.Tests
                 @"/data/run/.system"
             };
 
-
+            // Init a dictionary to keep track of found files
             var map = new Dictionary<string, bool>();
             foreach(var file in files)
                 map.Add(file, false);
 
-            int timeout_sec = 10;
+            var timeout_sec = 10;
             TestStatusTxt = $"Wait for hub init files {timeout_sec}s";
-            bool found_files = false;
-            Stopwatch stopwatch = new Stopwatch();
+            var found_files = false;
+            var stopwatch = new Stopwatch();
             stopwatch.Restart();
             while (stopwatch.Elapsed.TotalSeconds < timeout_sec)
             {
+                // Go through the list of files...check whether they exit
                 foreach(string file in files)
                 {
                     if (!map[file])
@@ -102,7 +102,7 @@ namespace HubTests.Tests
             line = WriteCommand("rm -f /tmp/zigbee-ember.db");
 
 
-            TestStatusTxt = "Starting Stratus Gateway";
+            TestStatusTxt = "Start gateway";
             line = WriteCommand("cd /data/run/v*/zigbee");
             line = WriteCommand("export ZIGBEE_DEBUG=1");
             line = WriteCommand("export RPC_HOST=1338");

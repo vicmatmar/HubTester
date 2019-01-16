@@ -17,10 +17,9 @@ namespace HubTester
     public partial class MainForm : Form
     {
         static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
-
         IProgress<TestStatus> _progress;
-
-        CancellationTokenSource test_cancel_ts;
+        CancellationTokenSource testCancelTs;
+        Stopwatch sequenceStopWatch = new Stopwatch();
 
 
         string _ipaddress = "192.168.10.2";
@@ -97,8 +96,8 @@ namespace HubTester
         {
             _progress = progress;
 
-            Stopwatch sequenceStopWatch = new Stopwatch();
-            sequenceStopWatch.Restart();
+            if(TestIndex == 0)
+                sequenceStopWatch.Restart();
 
             Stopwatch testStopWatch = new Stopwatch();
 
@@ -124,7 +123,7 @@ namespace HubTester
                 bool tearDownPassed = false;
 
                 ITest test = Tests[TestIndex];
-                test.CancelToken = test_cancel_ts.Token;
+                test.CancelToken = testCancelTs.Token;
 
                 _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
 
@@ -137,7 +136,8 @@ namespace HubTester
 
                     if (!setupPassed)
                     {
-                        ts = new TestStatus(test, test.GetType().Name + " Setup Failed");
+                        string msg = " Setup " + (testCancelTs.Token.IsCancellationRequested ? "Canceled" : "Failed");
+                        ts = new TestStatus(test, test.GetType().Name + msg);
                         progress.Report(ts);
                     }
                 }
@@ -153,15 +153,16 @@ namespace HubTester
                     progress.Report(ts);
                 }
 
-                // If setup fails, no reason to run test
-                if (setupPassed && !test_cancel_ts.IsCancellationRequested)
+                // If setup fails or canceled, no reason to run test
+                if (setupPassed && !testCancelTs.IsCancellationRequested)
                 {
                     try
                     {
                         runPassed = test.Run();
                         if (!runPassed)
                         {
-                            ts = new TestStatus(test, test.GetType().Name + " Run Failed");
+                            string msg = " Run " + (testCancelTs.Token.IsCancellationRequested ? "Canceled" : "Failed");
+                            ts = new TestStatus(test, test.GetType().Name + msg);
                             progress.Report(ts);
                         }
 
@@ -223,27 +224,21 @@ namespace HubTester
                 }
             }
 
-            if (TestIndex >= Tests.Count || test_cancel_ts.IsCancellationRequested)
+            if (TestIndex >= Tests.Count || testCancelTs.IsCancellationRequested)
             {
                 // Reset TestIndex to run all tests
                 TestIndex = 0;
                 TestSequenceRunning = false;
 
                 sequenceStopWatch.Stop();
-                string etimestr = $"({sequenceStopWatch.Elapsed.ToString(@"m\:ss")})";
+                string etimestr = $" ({sequenceStopWatch.Elapsed.ToString(@"m\:ss")})";
 
-                ts = new TestStatus
-                {
-                    PropertyName = TestStatusPropertyNames.Status
+                ts = new TestStatus{
+                    PropertyName = TestStatusPropertyNames.Status,
                 };
-                if (!test_cancel_ts.IsCancellationRequested)
-                {
-                    ts.Status = $"All tests passed successfully {etimestr}";
-                }
-                else
-                {
-                    ts.Status = $"Test sequence canceled {etimestr}";
-                }
+                ts.Status = testCancelTs.IsCancellationRequested?
+                    $"Test sequence canceled":$"All tests passed successfully";
+                ts.Status += etimestr;
                 progress.Report(ts);
             }
         }
@@ -273,10 +268,7 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
-            Stopwatch sequesnceStopWatch = new Stopwatch();
-            sequesnceStopWatch.Restart();
-
-            test_cancel_ts = new CancellationTokenSource();
+            testCancelTs = new CancellationTokenSource();
 
             runButton.Enabled = false;
             cancelButton.Enabled = true;
@@ -348,8 +340,6 @@ namespace HubTester
 
             runButton.Enabled = true;
 
-            sequesnceStopWatch.Stop();
-//            string etimestr = $"({sequesnceStopWatch.Elapsed.TotalSeconds}s)";
 
         }
 
@@ -357,7 +347,7 @@ namespace HubTester
         {
             cancelButton.Enabled = false;
 
-            test_cancel_ts.Cancel();
+            testCancelTs.Cancel();
 
             runButton.Text = "&Run";
             TestIndex = 0;
