@@ -5,8 +5,21 @@ using System.Windows.Forms;
 namespace HubTests.Tests
 {
     /// <summary>
-    /// To create a disk
-    /// fdisk sdb, then delete all partitions and create a one
+    /// To create a disk (I used ubuntu server)
+    /// fdisk /dev/sdb, then delete all partitions (d)
+    /// (o) create dos dsklabel
+    /// (n) create partition primary
+    /// (t) change type to (fat16 less than 32M option 4)
+    /// (w) to write to disk
+    /// To format: mkfs.vfat /dev/sdb1
+    /// 
+    /// mount /dev/sdb1 /mnt
+    /// cd /mnt
+    /// mkdir jssh
+    /// cd jssh
+    /// cat > sh2017, 1 Ctrl-D
+    /// cd ~
+    /// umount /mnt
     /// </summary>
     public class UsbTest : TestBase
     {
