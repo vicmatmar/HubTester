@@ -18,23 +18,19 @@ namespace HubTester
     {
         static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         IProgress<TestStatus> _progress;
-        CancellationTokenSource testCancelTs;
         Stopwatch sequenceStopWatch = new Stopwatch();
-
 
         string _ipaddress = "192.168.10.2";
         protected string Ipaddress { get => _ipaddress; }
 
-        private List<ITest> _tests = new List<ITest>();
-        protected List<ITest> Tests { get => _tests; }
-
-        bool _testsLoaded = false;
-        protected bool TestsLoaded { get => _testsLoaded; set => _testsLoaded = value; }
+        TestSequence testSequence = new TestSequence();
+        IProgress<string> _testSequenceProgress;
 
         int _testIndex = 0;
         protected int TestIndex { get => _testIndex; set => _testIndex = value; }
 
-        protected bool TestSequenceRunning { get; set; }
+        ITest blinkLed;
+        Task blinkLedTask;
 
         public MainForm()
         {
@@ -43,18 +39,68 @@ namespace HubTester
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            _testSequenceProgress = new Progress<string>(s =>
+            {
+                switch (s)
+                {
+                    case "IsRunning":
+                        OnTestSequenceRunningChanged();
+                        break;
+                }
+            });
 
+            testSequence.PropertyChanged += TestSequence_PropertyChanged;
+        }
+
+        void OnTestSequenceRunningChanged()
+        {
+            bool isRunning = testSequence.IsRunning;
+            if (isRunning)
+            {
+                cancelButton.Enabled = true;
+                runButton.Enabled = false;
+
+                if (blinkLedTask != null)
+                {
+                    blinkLed.Cancel();
+                    while (!blinkLedTask.IsCompleted)
+                        Thread.Sleep(100);
+                }
+            }
+            else
+            {
+                if (TestIndex >= testSequence.Count)
+                {
+                    runButton.Text = "&Run";
+                    cancelButton.Enabled = false;
+                }
+                else
+                {
+                    runButton.Text = "&Rerun";
+                    cancelButton.Enabled = true;
+                }
+                runButton.Enabled = true;
+
+                blinkLed = new LedBlinker("green");
+                blinkLedTask = Task.Factory.StartNew(() => blinkLed.Run());
+            }
+        }
+
+        private void TestSequence_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _testSequenceProgress.Report(e.PropertyName);
         }
 
         void AddTest(ITest test)
         {
             test.PropertyChanged -= Test_PropertyChanged;
             test.PropertyChanged += Test_PropertyChanged;
-            Tests.Add(test);
+            testSequence.Add(test);
         }
 
         private void LoadTests()
         {
+            testSequence.Clear();
 
             AddTest(new EthernetTest(120));
 
@@ -68,7 +114,7 @@ namespace HubTester
             //AddTest(new BluetoothTest());
             AddTest(new ZwaveTest());
 
-            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
 
             // Generate next MAC address and write to board
@@ -83,51 +129,44 @@ namespace HubTester
             // Print Final Label
             //tests.Add(new PrintLabel(HubLabelPrinterAddress, ActivationCodePrinterAddress));
 
-            TestsLoaded = true;
-        }
-
-        private void UnloadTests()
-        {
-            Tests.Clear();
-            TestsLoaded = false;
         }
 
         private void RunTests(IProgress<TestStatus> progress)
         {
             _progress = progress;
 
-            if(TestIndex == 0)
+            if (TestIndex == 0)
                 sequenceStopWatch.Restart();
 
             Stopwatch testStopWatch = new Stopwatch();
 
-            if (!TestsLoaded)
-                LoadTests();
+            //if (!TestsLoaded)
+            TestStatus ts = new TestStatus(null, "Loading Tests");
+            progress.Report(ts);
+            LoadTests();
 
             // Tests have already ran and passed
             // Restart Testing from beginning
-            if (TestIndex >= Tests.Count)
+            if (TestIndex >= testSequence.Count)
             {
                 TestIndex = 0;
             }
 
-            TestStatus ts;
-            while (TestIndex < Tests.Count)
+            while (TestIndex < testSequence.Count)
             {
                 testStopWatch.Restart();
 
-                TestSequenceRunning = true;
+                testSequence.IsRunning = true;
 
                 bool setupPassed = false;
                 bool runPassed = false;
                 bool tearDownPassed = false;
 
-                ITest test = Tests[TestIndex];
-                test.CancelToken = testCancelTs.Token;
+                ITest test = testSequence.Tests[TestIndex];
 
-                _logger.Debug($"Run Test Index {TestIndex} of {Tests.Count}: {test.GetType().Name}");
+                _logger.Debug($"Run Test Index {TestIndex} of {testSequence.Count}: {test.GetType().Name}");
 
-                ts = new TestStatus(test, $"{test.GetType().Name} ({TestIndex + 1}/{Tests.Count})");
+                ts = new TestStatus(test, $"{test.GetType().Name} ({TestIndex + 1}/{testSequence.Count})");
                 progress.Report(ts);
 
                 try
@@ -136,7 +175,7 @@ namespace HubTester
 
                     if (!setupPassed)
                     {
-                        string msg = " Setup " + (testCancelTs.Token.IsCancellationRequested ? "Canceled" : "Failed");
+                        string msg = " Setup " + (test.IsCancellationRequested ? "Canceled" : "Failed");
                         ts = new TestStatus(test, test.GetType().Name + msg);
                         progress.Report(ts);
                     }
@@ -154,14 +193,14 @@ namespace HubTester
                 }
 
                 // If setup fails or canceled, no reason to run test
-                if (setupPassed && !testCancelTs.IsCancellationRequested)
+                if (setupPassed && !test.IsCancellationRequested)
                 {
                     try
                     {
                         runPassed = test.Run();
                         if (!runPassed)
                         {
-                            string msg = " Run " + (testCancelTs.Token.IsCancellationRequested ? "Canceled" : "Failed");
+                            string msg = " Run " + (test.IsCancellationRequested ? "Canceled" : "Failed");
                             ts = new TestStatus(test, test.GetType().Name + msg);
                             progress.Report(ts);
                         }
@@ -224,23 +263,28 @@ namespace HubTester
                 }
             }
 
-            if (TestIndex >= Tests.Count || testCancelTs.IsCancellationRequested)
+            if (TestIndex >= testSequence.Count || testSequence.Tests[TestIndex].IsCancellationRequested)
             {
-                // Reset TestIndex to run all tests
-                TestIndex = 0;
-                TestSequenceRunning = false;
-
                 sequenceStopWatch.Stop();
                 string etimestr = $" ({sequenceStopWatch.Elapsed.ToString(@"m\:ss")})";
 
-                ts = new TestStatus{
+                ts = new TestStatus
+                {
                     PropertyName = TestStatusPropertyNames.Status,
                 };
-                ts.Status = testCancelTs.IsCancellationRequested?
-                    $"Test sequence canceled":$"All tests passed successfully";
+
+                if (TestIndex >= testSequence.Count)
+                    ts.Status = $"All Tests Passed";
+                else if (testSequence.Tests[TestIndex].IsCancellationRequested)
+                    ts.Status = $"Test sequence canceled";
+
                 ts.Status += etimestr;
                 progress.Report(ts);
+
+                // Reset TestIndex to run all tests
+                TestIndex = 0;
             }
+            testSequence.IsRunning = false;
         }
 
         private void Test_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -268,90 +312,76 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
-            testCancelTs = new CancellationTokenSource();
-
-            runButton.Enabled = false;
-            cancelButton.Enabled = true;
-
             if (TestIndex == 0)
             {
                 runTextBox.Clear();
             }
 
-            var progress =
-                new Progress<TestStatus>(s =>
-                    {
-                        string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
-
-                        if (s.Test != null)
-                            _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
-                        else
-                            _logger.Debug($"Status: {s.Status}");
-
-                        switch (s.PropertyName)
-                        {
-                            case TestStatusPropertyNames.Status:
-                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
-                                break;
-                            case TestStatusPropertyNames.ErrorMsg:
-                                runTextBox.AppendText($"{timestamp_str}: {s.ErrorMsg}\r\n");
-                                break;
-                            case TestStatusPropertyNames.Exception:
-                                _logger.Error(s.Exception, s.Test.GetType().Name);
-
-                                runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
-                                runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
-                                runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
-
-                                break;
-                            case TestStatusPropertyNames.ShowQuestionDlg:
-                                ShowQuestionDlg dlgt = s.ShowQuestionDlg;
-
-                                _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
-
-                                dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
-                                s.ShowQuestionDlg.ShowDialog = false;
-
-                                break;
-                            case TestStatusPropertyNames.HUB_EUI:
-                                string euistr = s.Status;
-                                long hub_eui = Convert.ToInt64(euistr, 16);
-                                runTextBox.AppendText($"{timestamp_str}: HUB EUI LONG: {hub_eui}\r\n");
-                                break;
-                            default:
-                                runTextBox.AppendText($"{timestamp_str}: Unhanded PropertyName\r\n");
-                                break;
-                        }
-                    }
-                );
+            var progress = new Progress<TestStatus>(s => OnTestStatusChanged(s));
 
             await Task.Run(() => RunTests(progress));
 
+        }
 
-            if (TestSequenceRunning)
-            {
-                runButton.Text = "&Rerun";
-            }
+        void OnTestStatusChanged(TestStatus s)
+        {
+            string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
+
+            if (s.Test != null)
+                _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
             else
+                _logger.Debug($"Status: {s.Status}");
+
+            switch (s.PropertyName)
             {
-                runButton.Text = "&Run";
-                cancelButton.Enabled = false;
+                case TestStatusPropertyNames.Status:
+                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                    break;
+                case TestStatusPropertyNames.ErrorMsg:
+                    runTextBox.AppendText($"{timestamp_str}: {s.ErrorMsg}\r\n");
+                    break;
+                case TestStatusPropertyNames.Exception:
+                    _logger.Error(s.Exception, s.Test.GetType().Name);
+
+                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                    runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
+                    runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
+
+                    break;
+                case TestStatusPropertyNames.ShowQuestionDlg:
+                    ShowQuestionDlg dlgt = s.ShowQuestionDlg;
+
+                    _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
+
+                    dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
+                    s.ShowQuestionDlg.ShowDialog = false;
+
+                    break;
+                case TestStatusPropertyNames.HUB_EUI:
+                    string euistr = s.Status;
+                    long hub_eui = Convert.ToInt64(euistr, 16);
+                    runTextBox.AppendText($"{timestamp_str}: HUB EUI LONG: {hub_eui}\r\n");
+                    break;
+                default:
+                    runTextBox.AppendText($"{timestamp_str}: Unhanded PropertyName\r\n");
+                    break;
             }
-
-            runButton.Enabled = true;
-
-
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            cancelButton.Enabled = false;
+            foreach (var test in testSequence.Tests)
+                test.Cancel();
 
-            testCancelTs.Cancel();
+            if (!testSequence.IsRunning)
+            {
+                TestIndex = 0;
+                runButton.Text = "&Run";
+                runButton.Enabled = true;
+                cancelButton.Enabled = false;
+            }
 
-            runButton.Text = "&Run";
-            TestIndex = 0;
-
+            //            while(testSequence.TestSequenceRunning)
         }
     }
 }

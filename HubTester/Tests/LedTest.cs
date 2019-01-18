@@ -7,8 +7,6 @@ namespace HubTests.Tests
 {
     public class LedTest : TestBase
     {
-        private const string LED_TRIGGER_PATH = @"/sys/class/leds/{0}/trigger";
-        private const string LED_BRIGHTNESS_PATH = @"/sys/class/leds/{0}/brightness";
 
         public LedTest() : base() { }
 

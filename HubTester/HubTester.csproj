@@ -81,12 +81,14 @@
     <Compile Include="Tests\EmberTest.cs" />
     <Compile Include="Tests\EthernetTest.cs" />
     <Compile Include="Tests\ITest.cs" />
+    <Compile Include="Tests\LedBlinker.cs" />
     <Compile Include="Tests\LedTest.cs" />
     <Compile Include="Tests\MacTest.cs" />
     <Compile Include="Tests\PrintLabel.cs" />
     <Compile Include="Tests\TamperTest.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="Tests\TestExceptions.cs" />
+    <Compile Include="Tests\TestSequence.cs" />
     <Compile Include="Tests\TestStatus.cs" />
     <Compile Include="Tests\UsbTest.cs" />
     <Compile Include="Tests\ZwaveTest.cs" />

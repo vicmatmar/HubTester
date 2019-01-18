@@ -57,6 +57,7 @@ namespace HubTests.Tests
             }
         }
 
+        public bool IsCancellationRequested => throw new NotImplementedException();
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -116,6 +117,11 @@ namespace HubTests.Tests
             {
                 return false;
             }
+        }
+
+        public void Cancel()
+        {
+            throw new NotImplementedException();
         }
     }
 }

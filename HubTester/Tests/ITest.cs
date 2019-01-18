@@ -7,10 +7,11 @@ namespace HubTests.Tests
     {
         TestStatus TestStatus { get; }
 
-        CancellationToken CancelToken { set; }
-
         bool Setup();
         bool Run();
         bool TearDown();
+
+        void Cancel();
+        bool IsCancellationRequested { get; }
     }
 }

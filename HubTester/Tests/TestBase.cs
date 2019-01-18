@@ -30,8 +30,18 @@ namespace HubTests.Tests
 
         const string _prompt_pattern = "root@zeushub:.*#";
 
+        protected const string LED_TRIGGER_PATH = @"/sys/class/leds/{0}/trigger";
+        protected const string LED_BRIGHTNESS_PATH = @"/sys/class/leds/{0}/brightness";
+
+        CancellationTokenSource testCancelTs;
+        protected CancellationToken CancelToken;
+
+        public bool IsCancellationRequested { get { return CancelToken.IsCancellationRequested; } }
+
         public TestBase()
         {
+            testCancelTs = new CancellationTokenSource();
+            CancelToken = testCancelTs.Token;
         }
 
 
@@ -72,7 +82,7 @@ namespace HubTests.Tests
             }
         }
 
-        protected string WriteCommand(string command, int timeout_sec = 1, string prompt=_prompt_pattern, int cmd_delay_ms=150)
+        protected string WriteCommand(string command, int timeout_sec = 1, string prompt = _prompt_pattern, int cmd_delay_ms = 150)
         {
             ReadToEnd();
 
@@ -270,7 +280,6 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
         }
 
-        public CancellationToken CancelToken { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -280,10 +289,10 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
-            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Setup Canceled"; return false; }
-
             TestStatusTxt = "Setting up test";
             Connect();
+
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Setup Canceled"; return false; }
 
             return true;
         }
@@ -385,6 +394,11 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
 
             return eui;
+        }
+
+        void ITest.Cancel()
+        {
+            testCancelTs?.Cancel();
         }
 
     }
