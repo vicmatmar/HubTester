@@ -1,8 +1,5 @@
-﻿using HubTest;
-using System.Text.RegularExpressions;
-using System.Threading;
-
-namespace HubTests.Tests
+﻿
+namespace HubTester.Tests
 {
     public class ZwaveTest : TestBase
     {

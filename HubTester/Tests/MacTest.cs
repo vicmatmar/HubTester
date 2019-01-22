@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public class MacTest : TestBase
     {

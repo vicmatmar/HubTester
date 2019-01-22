@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     /// <summary>
     /// Simple test to make sure we can connect to the target
@@ -41,6 +37,7 @@ namespace HubTests.Tests
 
             TestStatusTxt = $"Try to connect to hub for {Timeout_sec}s";
             int connect_try = 0;
+            int sucesfull_connections = 0;
             while (stopWatch.Elapsed.TotalSeconds < Timeout_sec)
             {
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
@@ -48,9 +45,20 @@ namespace HubTests.Tests
                 {
                     
                     Connect();
+                    sucesfull_connections++;
+
+                    Thread.Sleep(250);
+
                     connected = true;
-                    TestStatusTxt = $"Connection successful after {stopWatch.Elapsed.ToString(@"m\:ss")}";
-                    break;
+                    TestStatusTxt = $"Connection successful #{sucesfull_connections} after {stopWatch.Elapsed.ToString(@"m\:ss")}";
+                    if (sucesfull_connections >= 2)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Dispose();
+                    }
                 }
                 catch(Exception ex)
                 {

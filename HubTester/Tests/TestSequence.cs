@@ -1,18 +1,13 @@
-﻿using HubTests.Tests;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HubTester
+namespace HubTester.Tests
 {
     public class TestSequence: INotifyPropertyChanged
     {
-        private List<ITest> _tests = new List<ITest>();
+        private readonly List<ITest> _tests = new List<ITest>();
         public List<ITest> Tests { get => _tests; }
 
         public int Count { get { return Tests.Count; } }

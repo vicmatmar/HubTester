@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Forms;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public class LedTest : TestBase
     {

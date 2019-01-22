@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public enum TestStatusPropertyNames { Status, ErrorMsg, Exception, ShowQuestionDlg, HUB_EUI };
 

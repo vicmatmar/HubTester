@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using HubTests.Tests;
+using HubTester.Tests;
 
 namespace HubTester
 {
@@ -81,8 +81,8 @@ namespace HubTester
                 }
                 runButton.Enabled = true;
 
-                blinkLed = new LedBlinker("green");
-                blinkLedTask = Task.Factory.StartNew(() => blinkLed.Run());
+                //blinkLed = new LedBlinker("green");
+                //blinkLedTask = Task.Factory.StartNew(() => blinkLed.Run());
             }
         }
 
@@ -114,7 +114,9 @@ namespace HubTester
             //AddTest(new BluetoothTest());
             AddTest(new ZwaveTest());
 
-            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+
+            AddTest(new Shutdown());
 
 
             // Generate next MAC address and write to board
@@ -280,9 +282,6 @@ namespace HubTester
 
                 ts.Status += etimestr;
                 progress.Report(ts);
-
-                // Reset TestIndex to run all tests
-                TestIndex = 0;
             }
             testSequence.IsRunning = false;
         }
@@ -312,14 +311,23 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
-            if (TestIndex == 0)
+            if (TestIndex >= testSequence.Count)
             {
+                runButton.Enabled = false;
+                cancelButton.Enabled = true;
                 runTextBox.Clear();
+                TestIndex = 0;
             }
 
             var progress = new Progress<TestStatus>(s => OnTestStatusChanged(s));
-
             await Task.Run(() => RunTests(progress));
+
+            if (TestIndex >= testSequence.Count)
+            {
+                runButton.Text = "&Run";
+                runButton.Enabled = true;
+                cancelButton.Enabled = false;
+            }
 
         }
 
@@ -381,7 +389,6 @@ namespace HubTester
                 cancelButton.Enabled = false;
             }
 
-            //            while(testSequence.TestSequenceRunning)
         }
     }
 }

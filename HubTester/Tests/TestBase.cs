@@ -1,5 +1,4 @@
-﻿using HubTest;
-using Renci.SshNet;
+﻿using Renci.SshNet;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,10 +7,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public abstract class TestBase : ITest, IDisposable
     {
@@ -101,7 +98,11 @@ namespace HubTests.Tests
                 if (regx.Match(rs).Success)
                     break;
                 if (stopwatch.Elapsed.TotalSeconds > timeout_sec)
-                    throw new ReadUntilTimeoutException($"Timeout({timeout_sec}s) waiting for: {command}.\r\nOutput =\r\n{rs}");
+                    throw new ReadUntilTimeoutException($"Timeout({timeout_sec}s) waiting for: {command}\r\nOutput =\r\n{rs}");
+
+                logger.Trace($"WriteCommand({command}): {rs}");
+
+                Thread.Sleep(cmd_delay_ms);
             }
 
             // flush

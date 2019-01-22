@@ -1,8 +1,5 @@
-﻿using System.Threading;
-using System.Windows;
-using System.Windows.Forms;
-
-namespace HubTests.Tests
+﻿
+namespace HubTester.Tests
 {
     /// <summary>
     /// To create a disk (I used ubuntu server)
@@ -24,7 +21,7 @@ namespace HubTests.Tests
     public class UsbTest : TestBase
     {
         const string TESTING_STRING = "Testing String";
-        string[] usb_drives = new string[] { "sda1", "sdb1"};
+        readonly string[] usb_drives = new string[] { "sda1", "sdb1"};
 
         public UsbTest() : base()
         {

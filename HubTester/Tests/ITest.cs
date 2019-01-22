@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Threading;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public interface ITest: INotifyPropertyChanged
     {

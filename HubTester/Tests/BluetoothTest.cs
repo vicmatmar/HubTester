@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public class BluetoothTest : TestBase
     {

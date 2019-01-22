@@ -85,6 +85,7 @@
     <Compile Include="Tests\LedTest.cs" />
     <Compile Include="Tests\MacTest.cs" />
     <Compile Include="Tests\PrintLabel.cs" />
+    <Compile Include="Tests\Shutdown.cs" />
     <Compile Include="Tests\TamperTest.cs" />
     <Compile Include="Tests\TestBase.cs" />
     <Compile Include="Tests\TestExceptions.cs" />

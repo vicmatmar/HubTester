@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public class EmberTest : TestBase
     {
@@ -18,21 +16,6 @@ namespace HubTests.Tests
         public EmberTest(string device_to_join_eui) : base()
         {
             StringBuilder builder = new StringBuilder();
-
-            //var reverseEui = testDeviceEui.ToCharArray();
-            //Array.Reverse(reverseEui);
-            //testDeviceEui = new string(reverseEui);
-
-            //for (var i = 0; i < testDeviceEui.Length; i = i + 2)
-            //{
-            //    var temp = testDeviceEui.Substring(i, 2);
-            //    var reverseTemp = temp.ToCharArray();
-            //    Array.Reverse(reverseTemp);
-            //    builder.Append(new string(reverseTemp));
-            //}
-
-            //this.testDeviceEui = builder.ToString();
-
             this._expected_device_to_join_EUI = device_to_join_eui;
         }
 
@@ -58,7 +41,7 @@ namespace HubTests.Tests
 
             // Init a dictionary to keep track of found files
             var map = new Dictionary<string, bool>();
-            foreach(var file in files)
+            foreach (var file in files)
                 map.Add(file, false);
 
             var timeout_sec = 10;
@@ -69,7 +52,7 @@ namespace HubTests.Tests
             while (stopwatch.Elapsed.TotalSeconds < timeout_sec)
             {
                 // Go through the list of files...check whether they exit
-                foreach(string file in files)
+                foreach (string file in files)
                 {
                     if (!map[file])
                     {
@@ -88,26 +71,44 @@ namespace HubTests.Tests
 
                 Thread.Sleep(500);
             }
-            if(!found_files)
+            if (!found_files)
             {
                 TestErrorTxt = "Hub init files not found";
                 return false;
             }
 
 
-            TestStatusTxt = "Stop gateway";
-            line = WriteCommand("monit stop stratus");
+            for (int i = 0; i < 3; i++)
+            {
+                TestStatusTxt = "Start gateway";
+                try
+                {
 
-            TestStatusTxt = "Clearing Database";
-            line = WriteCommand("rm -f /tmp/zigbee-ember.db");
+                    line = WriteCommand("monit stop stratus", timeout_sec: 2, cmd_delay_ms: 1000);
+                    line = WriteCommand("monit stop stratus", timeout_sec: 2, cmd_delay_ms: 1000);
 
+                    line = WriteCommand("rm -f /tmp/zigbee-ember.db", timeout_sec: 1, cmd_delay_ms: 500);
 
-            TestStatusTxt = "Start gateway";
-            line = WriteCommand("cd /data/run/v*/zigbee");
-            line = WriteCommand("export ZIGBEE_DEBUG=1");
-            line = WriteCommand("export RPC_HOST=1338");
-            line = WriteCommand("export DB_BASE_PATH=/tmp");
-            line = WriteCommand("./stratus_gateway -p ttyO2", 20, "EMBER_NETWORK_UP");
+                    line = WriteCommand("cd /data/run/v*/zigbee");
+                    line = WriteCommand("export ZIGBEE_DEBUG=1");
+                    line = WriteCommand("export RPC_HOST=1338");
+                    line = WriteCommand("export DB_BASE_PATH=/tmp");
+                    line = WriteCommand("./stratus_gateway -p ttyO2",
+                        timeout_sec: 10, prompt: "EMBER_NETWORK_UP", cmd_delay_ms: 5000);
+
+                    break;
+                }
+                catch (ReadUntilTimeoutException ex)
+                {
+                    logger.Error(ex, $"Start Gateway try# {i}");
+                    try
+                    {
+                        Dispose();
+                        Connect();
+                    }
+                    catch { }
+                };
+            }
 
             line = WriteGatewayCmd("", timeout_sec: 5);
             line = WriteGatewayCmd("");
@@ -188,7 +189,7 @@ namespace HubTests.Tests
                 if (testResult)
                     break;
 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
             }
 
             string devlist2 = WriteGatewayCmd("custom listDevice 1");

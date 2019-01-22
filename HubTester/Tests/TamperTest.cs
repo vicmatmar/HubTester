@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Threading;
+﻿using System.Text.RegularExpressions;
 
-namespace HubTests.Tests
+namespace HubTester.Tests
 {
     public class TamperTest : TestBase
     {
@@ -13,14 +11,12 @@ namespace HubTests.Tests
         public override bool Run()
         {
             string rs = "";
-            var stopWatch = new Stopwatch();
             Regex regx = new Regex(@"\r\n([0-1])\r\n");
             bool buttonPressed = true;
 
             // Make sure button is not stuck pressed
             TestStatusTxt = "Detect tamper button is NOT pressed";
-            stopWatch.Restart();
-            while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
+            while (true)
             {
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Run Canceled"; return false; }
 
@@ -37,9 +33,8 @@ namespace HubTests.Tests
                 return false;
             }
 
-            stopWatch.Restart();
             TestStatusTxt = "Press Tamper/Button";
-            while (stopWatch.Elapsed.TotalSeconds <= TAMPER_TIMEOUT)
+            while (true)
             {
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Run Canceled"; return false; }
 
@@ -48,11 +43,6 @@ namespace HubTests.Tests
                 {
                     buttonPressed = true;
                     break;
-                }
-                if (stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
-                {
-                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}s waiting for Tamper button pressed";
-                    return false;
                 }
 
             }
@@ -63,7 +53,6 @@ namespace HubTests.Tests
             }
 
             TestStatusTxt = "Release the Tamper/Button";
-            stopWatch.Restart();
             while (true)
             {
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
@@ -73,11 +62,6 @@ namespace HubTests.Tests
                 {
                     buttonPressed = false;
                     break;
-                }
-                if(stopWatch.Elapsed.TotalSeconds >= TAMPER_TIMEOUT)
-                {
-                    TestStatus.Status = $"Timeout after {TAMPER_TIMEOUT}s waiting for Tamper button unpressed";
-                    return false;
                 }
             }
             if (buttonPressed)
