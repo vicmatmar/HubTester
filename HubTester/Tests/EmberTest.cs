@@ -81,20 +81,22 @@ namespace HubTester.Tests
             for (int i = 0; i < 3; i++)
             {
                 TestStatusTxt = "Start gateway";
+
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
+
                 try
                 {
 
-                    line = WriteCommand("monit stop stratus", timeout_sec: 2, cmd_delay_ms: 1000);
-                    line = WriteCommand("monit stop stratus", timeout_sec: 2, cmd_delay_ms: 1000);
+                    //line = WriteCommand("monit stop stratus", timeout_sec: 2, cmd_delay_ms: 1000);
+                    //line = WriteCommand("rm -f /tmp/zigbee-ember.db", timeout_sec: 1, cmd_delay_ms: 500);
+                    //line = WriteCommand("cd /data/run/v*/zigbee");
+                    //line = WriteCommand("export ZIGBEE_DEBUG=1");
+                    //line = WriteCommand("export RPC_HOST=1338");
+                    //line = WriteCommand("export DB_BASE_PATH=/tmp");
+                    //line = WriteCommand("./stratus_gateway -p ttyO2", timeout_sec: 10, prompt: "EMBER_NETWORK_UP", cmd_delay_ms: 5000);
 
-                    line = WriteCommand("rm -f /tmp/zigbee-ember.db", timeout_sec: 1, cmd_delay_ms: 500);
-
-                    line = WriteCommand("cd /data/run/v*/zigbee");
-                    line = WriteCommand("export ZIGBEE_DEBUG=1");
-                    line = WriteCommand("export RPC_HOST=1338");
-                    line = WriteCommand("export DB_BASE_PATH=/tmp");
-                    line = WriteCommand("./stratus_gateway -p ttyO2",
-                        timeout_sec: 10, prompt: "EMBER_NETWORK_UP", cmd_delay_ms: 5000);
+                    line = WriteCommand("monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2",
+                        timeout_sec: 10, prompt: "EMBER_NETWORK_UP", cmd_delay_ms: 2000, exclude_cmd:true);
 
                     break;
                 }
@@ -148,6 +150,8 @@ namespace HubTester.Tests
             string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
+                if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
+
                 //double pjoin_etime = pjoin_access_time - stopWatch.Elapsed.TotalSeconds;
                 //double timeout_time = device_found_timeout - stopWatch.Elapsed.TotalSeconds;
                 //if (pjoin_etime > 0.0)
@@ -213,16 +217,8 @@ namespace HubTester.Tests
         {
             bool tearDownResult = true;
 
-            WriteLine("");
-            WriteLine("");
-            string rs = ReadToEnd();
-            if (rs.Contains(_gateway_prompt))
-            {
-                WriteGatewayCmd("cu exit");
-                WriteLine("");
-                WriteLine("");
-                rs = ReadToEnd();
-            }
+            Dispose();
+            Connect();
 
             WriteCommand("rm -f /tmp/zigbee-ember.db");
 

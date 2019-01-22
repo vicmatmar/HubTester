@@ -107,17 +107,19 @@ namespace HubTester
             AddTest(new BuzzerTest());
 
             AddTest(new LedTest());
+
             AddTest(new TamperTest());
-
-            AddTest(new UsbTest());
-
-            //AddTest(new BluetoothTest());
-            AddTest(new ZwaveTest());
 
             AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
+            AddTest(new UsbTest());
+
+
+            AddTest(new ZwaveTest());
+
             AddTest(new Shutdown());
 
+            //AddTest(new BluetoothTest());
 
             // Generate next MAC address and write to board
             //tests.Add(new MacTest(IpAddress, RsaFile, StartBlock, EndBlock));
@@ -310,6 +312,9 @@ namespace HubTester
         private async void RunButton_Click(object sender, EventArgs e)
         {
             _logger.Debug("Run button clicked");
+
+            if(TestIndex == 0)
+                runTextBox.Clear();
 
             if (TestIndex >= testSequence.Count)
             {

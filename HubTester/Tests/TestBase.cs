@@ -79,7 +79,7 @@ namespace HubTester.Tests
             }
         }
 
-        protected string WriteCommand(string command, int timeout_sec = 1, string prompt = _prompt_pattern, int cmd_delay_ms = 150)
+        protected string WriteCommand(string command, int timeout_sec = 1, string prompt = _prompt_pattern, int cmd_delay_ms = 150, bool exclude_cmd=false)
         {
             ReadToEnd();
 
@@ -87,7 +87,11 @@ namespace HubTester.Tests
             Thread.Sleep(cmd_delay_ms);
 
             string ecmd = Regex.Escape(command + "\r\n");
-            Regex regx = new Regex($"({ecmd})(.*)({prompt})", RegexOptions.Singleline);
+            Regex regx;
+            if (exclude_cmd)
+                regx = new Regex($"(.*)({prompt})", RegexOptions.Singleline);
+            else
+                regx = new Regex($"({ecmd})(.*)({prompt})", RegexOptions.Singleline);
 
             string rs = "";
             Stopwatch stopwatch = new Stopwatch();
@@ -112,12 +116,19 @@ namespace HubTester.Tests
             // Note that streamWriter.NewLine should be set to "\n"
             var m = regx.Match(rs);
 
-            if (m.Groups.Count < 4)
+            int expgc = 4;
+            if (exclude_cmd)
+                expgc = 3;
+
+            if (m.Groups.Count < expgc)
                 throw new WriteCommandException(
                     $"Error executing command: {command}.\r\nReturn was:\r\n{rs}");
 
-            // We return the command result g2
-            return m.Groups[2].Value.Trim(new char[] { '\r', '\n' });
+            // We return the command result
+            expgc = 2;
+            if (exclude_cmd)
+                expgc = 1;
+            return m.Groups[expgc].Value.Trim(new char[] { '\r', '\n' });
 
         }
 
