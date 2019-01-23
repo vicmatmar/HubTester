@@ -1,0 +1,2047 @@
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee; ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ezsp ver 0x04 stack type 0x02 stack ver. [5.7.4 GA build 99]
+Ezsp Config: set source route table size to 0x00FF:Success: set
+Ezsp Config: set security level to 0x0005:Success: set
+Ezsp Config: set address table size to 0x0002:Success: set
+Ezsp Config: set TC addr cache to 0x0002:Success: set
+Ezsp Config: set stack profile to 0x0002:Success: set
+Ezsp Config: set MAC indirect TX timeout to 0x1E00:Success: set
+Ezsp Config: set max hops to 0x001E:Success: set
+Ezsp Config: set tx power mode to 0x8000:Success: set
+Ezsp Config: set supported networks to 0x0001:Success: set
+Ezsp Policy: set binding modify to "allow for valid endpoints & clusters only":Success: set
+Ezsp Policy: set message content in msgSent to "return":Success: set
+Ezsp Value : set maximum incoming transfer size to 0x00000052:Success: set
+Ezsp Value : set maximum outgoing transfer size to 0x00000052:Success: set
+Ezsp Config: set binding table size to 0x0010:Success: set
+Ezsp Config: set key table size to 0x0000:Success: set
+Ezsp Config: set max end device children to 0x0020:Success: set
+Ezsp Config: set rf4ce pairing table size to 0x0001:Success: set
+Ezsp Config: set rf4ce pending outgoing packet table size to 0x0008:Success: set
+NCP supports maxing out packet buffers
+Ezsp Config: set packet buffers to 255
+Ezsp Config: set end device poll timeout to 0x0007:Success: set
+Ezsp Config: set end device poll timeout shift to 0x0006:Success: set
+Ezsp Config: set zll group addresses to 0x0000:Success: set
+Ezsp Config: set zll rssi threshold to 0xFF80:Success: set
+Ezsp Config: set transient key timeout to 0x012C:Success: set
+Ezsp Endpoint 1 added, profile 0x0104, in clusters: 6, out clusters 8
+Ezsp Policy: set TC Key Request to "Deny":Success: set
+Ezsp Policy: set App. Key Request to "Allow":Success: set
+Ezsp Policy: set Trust Center Policy to "Allow Joins, ignore preconfigured key rejoins":Success: set
+stratus_gateway->emberAfMainInitCallbackChecking for firmware update
+  Stack Version = 00005740
+  NCP Version = 00005740
+Versions match, no bootload required
+opening /tmp/zigbee-ember.db
+User version is 0
+Running MIGRATION_1
+Running MIGRATION_2
+Running MIGRATION_3
+Running MIGRATION_4
+Migrations complete, now at version 4
+Database Ready!
+ZIGBEE_MAX_ACTIVE_SESSIONS = 5
+RPC_HOST = 1338
+Creating socket...
+Bound on port 45324
+Resolving host 127.0.0.1
+Creating API destroy
+Creating API updateSecurityStates
+Creating API PermitJoining
+Creating API ReconfigureDevice
+Creating API SendUnicast
+Creating API RefreshDevice
+ZIGBEE_SERVICE_REGISTER_TIMEOUT_SECONDS = 5
+stratus_gateway->loadDevicesFromDatabaseZIGBEE_SERVICE_DEVICE_LOAD_TIMEOUT_SECONDS = 7
+Found OTA file 'villa-1-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0039
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'temp_humidity-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000D
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-lamp-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0002
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'ha-appliance-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0001
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'micro_motion_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0025
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-thermostat-06095010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0005
+  Version:         0x06095010
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0036
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'water-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000B
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'micro_door_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0024
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-1-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0038
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0035
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found 11 files
+
+EMBER_NETWORK_UP 0x0000
+stratus_gateway->emberAfStackStatusCallbackThe app framework is handling the stack status.
+stratus_gateway>State = 02
+uuid = zigbee-debug
+tick
+
+stratus_gateway>
+stratus_gateway>
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee; ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ezsp ver 0x04 stack type 0x02 stack ver. [5.7.4 GA build 99]
+Ezsp Config: set source route table size to 0x00FF:Success: set
+Ezsp Config: set security level to 0x0005:Success: set
+Ezsp Config: set address table size to 0x0002:Success: set
+Ezsp Config: set TC addr cache to 0x0002:Success: set
+Ezsp Config: set stack profile to 0x0002:Success: set
+Ezsp Config: set MAC indirect TX timeout to 0x1E00:Success: set
+Ezsp Config: set max hops to 0x001E:Success: set
+Ezsp Config: set tx power mode to 0x8000:Success: set
+Ezsp Config: set supported networks to 0x0001:Success: set
+Ezsp Policy: set binding modify to "allow for valid endpoints & clusters only":Success: set
+Ezsp Policy: set message content in msgSent to "return":Success: set
+Ezsp Value : set maximum incoming transfer size to 0x00000052:Success: set
+Ezsp Value : set maximum outgoing transfer size to 0x00000052:Success: set
+Ezsp Config: set binding table size to 0x0010:Success: set
+Ezsp Config: set key table size to 0x0000:Success: set
+Ezsp Config: set max end device children to 0x0020:Success: set
+Ezsp Config: set rf4ce pairing table size to 0x0001:Success: set
+Ezsp Config: set rf4ce pending outgoing packet table size to 0x0008:Success: set
+NCP supports maxing out packet buffers
+Ezsp Config: set packet buffers to 255
+Ezsp Config: set end device poll timeout to 0x0007:Success: set
+Ezsp Config: set end device poll timeout shift to 0x0006:Success: set
+Ezsp Config: set zll group addresses to 0x0000:Success: set
+Ezsp Config: set zll rssi threshold to 0xFF80:Success: set
+Ezsp Config: set transient key timeout to 0x012C:Success: set
+Ezsp Endpoint 1 added, profile 0x0104, in clusters: 6, out clusters 8
+Ezsp Policy: set TC Key Request to "Deny":Success: set
+Ezsp Policy: set App. Key Request to "Allow":Success: set
+Ezsp Policy: set Trust Center Policy to "Allow Joins, ignore preconfigured key rejoins":Success: set
+stratus_gateway->emberAfMainInitCallbackChecking for firmware update
+  Stack Version = 00005740
+  NCP Version = 00005740
+Versions match, no bootload required
+opening /tmp/zigbee-ember.db
+User version is 0
+Running MIGRATION_1
+Running MIGRATION_2
+Running MIGRATION_3
+Running MIGRATION_4
+Migrations complete, now at version 4
+Database Ready!
+ZIGBEE_MAX_ACTIVE_SESSIONS = 5
+RPC_HOST = 1338
+Creating socket...
+Bound on port 34279
+Resolving host 127.0.0.1
+Creating API destroy
+Creating API updateSecurityStates
+Creating API PermitJoining
+Creating API ReconfigureDevice
+Creating API SendUnicast
+Creating API RefreshDevice
+ZIGBEE_SERVICE_REGISTER_TIMEOUT_SECONDS = 5
+stratus_gateway->loadDevicesFromDatabaseZIGBEE_SERVICE_DEVICE_LOAD_TIMEOUT_SECONDS = 7
+Found OTA file 'villa-1-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0039
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'temp_humidity-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000D
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-lamp-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0002
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'ha-appliance-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0001
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'micro_motion_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0025
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-thermostat-06095010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0005
+  Version:         0x06095010
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0036
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'water-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000B
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'micro_door_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0024
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-1-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0038
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0035
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found 11 files
+
+EMBER_NETWORK_UP 0x0000
+stratus_gateway->emberAfStackStatusCallbackThe app framework is handling the stack status.
+stratus_gateway>State = 02
+uuid = zigbee-debug
+tick
+
+stratus_gateway>cu exi
+stratus_gateway->exitProcessstratus_gateway>root@zeushub:/data/run/v0.5.0_82/zigbee# Attempt to read from STDIN failed!
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/../util/serial/linux-serial.c:657: readline: Assertion `0' failed.
+
+root@zeushub:/data/run/v0.5.0_82/zigbee#
+root@zeushub:/data/run/v0.5.0_82/zigbee# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ezsp ver 0x04 stack type 0x02 stack ver. [5.7.4 GA build 99]
+Ezsp Config: set source route table size to 0x00FF:Success: set
+Ezsp Config: set security level to 0x0005:Success: set
+Ezsp Config: set address table size to 0x0002:Success: set
+Ezsp Config: set TC addr cache to 0x0002:Success: set
+Ezsp Config: set stack profile to 0x0002:Success: set
+Ezsp Config: set MAC indirect TX timeout to 0x1E00:Success: set
+Ezsp Config: set max hops to 0x001E:Success: set
+Ezsp Config: set tx power mode to 0x8000:Success: set
+Ezsp Config: set supported networks to 0x0001:Success: set
+Ezsp Policy: set binding modify to "allow for valid endpoints & clusters only":Success: set
+Ezsp Policy: set message content in msgSent to "return":Success: set
+Ezsp Value : set maximum incoming transfer size to 0x00000052:Success: set
+Ezsp Value : set maximum outgoing transfer size to 0x00000052:Success: set
+Ezsp Config: set binding table size to 0x0010:Success: set
+Ezsp Config: set key table size to 0x0000:Success: set
+Ezsp Config: set max end device children to 0x0020:Success: set
+Ezsp Config: set rf4ce pairing table size to 0x0001:Success: set
+Ezsp Config: set rf4ce pending outgoing packet table size to 0x0008:Success: set
+NCP supports maxing out packet buffers
+Ezsp Config: set packet buffers to 255
+Ezsp Config: set end device poll timeout to 0x0007:Success: set
+Ezsp Config: set end device poll timeout shift to 0x0006:Success: set
+Ezsp Config: set zll group addresses to 0x0000:Success: set
+Ezsp Config: set zll rssi threshold to 0xFF80:Success: set
+Ezsp Config: set transient key timeout to 0x012C:Success: set
+Ezsp Endpoint 1 added, profile 0x0104, in clusters: 6, out clusters 8
+Ezsp Policy: set TC Key Request to "Deny":Success: set
+Ezsp Policy: set App. Key Request to "Allow":Success: set
+Ezsp Policy: set Trust Center Policy to "Allow Joins, ignore preconfigured key rejoins":Success: set
+stratus_gateway->emberAfMainInitCallbackChecking for firmware update
+  Stack Version = 00005740
+  NCP Version = 00005740
+Versions match, no bootload required
+opening /tmp/zigbee-ember.db
+User version is 0
+Running MIGRATION_1
+Running MIGRATION_2
+Running MIGRATION_3
+Running MIGRATION_4
+Migrations complete, now at version 4
+Database Ready!
+ZIGBEE_MAX_ACTIVE_SESSIONS = 5
+RPC_HOST = 1338
+Creating socket...
+Bound on port 46642
+Resolving host 127.0.0.1
+Creating API destroy
+Creating API updateSecurityStates
+Creating API PermitJoining
+Creating API ReconfigureDevice
+Creating API SendUnicast
+Creating API RefreshDevice
+ZIGBEE_SERVICE_REGISTER_TIMEOUT_SECONDS = 5
+stratus_gateway->loadDevicesFromDatabaseZIGBEE_SERVICE_DEVICE_LOAD_TIMEOUT_SECONDS = 7
+Found OTA file 'villa-1-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0039
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'temp_humidity-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000D
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-lamp-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0002
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'ha-appliance-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0001
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'micro_motion_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0025
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-thermostat-06095010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0005
+  Version:         0x06095010
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0036
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'water-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000B
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'micro_door_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0024
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-1-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0038
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0035
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found 11 files
+
+EMBER_NETWORK_UP 0x0000
+stratus_gateway->emberAfStackStatusCallbackThe app framework is handling the stack status.
+stratus_gateway>State = 02
+uuid = zigbee-debug
+tick
+
+stratus_gateway>cu exit
+stratus_gateway->exitProcessstratus_gateway>root@zeushub:/data/run/v0.5.0_82/zigbee# Attempt to read from STDIN failed!
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/../util/serial/linux-serial.c:657: readline: Assertion `0' failed.
+
+root@zeushub:/data/run/v0.5.0_82/zigbee# cd /
+root@zeushub:/# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ezsp ver 0x04 stack type 0x02 stack ver. [5.7.4 GA build 99]
+Ezsp Config: set source route table size to 0x00FF:Success: set
+Ezsp Config: set security level to 0x0005:Success: set
+Ezsp Config: set address table size to 0x0002:Success: set
+Ezsp Config: set TC addr cache to 0x0002:Success: set
+Ezsp Config: set stack profile to 0x0002:Success: set
+Ezsp Config: set MAC indirect TX timeout to 0x1E00:Success: set
+Ezsp Config: set max hops to 0x001E:Success: set
+Ezsp Config: set tx power mode to 0x8000:Success: set
+Ezsp Config: set supported networks to 0x0001:Success: set
+Ezsp Policy: set binding modify to "allow for valid endpoints & clusters only":Success: set
+Ezsp Policy: set message content in msgSent to "return":Success: set
+Ezsp Value : set maximum incoming transfer size to 0x00000052:Success: set
+Ezsp Value : set maximum outgoing transfer size to 0x00000052:Success: set
+Ezsp Config: set binding table size to 0x0010:Success: set
+Ezsp Config: set key table size to 0x0000:Success: set
+Ezsp Config: set max end device children to 0x0020:Success: set
+Ezsp Config: set rf4ce pairing table size to 0x0001:Success: set
+Ezsp Config: set rf4ce pending outgoing packet table size to 0x0008:Success: set
+NCP supports maxing out packet buffers
+Ezsp Config: set packet buffers to 255
+Ezsp Config: set end device poll timeout to 0x0007:Success: set
+Ezsp Config: set end device poll timeout shift to 0x0006:Success: set
+Ezsp Config: set zll group addresses to 0x0000:Success: set
+Ezsp Config: set zll rssi threshold to 0xFF80:Success: set
+Ezsp Config: set transient key timeout to 0x012C:Success: set
+Ezsp Endpoint 1 added, profile 0x0104, in clusters: 6, out clusters 8
+Ezsp Policy: set TC Key Request to "Deny":Success: set
+Ezsp Policy: set App. Key Request to "Allow":Success: set
+Ezsp Policy: set Trust Center Policy to "Allow Joins, ignore preconfigured key rejoins":Success: set
+stratus_gateway->emberAfMainInitCallbackChecking for firmware update
+  Stack Version = 00005740
+  NCP Version = 00005740
+Versions match, no bootload required
+opening /tmp/zigbee-ember.db
+User version is 0
+Running MIGRATION_1
+Running MIGRATION_2
+Running MIGRATION_3
+Running MIGRATION_4
+Migrations complete, now at version 4
+Database Ready!
+ZIGBEE_MAX_ACTIVE_SESSIONS = 5
+RPC_HOST = 1338
+Creating socket...
+Bound on port 47667
+Resolving host 127.0.0.1
+Creating API destroy
+Creating API updateSecurityStates
+Creating API PermitJoining
+Creating API ReconfigureDevice
+Creating API SendUnicast
+Creating API RefreshDevice
+ZIGBEE_SERVICE_REGISTER_TIMEOUT_SECONDS = 5
+stratus_gateway->loadDevicesFromDatabaseZIGBEE_SERVICE_DEVICE_LOAD_TIMEOUT_SECONDS = 7
+Found OTA file 'villa-1-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0039
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'temp_humidity-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000D
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-lamp-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0002
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'ha-appliance-module-16025010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0001
+  Version:         0x16025010
+  Header String:   Centralite Systems
+Found OTA file 'micro_motion_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0025
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'ha-thermostat-06095010.ota'
+  Manufacturer ID: 0xC2DF
+  Image Type ID:   0x0005
+  Version:         0x06095010
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-relay-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0036
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'water-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x000B
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'micro_door_gen-1f0e5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0024
+  Version:         0x1F0E5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-1-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0038
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found OTA file 'villa-3-button-dimmer-100b5310.ota'
+  Manufacturer ID: 0x104E
+  Image Type ID:   0x0035
+  Version:         0x100B5310
+  Header String:   Centralite Systems
+Found 11 files
+
+EMBER_NETWORK_UP 0x0000
+stratus_gateway->emberAfStackStatusCallbackThe app framework is handling the stack status.
+stratus_gateway>State = 02
+uuid = zigbee-debug
+tick
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+brw-rw----    1 root     disk        8,  16 Jan  1  1970 /dev/sdb
+brw-rw----    1 root     disk        8,  17 Jan  1  1970 /dev/sdb1
+root@zeushub:/data/support#
+Broadcast message from root@zeushub (pts/1) (Fri Jun 16 22:49:12 2017):
+
+The system is going down for system halt NOW!
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+ls: /dev/sd*: No such file or directory
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:50 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:50 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:50 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:50 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:50 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:50 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:50 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:50 /dev/sda1
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+brw-rw----    1 root     disk        8,  16 Jan  1  1970 /dev/sdb
+brw-rw----    1 root     disk        8,  17 Jan  1  1970 /dev/sdb1
+support@zeushub:~$
+Broadcast message from root@zeushub (pts/1) (Fri Jun 16 22:48:05 2017):
+
+The system is going down for system halt NOW!
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ shutdown
+-sh: shutdown: command not found
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# shutdown
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -t 0
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t 0
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t secs:0
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t now
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t secs:now
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t secs:"now"
+Usage:    shutdown [-akrhPHfFnc] [-t sec] time [warning message]
+                  -a:      use /etc/shutdown.allow
+                  -k:      don't really shutdown, only warn.
+                  -r:      reboot after shutdown.
+                  -h:      halt after shutdown.
+                  -P:      halt action is to turn off power.
+                  -H:      halt action is to just halt.
+                  -f:      do a 'fast' reboot (skip fsck).
+                  -F:      Force fsck on reboot.
+                  -n:      do not go through "init" but go down real fast.
+                  -c:      cancel a running shutdown.
+                  -t secs: delay between warning and kill signal.
+                  ** the "time" argument is mandatory! (try "now") **
+root@zeushub:/data/support# shutdown -r -t secs now
+
+Broadcast message from root@zeushub (pts/0) (Fri Jun 16 22:51:30 2017):
+
+The system is going down for reboot NOW!
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ ls -la /dev/sd
+ls: /dev/sd: No such file or directory
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ fdisk
+-sh: fdisk: command not found
+support@zeushub:~$ fdsk
+-sh: fdsk: command not found
+support@zeushub:~$ fdisk
+-sh: fdisk: command not found
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# fdisk
+BusyBox v1.23.2 (2017-06-16 17:01:57 CDT) multi-call binary.
+
+Usage: fdisk [-ul] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SSZ] DISK
+
+root@zeushub:/data/support# fdisk
+BusyBox v1.23.2 (2017-06-16 17:01:57 CDT) multi-call binary.
+
+Usage: fdisk [-ul] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SSZ] DISK
+
+root@zeushub:/data/support# rescan-scsi-bus.sh --remove --issue-lip
+sh: rescan-scsi-bus.sh: command not found
+root@zeushub:/data/support# echo "- - -" > /sys/class/scsi_host/host0/scan
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# echo "- - -" > /sys/class/scsi_host/host0/scan
+root@zeushub:/data/support# ls -la /sys/class
+drwxr-xr-x   42 root     root             0 Jan  1  1970 .
+dr-xr-xr-x   12 root     root             0 Jan  1  1970 ..
+drwxr-xr-x    2 root     root             0 Jan  1  1970 backlight
+drwxr-xr-x    2 root     root             0 Jan  1  1970 bdi
+drwxr-xr-x    2 root     root             0 Jan  1  1970 block
+drwxr-xr-x    2 root     root             0 Jan  1  1970 bsg
+drwxr-xr-x    2 root     root             0 Jan  1  1970 dma
+drwxr-xr-x    2 root     root             0 Jan  1  1970 drm
+drwxr-xr-x    2 root     root             0 Jan  1  1970 extcon
+drwxr-xr-x    2 root     root             0 Jan  1  1970 gpio
+drwxr-xr-x    2 root     root             0 Jan  1  1970 graphics
+drwxr-xr-x    2 root     root             0 Jan  1  1970 hwmon
+drwxr-xr-x    2 root     root             0 Jan  1  1970 i2c-adapter
+drwxr-xr-x    2 root     root             0 Jan  1  1970 i2c-dev
+drwxr-xr-x    2 root     root             0 Jan  1  1970 ieee80211
+drwxr-xr-x    2 root     root             0 Jan  1  1970 input
+drwxr-xr-x    2 root     root             0 Jan  1  1970 lcd
+drwxr-xr-x    2 root     root             0 Jan  1  1970 leds
+drwxr-xr-x    2 root     root             0 Jan  1  1970 mdio_bus
+drwxr-xr-x    2 root     root             0 Jan  1  1970 mem
+drwxr-xr-x    2 root     root             0 Jan  1  1970 misc
+drwxr-xr-x    2 root     root             0 Jan  1  1970 mmc_host
+drwxr-xr-x    2 root     root             0 Jan  1  1970 mtd
+drwxr-xr-x    2 root     root             0 Jan  1  1970 net
+drwxr-xr-x    2 root     root             0 Jan  1  1970 phy
+drwxr-xr-x    2 root     root             0 Jan  1  1970 power_supply
+drwxr-xr-x    2 root     root             0 Jan  1  1970 pwm
+drwxr-xr-x    2 root     root             0 Jan  1  1970 regulator
+drwxr-xr-x    2 root     root             0 Jan  1  1970 rfkill
+drwxr-xr-x    2 root     root             0 Jan  1  1970 rtc
+drwxr-xr-x    2 root     root             0 Jan  1  1970 scsi_device
+drwxr-xr-x    2 root     root             0 Jan  1  1970 scsi_disk
+drwxr-xr-x    2 root     root             0 Jan  1  1970 scsi_host
+drwxr-xr-x    2 root     root             0 Jan  1  1970 sound
+drwxr-xr-x    2 root     root             0 Jan  1  1970 spi_master
+drwxr-xr-x    2 root     root             0 Jan  1  1970 thermal
+drwxr-xr-x    2 root     root             0 Jan  1  1970 tty
+drwxr-xr-x    2 root     root             0 Jan  1  1970 ubi
+drwxr-xr-x    2 root     root             0 Jan  1  1970 udc
+drwxr-xr-x    2 root     root             0 Jan  1  1970 vc
+drwxr-xr-x    2 root     root             0 Jan  1  1970 vtconsole
+drwxr-xr-x    2 root     root             0 Jan  1  1970 watchdog
+root@zeushub:/data/support# ls -la /sys/class/scsi_host
+drwxr-xr-x    2 root     root             0 Jan  1  1970 .
+drwxr-xr-x   42 root     root             0 Jan  1  1970 ..
+lrwxrwxrwx    1 root     root             0 Jun 16 22:51 host0 -> ../../devices/ocp.3/47400000.usb/47401400.usb/musb-hdrc.0.auto/usb1/1-1/1-1:1.0/host0/scsi_host/host0
+root@zeushub:/data/support# echo "- - -" > /sys/class/scsi_host/host0/scan
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# udevadm trigger
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:53 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:53 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:53 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:53 /dev/sda1
+root@zeushub:/data/support# udevadm trigger
+root@zeushub:/data/support# udevadm trigger
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:54 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:54 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:54 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:54 /dev/sda1
+root@zeushub:/data/support# sudo udevadm trigger
+sh: sudo: command not found
+root@zeushub:/data/support# udevadm trigger
+root@zeushub:/data/support# udevadm
+missing or unknown command
+
+Usage: udevadm [--help] [--version] [--debug] COMMAND [COMMAND OPTIONS]
+  info         query sysfs or the udev database
+  trigger      request events from the kernel
+  settle       wait for the event queue to finish
+  control      control the udev daemon
+  monitor      listen to kernel and udev events
+  test         test an event run
+  test-builtin test a built-in command
+
+root@zeushub:/data/support# udevadm monitor
+monitor will print the received events for:
+UDEV - the event which udev sends out after rule processing
+KERNEL - the kernel uevent
+
+
+
+^Z
+[1]+  Stopped(SIGTSTP)        udevadm monitor
+root@zeushub:/data/support# udevadm info
+missing option
+root@zeushub:/data/support# udevadm info /
+missing option
+root@zeushub:/data/support# cat /proc/scsi/scsi
+Attached devices:
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: F8       Model: T5               Rev: 1.10
+  Type:   Direct-Access                    ANSI  SCSI revision: 02
+root@zeushub:/data/support# echo "- - -" > /sys/class/scsi_host/host0/scan
+root@zeushub:/data/support# echo "- - -" > /sys/class/scsi_host/host1/scan
+sh: /sys/class/scsi_host/host1/scan: No such file or directory
+root@zeushub:/data/support# lsscsi
+sh: lsscsi: command not found
+root@zeushub:/data/support# lsscsi
+sh: lsscsi: command not found
+root@zeushub:/data/support# lsscsi
+sh: lsscsi: command not found
+root@zeushub:/data/support# ls
+grep         zwave_nvram  zwave_test
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:54 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:54 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:54 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:54 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/
+drwxr-xr-x   12 root     root         13260 Jun 16 22:47 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+crw-------    1 root     root       10, 235 Jun 16 22:54 autofs
+drwxr-xr-x    2 root     root           620 Jan  1  1970 block
+drwxr-xr-x    2 root     root            60 Jan  1  1970 bsg
+crw-------    1 root     root       10, 234 Jun 16 22:54 btrfs-control
+drwxr-xr-x    3 root     root            60 Jan  1  1970 bus
+drwxr-xr-x    2 root     root         12360 Jun 16 22:53 char
+crw-------    1 root     root        5,   1 Jun 16 22:54 console
+crw-------    1 root     root       10,  62 Jun 16 22:54 cpu_dma_latency
+c---------    1 root     root       10, 203 Jan  1  1970 cuse
+drwxr-xr-x    6 root     root           120 Jan  1  1970 disk
+lrwxrwxrwx    1 root     root            13 Jan  1  1970 fd -> /proc/self/fd
+crw-rw-rw-    1 root     root        1,   7 Jun 16 22:54 full
+crw-rw-rw-    1 root     root       10, 229 Jan  1  1970 fuse
+crw-------    1 root     root       10, 183 Jun 16 22:54 hwrng
+crw-------    1 root     root       89,   0 Jun 16 22:54 i2c-0
+crw-------    1 root     root      252,   0 Jun 16 22:54 iio:device0
+prw-------    1 root     root             0 Jan  1  1970 initctl
+drwxr-xr-x    2 root     root            60 Jan  1  1970 input
+crw-r-----    1 root     kmem        1,   2 Jun 16 22:54 kmem
+crw-r--r--    1 root     root        1,  11 Jun 16 22:54 kmsg
+srw-rw-rw-    1 root     root             0 Jun 16 22:47 log
+c---------    1 root     root       10, 237 Jan  1  1970 loop-control
+crw-r-----    1 root     kmem        1,   1 Jun 16 22:54 mem
+brw-rw----    1 root     disk      179,   0 Jun 16 22:54 mmcblk0
+brw-rw----    1 root     disk      179,  16 Jun 16 22:54 mmcblk0boot0
+brw-rw----    1 root     disk      179,  32 Jun 16 22:54 mmcblk0boot1
+brw-rw----    1 root     disk      179,   1 Jun 16 22:54 mmcblk0p1
+brw-rw----    1 root     disk      179,   2 Jun 16 22:54 mmcblk0p2
+brw-rw----    1 root     disk      179,   3 Jun 16 22:54 mmcblk0p3
+brw-rw----    1 root     disk      179,   4 Jun 16 22:54 mmcblk0p4
+brw-rw----    1 root     disk      179,   5 Jun 16 22:54 mmcblk0p5
+brw-rw----    1 root     disk      179,   6 Jun 16 22:54 mmcblk0p6
+brw-rw----    1 root     disk      179,   7 Jun 16 22:54 mmcblk0p7
+brw-rw----    1 root     disk      179,   8 Jun 16 22:54 mmcblk0p8
+drwxr-xr-x    2 root     root            60 Jan  1  1970 net
+crw-------    1 root     root       10,  61 Jun 16 22:54 network_latency
+crw-------    1 root     root       10,  60 Jun 16 22:54 network_throughput
+crw-rw-rw-    1 root     root        1,   3 Jun 16 22:54 null
+c---------    1 root     root      108,   0 Jan  1  1970 ppp
+crw-------    1 root     root       10,   1 Jun 16 22:54 psaux
+crw-rw-rw-    1 root     tty         5,   2 Jun 16 22:58 ptmx
+drwxr-xr-x    2 root     root             0 Jan  1  1970 pts
+crw-rw----    1 root     tty         2, 176 Jun 16 22:54 ptya0
+crw-rw----    1 root     tty         2, 177 Jun 16 22:54 ptya1
+crw-rw----    1 root     tty         2, 178 Jun 16 22:54 ptya2
+crw-rw----    1 root     tty         2, 179 Jun 16 22:54 ptya3
+crw-rw----    1 root     tty         2, 180 Jun 16 22:54 ptya4
+crw-rw----    1 root     tty         2, 181 Jun 16 22:54 ptya5
+crw-rw----    1 root     tty         2, 182 Jun 16 22:54 ptya6
+crw-rw----    1 root     tty         2, 183 Jun 16 22:54 ptya7
+crw-rw----    1 root     tty         2, 184 Jun 16 22:54 ptya8
+crw-rw----    1 root     tty         2, 185 Jun 16 22:54 ptya9
+crw-rw----    1 root     tty         2, 186 Jun 16 22:54 ptyaa
+crw-rw----    1 root     tty         2, 187 Jun 16 22:54 ptyab
+crw-rw----    1 root     tty         2, 188 Jun 16 22:54 ptyac
+crw-rw----    1 root     tty         2, 189 Jun 16 22:54 ptyad
+crw-rw----    1 root     tty         2, 190 Jun 16 22:54 ptyae
+crw-rw----    1 root     tty         2, 191 Jun 16 22:54 ptyaf
+crw-rw----    1 root     tty         2, 192 Jun 16 22:54 ptyb0
+crw-rw----    1 root     tty         2, 193 Jun 16 22:54 ptyb1
+crw-rw----    1 root     tty         2, 194 Jun 16 22:54 ptyb2
+crw-rw----    1 root     tty         2, 195 Jun 16 22:54 ptyb3
+crw-rw----    1 root     tty         2, 196 Jun 16 22:54 ptyb4
+crw-rw----    1 root     tty         2, 197 Jun 16 22:54 ptyb5
+crw-rw----    1 root     tty         2, 198 Jun 16 22:54 ptyb6
+crw-rw----    1 root     tty         2, 199 Jun 16 22:54 ptyb7
+crw-rw----    1 root     tty         2, 200 Jun 16 22:54 ptyb8
+crw-rw----    1 root     tty         2, 201 Jun 16 22:54 ptyb9
+crw-rw----    1 root     tty         2, 202 Jun 16 22:54 ptyba
+crw-rw----    1 root     tty         2, 203 Jun 16 22:54 ptybb
+crw-rw----    1 root     tty         2, 204 Jun 16 22:54 ptybc
+crw-rw----    1 root     tty         2, 205 Jun 16 22:54 ptybd
+crw-rw----    1 root     tty         2, 206 Jun 16 22:54 ptybe
+crw-rw----    1 root     tty         2, 207 Jun 16 22:54 ptybf
+crw-rw----    1 root     tty         2, 208 Jun 16 22:54 ptyc0
+crw-rw----    1 root     tty         2, 209 Jun 16 22:54 ptyc1
+crw-rw----    1 root     tty         2, 210 Jun 16 22:54 ptyc2
+crw-rw----    1 root     tty         2, 211 Jun 16 22:54 ptyc3
+crw-rw----    1 root     tty         2, 212 Jun 16 22:54 ptyc4
+crw-rw----    1 root     tty         2, 213 Jun 16 22:54 ptyc5
+crw-rw----    1 root     tty         2, 214 Jun 16 22:54 ptyc6
+crw-rw----    1 root     tty         2, 215 Jun 16 22:54 ptyc7
+crw-rw----    1 root     tty         2, 216 Jun 16 22:54 ptyc8
+crw-rw----    1 root     tty         2, 217 Jun 16 22:54 ptyc9
+crw-rw----    1 root     tty         2, 218 Jun 16 22:54 ptyca
+crw-rw----    1 root     tty         2, 219 Jun 16 22:54 ptycb
+crw-rw----    1 root     tty         2, 220 Jun 16 22:54 ptycc
+crw-rw----    1 root     tty         2, 221 Jun 16 22:54 ptycd
+crw-rw----    1 root     tty         2, 222 Jun 16 22:54 ptyce
+crw-rw----    1 root     tty         2, 223 Jun 16 22:54 ptycf
+crw-rw----    1 root     tty         2, 224 Jun 16 22:54 ptyd0
+crw-rw----    1 root     tty         2, 225 Jun 16 22:54 ptyd1
+crw-rw----    1 root     tty         2, 226 Jun 16 22:54 ptyd2
+crw-rw----    1 root     tty         2, 227 Jun 16 22:54 ptyd3
+crw-rw----    1 root     tty         2, 228 Jun 16 22:54 ptyd4
+crw-rw----    1 root     tty         2, 229 Jun 16 22:54 ptyd5
+crw-rw----    1 root     tty         2, 230 Jun 16 22:54 ptyd6
+crw-rw----    1 root     tty         2, 231 Jun 16 22:54 ptyd7
+crw-rw----    1 root     tty         2, 232 Jun 16 22:54 ptyd8
+crw-rw----    1 root     tty         2, 233 Jun 16 22:54 ptyd9
+crw-rw----    1 root     tty         2, 234 Jun 16 22:54 ptyda
+crw-rw----    1 root     tty         2, 235 Jun 16 22:54 ptydb
+crw-rw----    1 root     tty         2, 236 Jun 16 22:54 ptydc
+crw-rw----    1 root     tty         2, 237 Jun 16 22:54 ptydd
+crw-rw----    1 root     tty         2, 238 Jun 16 22:54 ptyde
+crw-rw----    1 root     tty         2, 239 Jun 16 22:54 ptydf
+crw-rw----    1 root     tty         2, 240 Jun 16 22:54 ptye0
+crw-rw----    1 root     tty         2, 241 Jun 16 22:54 ptye1
+crw-rw----    1 root     tty         2, 242 Jun 16 22:54 ptye2
+crw-rw----    1 root     tty         2, 243 Jun 16 22:54 ptye3
+crw-rw----    1 root     tty         2, 244 Jun 16 22:54 ptye4
+crw-rw----    1 root     tty         2, 245 Jun 16 22:54 ptye5
+crw-rw----    1 root     tty         2, 246 Jun 16 22:54 ptye6
+crw-rw----    1 root     tty         2, 247 Jun 16 22:54 ptye7
+crw-rw----    1 root     tty         2, 248 Jun 16 22:54 ptye8
+crw-rw----    1 root     tty         2, 249 Jun 16 22:54 ptye9
+crw-rw----    1 root     tty         2, 250 Jun 16 22:54 ptyea
+crw-rw----    1 root     tty         2, 251 Jun 16 22:54 ptyeb
+crw-rw----    1 root     tty         2, 252 Jun 16 22:54 ptyec
+crw-rw----    1 root     tty         2, 253 Jun 16 22:54 ptyed
+crw-rw----    1 root     tty         2, 254 Jun 16 22:54 ptyee
+crw-rw----    1 root     tty         2, 255 Jun 16 22:54 ptyef
+crw-rw----    1 root     tty         2,   0 Jun 16 22:54 ptyp0
+crw-rw----    1 root     tty         2,   1 Jun 16 22:54 ptyp1
+crw-rw----    1 root     tty         2,   2 Jun 16 22:54 ptyp2
+crw-rw----    1 root     tty         2,   3 Jun 16 22:54 ptyp3
+crw-rw----    1 root     tty         2,   4 Jun 16 22:54 ptyp4
+crw-rw----    1 root     tty         2,   5 Jun 16 22:54 ptyp5
+crw-rw----    1 root     tty         2,   6 Jun 16 22:54 ptyp6
+crw-rw----    1 root     tty         2,   7 Jun 16 22:54 ptyp7
+crw-rw----    1 root     tty         2,   8 Jun 16 22:54 ptyp8
+crw-rw----    1 root     tty         2,   9 Jun 16 22:54 ptyp9
+crw-rw----    1 root     tty         2,  10 Jun 16 22:54 ptypa
+crw-rw----    1 root     tty         2,  11 Jun 16 22:54 ptypb
+crw-rw----    1 root     tty         2,  12 Jun 16 22:54 ptypc
+crw-rw----    1 root     tty         2,  13 Jun 16 22:54 ptypd
+crw-rw----    1 root     tty         2,  14 Jun 16 22:54 ptype
+crw-rw----    1 root     tty         2,  15 Jun 16 22:54 ptypf
+crw-rw----    1 root     tty         2,  16 Jun 16 22:54 ptyq0
+crw-rw----    1 root     tty         2,  17 Jun 16 22:54 ptyq1
+crw-rw----    1 root     tty         2,  18 Jun 16 22:54 ptyq2
+crw-rw----    1 root     tty         2,  19 Jun 16 22:54 ptyq3
+crw-rw----    1 root     tty         2,  20 Jun 16 22:54 ptyq4
+crw-rw----    1 root     tty         2,  21 Jun 16 22:54 ptyq5
+crw-rw----    1 root     tty         2,  22 Jun 16 22:54 ptyq6
+crw-rw----    1 root     tty         2,  23 Jun 16 22:54 ptyq7
+crw-rw----    1 root     tty         2,  24 Jun 16 22:54 ptyq8
+crw-rw----    1 root     tty         2,  25 Jun 16 22:54 ptyq9
+crw-rw----    1 root     tty         2,  26 Jun 16 22:54 ptyqa
+crw-rw----    1 root     tty         2,  27 Jun 16 22:54 ptyqb
+crw-rw----    1 root     tty         2,  28 Jun 16 22:54 ptyqc
+crw-rw----    1 root     tty         2,  29 Jun 16 22:54 ptyqd
+crw-rw----    1 root     tty         2,  30 Jun 16 22:54 ptyqe
+crw-rw----    1 root     tty         2,  31 Jun 16 22:54 ptyqf
+crw-rw----    1 root     tty         2,  32 Jun 16 22:54 ptyr0
+crw-rw----    1 root     tty         2,  33 Jun 16 22:54 ptyr1
+crw-rw----    1 root     tty         2,  34 Jun 16 22:54 ptyr2
+crw-rw----    1 root     tty         2,  35 Jun 16 22:54 ptyr3
+crw-rw----    1 root     tty         2,  36 Jun 16 22:54 ptyr4
+crw-rw----    1 root     tty         2,  37 Jun 16 22:54 ptyr5
+crw-rw----    1 root     tty         2,  38 Jun 16 22:54 ptyr6
+crw-rw----    1 root     tty         2,  39 Jun 16 22:54 ptyr7
+crw-rw----    1 root     tty         2,  40 Jun 16 22:54 ptyr8
+crw-rw----    1 root     tty         2,  41 Jun 16 22:54 ptyr9
+crw-rw----    1 root     tty         2,  42 Jun 16 22:54 ptyra
+crw-rw----    1 root     tty         2,  43 Jun 16 22:54 ptyrb
+crw-rw----    1 root     tty         2,  44 Jun 16 22:54 ptyrc
+crw-rw----    1 root     tty         2,  45 Jun 16 22:54 ptyrd
+crw-rw----    1 root     tty         2,  46 Jun 16 22:54 ptyre
+crw-rw----    1 root     tty         2,  47 Jun 16 22:54 ptyrf
+crw-rw----    1 root     tty         2,  48 Jun 16 22:54 ptys0
+crw-rw----    1 root     tty         2,  49 Jun 16 22:54 ptys1
+crw-rw----    1 root     tty         2,  50 Jun 16 22:54 ptys2
+crw-rw----    1 root     tty         2,  51 Jun 16 22:54 ptys3
+crw-rw----    1 root     tty         2,  52 Jun 16 22:54 ptys4
+crw-rw----    1 root     tty         2,  53 Jun 16 22:54 ptys5
+crw-rw----    1 root     tty         2,  54 Jun 16 22:54 ptys6
+crw-rw----    1 root     tty         2,  55 Jun 16 22:54 ptys7
+crw-rw----    1 root     tty         2,  56 Jun 16 22:54 ptys8
+crw-rw----    1 root     tty         2,  57 Jun 16 22:54 ptys9
+crw-rw----    1 root     tty         2,  58 Jun 16 22:54 ptysa
+crw-rw----    1 root     tty         2,  59 Jun 16 22:54 ptysb
+crw-rw----    1 root     tty         2,  60 Jun 16 22:54 ptysc
+crw-rw----    1 root     tty         2,  61 Jun 16 22:54 ptysd
+crw-rw----    1 root     tty         2,  62 Jun 16 22:54 ptyse
+crw-rw----    1 root     tty         2,  63 Jun 16 22:54 ptysf
+crw-rw----    1 root     tty         2,  64 Jun 16 22:54 ptyt0
+crw-rw----    1 root     tty         2,  65 Jun 16 22:54 ptyt1
+crw-rw----    1 root     tty         2,  66 Jun 16 22:54 ptyt2
+crw-rw----    1 root     tty         2,  67 Jun 16 22:54 ptyt3
+crw-rw----    1 root     tty         2,  68 Jun 16 22:54 ptyt4
+crw-rw----    1 root     tty         2,  69 Jun 16 22:54 ptyt5
+crw-rw----    1 root     tty         2,  70 Jun 16 22:54 ptyt6
+crw-rw----    1 root     tty         2,  71 Jun 16 22:54 ptyt7
+crw-rw----    1 root     tty         2,  72 Jun 16 22:54 ptyt8
+crw-rw----    1 root     tty         2,  73 Jun 16 22:54 ptyt9
+crw-rw----    1 root     tty         2,  74 Jun 16 22:54 ptyta
+crw-rw----    1 root     tty         2,  75 Jun 16 22:54 ptytb
+crw-rw----    1 root     tty         2,  76 Jun 16 22:54 ptytc
+crw-rw----    1 root     tty         2,  77 Jun 16 22:54 ptytd
+crw-rw----    1 root     tty         2,  78 Jun 16 22:54 ptyte
+crw-rw----    1 root     tty         2,  79 Jun 16 22:54 ptytf
+crw-rw----    1 root     tty         2,  80 Jun 16 22:54 ptyu0
+crw-rw----    1 root     tty         2,  81 Jun 16 22:54 ptyu1
+crw-rw----    1 root     tty         2,  82 Jun 16 22:54 ptyu2
+crw-rw----    1 root     tty         2,  83 Jun 16 22:54 ptyu3
+crw-rw----    1 root     tty         2,  84 Jun 16 22:54 ptyu4
+crw-rw----    1 root     tty         2,  85 Jun 16 22:54 ptyu5
+crw-rw----    1 root     tty         2,  86 Jun 16 22:54 ptyu6
+crw-rw----    1 root     tty         2,  87 Jun 16 22:54 ptyu7
+crw-rw----    1 root     tty         2,  88 Jun 16 22:54 ptyu8
+crw-rw----    1 root     tty         2,  89 Jun 16 22:54 ptyu9
+crw-rw----    1 root     tty         2,  90 Jun 16 22:54 ptyua
+crw-rw----    1 root     tty         2,  91 Jun 16 22:54 ptyub
+crw-rw----    1 root     tty         2,  92 Jun 16 22:54 ptyuc
+crw-rw----    1 root     tty         2,  93 Jun 16 22:54 ptyud
+crw-rw----    1 root     tty         2,  94 Jun 16 22:54 ptyue
+crw-rw----    1 root     tty         2,  95 Jun 16 22:54 ptyuf
+crw-rw----    1 root     tty         2,  96 Jun 16 22:54 ptyv0
+crw-rw----    1 root     tty         2,  97 Jun 16 22:54 ptyv1
+crw-rw----    1 root     tty         2,  98 Jun 16 22:54 ptyv2
+crw-rw----    1 root     tty         2,  99 Jun 16 22:54 ptyv3
+crw-rw----    1 root     tty         2, 100 Jun 16 22:54 ptyv4
+crw-rw----    1 root     tty         2, 101 Jun 16 22:54 ptyv5
+crw-rw----    1 root     tty         2, 102 Jun 16 22:54 ptyv6
+crw-rw----    1 root     tty         2, 103 Jun 16 22:54 ptyv7
+crw-rw----    1 root     tty         2, 104 Jun 16 22:54 ptyv8
+crw-rw----    1 root     tty         2, 105 Jun 16 22:54 ptyv9
+crw-rw----    1 root     tty         2, 106 Jun 16 22:54 ptyva
+crw-rw----    1 root     tty         2, 107 Jun 16 22:54 ptyvb
+crw-rw----    1 root     tty         2, 108 Jun 16 22:54 ptyvc
+crw-rw----    1 root     tty         2, 109 Jun 16 22:54 ptyvd
+crw-rw----    1 root     tty         2, 110 Jun 16 22:54 ptyve
+crw-rw----    1 root     tty         2, 111 Jun 16 22:54 ptyvf
+crw-rw----    1 root     tty         2, 112 Jun 16 22:54 ptyw0
+crw-rw----    1 root     tty         2, 113 Jun 16 22:54 ptyw1
+crw-rw----    1 root     tty         2, 114 Jun 16 22:54 ptyw2
+crw-rw----    1 root     tty         2, 115 Jun 16 22:54 ptyw3
+crw-rw----    1 root     tty         2, 116 Jun 16 22:54 ptyw4
+crw-rw----    1 root     tty         2, 117 Jun 16 22:54 ptyw5
+crw-rw----    1 root     tty         2, 118 Jun 16 22:54 ptyw6
+crw-rw----    1 root     tty         2, 119 Jun 16 22:54 ptyw7
+crw-rw----    1 root     tty         2, 120 Jun 16 22:54 ptyw8
+crw-rw----    1 root     tty         2, 121 Jun 16 22:54 ptyw9
+crw-rw----    1 root     tty         2, 122 Jun 16 22:54 ptywa
+crw-rw----    1 root     tty         2, 123 Jun 16 22:54 ptywb
+crw-rw----    1 root     tty         2, 124 Jun 16 22:54 ptywc
+crw-rw----    1 root     tty         2, 125 Jun 16 22:54 ptywd
+crw-rw----    1 root     tty         2, 126 Jun 16 22:54 ptywe
+crw-rw----    1 root     tty         2, 127 Jun 16 22:54 ptywf
+crw-rw----    1 root     tty         2, 128 Jun 16 22:54 ptyx0
+crw-rw----    1 root     tty         2, 129 Jun 16 22:54 ptyx1
+crw-rw----    1 root     tty         2, 130 Jun 16 22:54 ptyx2
+crw-rw----    1 root     tty         2, 131 Jun 16 22:54 ptyx3
+crw-rw----    1 root     tty         2, 132 Jun 16 22:54 ptyx4
+crw-rw----    1 root     tty         2, 133 Jun 16 22:54 ptyx5
+crw-rw----    1 root     tty         2, 134 Jun 16 22:54 ptyx6
+crw-rw----    1 root     tty         2, 135 Jun 16 22:54 ptyx7
+crw-rw----    1 root     tty         2, 136 Jun 16 22:54 ptyx8
+crw-rw----    1 root     tty         2, 137 Jun 16 22:54 ptyx9
+crw-rw----    1 root     tty         2, 138 Jun 16 22:54 ptyxa
+crw-rw----    1 root     tty         2, 139 Jun 16 22:54 ptyxb
+crw-rw----    1 root     tty         2, 140 Jun 16 22:54 ptyxc
+crw-rw----    1 root     tty         2, 141 Jun 16 22:54 ptyxd
+crw-rw----    1 root     tty         2, 142 Jun 16 22:54 ptyxe
+crw-rw----    1 root     tty         2, 143 Jun 16 22:54 ptyxf
+crw-rw----    1 root     tty         2, 144 Jun 16 22:54 ptyy0
+crw-rw----    1 root     tty         2, 145 Jun 16 22:54 ptyy1
+crw-rw----    1 root     tty         2, 146 Jun 16 22:54 ptyy2
+crw-rw----    1 root     tty         2, 147 Jun 16 22:54 ptyy3
+crw-rw----    1 root     tty         2, 148 Jun 16 22:54 ptyy4
+crw-rw----    1 root     tty         2, 149 Jun 16 22:54 ptyy5
+crw-rw----    1 root     tty         2, 150 Jun 16 22:54 ptyy6
+crw-rw----    1 root     tty         2, 151 Jun 16 22:54 ptyy7
+crw-rw----    1 root     tty         2, 152 Jun 16 22:54 ptyy8
+crw-rw----    1 root     tty         2, 153 Jun 16 22:54 ptyy9
+crw-rw----    1 root     tty         2, 154 Jun 16 22:54 ptyya
+crw-rw----    1 root     tty         2, 155 Jun 16 22:54 ptyyb
+crw-rw----    1 root     tty         2, 156 Jun 16 22:54 ptyyc
+crw-rw----    1 root     tty         2, 157 Jun 16 22:54 ptyyd
+crw-rw----    1 root     tty         2, 158 Jun 16 22:54 ptyye
+crw-rw----    1 root     tty         2, 159 Jun 16 22:54 ptyyf
+crw-rw----    1 root     tty         2, 160 Jun 16 22:54 ptyz0
+crw-rw----    1 root     tty         2, 161 Jun 16 22:54 ptyz1
+crw-rw----    1 root     tty         2, 162 Jun 16 22:54 ptyz2
+crw-rw----    1 root     tty         2, 163 Jun 16 22:54 ptyz3
+crw-rw----    1 root     tty         2, 164 Jun 16 22:54 ptyz4
+crw-rw----    1 root     tty         2, 165 Jun 16 22:54 ptyz5
+crw-rw----    1 root     tty         2, 166 Jun 16 22:54 ptyz6
+crw-rw----    1 root     tty         2, 167 Jun 16 22:54 ptyz7
+crw-rw----    1 root     tty         2, 168 Jun 16 22:54 ptyz8
+crw-rw----    1 root     tty         2, 169 Jun 16 22:54 ptyz9
+crw-rw----    1 root     tty         2, 170 Jun 16 22:54 ptyza
+crw-rw----    1 root     tty         2, 171 Jun 16 22:54 ptyzb
+crw-rw----    1 root     tty         2, 172 Jun 16 22:54 ptyzc
+crw-rw----    1 root     tty         2, 173 Jun 16 22:54 ptyzd
+crw-rw----    1 root     tty         2, 174 Jun 16 22:54 ptyze
+crw-rw----    1 root     tty         2, 175 Jun 16 22:54 ptyzf
+brw-rw----    1 root     disk        1,   0 Jun 16 22:54 ram0
+brw-rw----    1 root     disk        1,   1 Jun 16 22:54 ram1
+brw-rw----    1 root     disk        1,  10 Jun 16 22:54 ram10
+brw-rw----    1 root     disk        1,  11 Jun 16 22:54 ram11
+brw-rw----    1 root     disk        1,  12 Jun 16 22:54 ram12
+brw-rw----    1 root     disk        1,  13 Jun 16 22:54 ram13
+brw-rw----    1 root     disk        1,  14 Jun 16 22:54 ram14
+brw-rw----    1 root     disk        1,  15 Jun 16 22:54 ram15
+brw-rw----    1 root     disk        1,   2 Jun 16 22:54 ram2
+brw-rw----    1 root     disk        1,   3 Jun 16 22:54 ram3
+brw-rw----    1 root     disk        1,   4 Jun 16 22:54 ram4
+brw-rw----    1 root     disk        1,   5 Jun 16 22:54 ram5
+brw-rw----    1 root     disk        1,   6 Jun 16 22:54 ram6
+brw-rw----    1 root     disk        1,   7 Jun 16 22:54 ram7
+brw-rw----    1 root     disk        1,   8 Jun 16 22:54 ram8
+brw-rw----    1 root     disk        1,   9 Jun 16 22:54 ram9
+crw-rw-rw-    1 root     root        1,   8 Jun 16 22:54 random
+crw-r--r--    1 root     root       10,  63 Jun 16 22:54 rfkill
+brw-rw----    1 root     disk        8,   0 Jun 16 22:54 sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:54 sda1
+drwxrwxrwt    2 root     root            40 Jan  1  1970 shm
+drwxr-xr-x    2 root     root            60 Jan  1  1970 snd
+lrwxrwxrwx    1 root     root            15 Jan  1  1970 stderr -> /proc/self/fd/2
+lrwxrwxrwx    1 root     root            15 Jan  1  1970 stdin -> /proc/self/fd/0
+lrwxrwxrwx    1 root     root            15 Jan  1  1970 stdout -> /proc/self/fd/1
+crw-rw-rw-    1 root     tty         5,   0 Jun 16 22:55 tty
+crw--w----    1 root     tty         4,   0 Jun 16 22:54 tty0
+crw--w----    1 root     tty         4,   1 Jun 16 22:54 tty1
+crw-r-----    1 root     adm         4,  10 Jun 16 22:55 tty10
+crw--w----    1 root     tty         4,  11 Jun 16 22:54 tty11
+crw--w----    1 root     tty         4,  12 Jun 16 22:54 tty12
+crw--w----    1 root     tty         4,  13 Jun 16 22:54 tty13
+crw--w----    1 root     tty         4,  14 Jun 16 22:54 tty14
+crw--w----    1 root     tty         4,  15 Jun 16 22:54 tty15
+crw--w----    1 root     tty         4,  16 Jun 16 22:54 tty16
+crw--w----    1 root     tty         4,  17 Jun 16 22:54 tty17
+crw--w----    1 root     tty         4,  18 Jun 16 22:54 tty18
+crw--w----    1 root     tty         4,  19 Jun 16 22:54 tty19
+crw--w----    1 root     tty         4,   2 Jun 16 22:54 tty2
+crw--w----    1 root     tty         4,  20 Jun 16 22:54 tty20
+crw--w----    1 root     tty         4,  21 Jun 16 22:54 tty21
+crw--w----    1 root     tty         4,  22 Jun 16 22:54 tty22
+crw--w----    1 root     tty         4,  23 Jun 16 22:54 tty23
+crw--w----    1 root     tty         4,  24 Jun 16 22:54 tty24
+crw--w----    1 root     tty         4,  25 Jun 16 22:54 tty25
+crw--w----    1 root     tty         4,  26 Jun 16 22:54 tty26
+crw--w----    1 root     tty         4,  27 Jun 16 22:54 tty27
+crw--w----    1 root     tty         4,  28 Jun 16 22:54 tty28
+crw--w----    1 root     tty         4,  29 Jun 16 22:54 tty29
+crw--w----    1 root     tty         4,   3 Jun 16 22:54 tty3
+crw--w----    1 root     tty         4,  30 Jun 16 22:54 tty30
+crw--w----    1 root     tty         4,  31 Jun 16 22:54 tty31
+crw--w----    1 root     tty         4,  32 Jun 16 22:54 tty32
+crw--w----    1 root     tty         4,  33 Jun 16 22:54 tty33
+crw--w----    1 root     tty         4,  34 Jun 16 22:54 tty34
+crw--w----    1 root     tty         4,  35 Jun 16 22:54 tty35
+crw--w----    1 root     tty         4,  36 Jun 16 22:54 tty36
+crw--w----    1 root     tty         4,  37 Jun 16 22:54 tty37
+crw--w----    1 root     tty         4,  38 Jun 16 22:54 tty38
+crw--w----    1 root     tty         4,  39 Jun 16 22:54 tty39
+crw--w----    1 root     tty         4,   4 Jun 16 22:54 tty4
+crw--w----    1 root     tty         4,  40 Jun 16 22:54 tty40
+crw--w----    1 root     tty         4,  41 Jun 16 22:54 tty41
+crw--w----    1 root     tty         4,  42 Jun 16 22:54 tty42
+crw--w----    1 root     tty         4,  43 Jun 16 22:54 tty43
+crw--w----    1 root     tty         4,  44 Jun 16 22:54 tty44
+crw--w----    1 root     tty         4,  45 Jun 16 22:54 tty45
+crw--w----    1 root     tty         4,  46 Jun 16 22:54 tty46
+crw--w----    1 root     tty         4,  47 Jun 16 22:54 tty47
+crw--w----    1 root     tty         4,  48 Jun 16 22:54 tty48
+crw--w----    1 root     tty         4,  49 Jun 16 22:54 tty49
+crw--w----    1 root     tty         4,   5 Jun 16 22:54 tty5
+crw--w----    1 root     tty         4,  50 Jun 16 22:54 tty50
+crw--w----    1 root     tty         4,  51 Jun 16 22:54 tty51
+crw--w----    1 root     tty         4,  52 Jun 16 22:54 tty52
+crw--w----    1 root     tty         4,  53 Jun 16 22:54 tty53
+crw--w----    1 root     tty         4,  54 Jun 16 22:54 tty54
+crw--w----    1 root     tty         4,  55 Jun 16 22:54 tty55
+crw--w----    1 root     tty         4,  56 Jun 16 22:54 tty56
+crw--w----    1 root     tty         4,  57 Jun 16 22:54 tty57
+crw--w----    1 root     tty         4,  58 Jun 16 22:54 tty58
+crw--w----    1 root     tty         4,  59 Jun 16 22:54 tty59
+crw--w----    1 root     tty         4,   6 Jun 16 22:54 tty6
+crw--w----    1 root     tty         4,  60 Jun 16 22:54 tty60
+crw--w----    1 root     tty         4,  61 Jun 16 22:54 tty61
+crw--w----    1 root     tty         4,  62 Jun 16 22:54 tty62
+crw--w----    1 root     tty         4,  63 Jun 16 22:54 tty63
+crw--w----    1 root     tty         4,   7 Jun 16 22:54 tty7
+crw--w----    1 root     tty         4,   8 Jun 16 22:54 tty8
+crw--w----    1 root     tty         4,   9 Jun 16 22:54 tty9
+crw-rw----    1 root     dialout   250,   0 Jun 16 22:54 ttyO0
+crw-rw----    1 root     dialout   250,   1 Jun 16 22:54 ttyO1
+crw-rw----    1 root     dialout   250,   2 Jun 16 22:54 ttyO2
+crw-rw----    1 root     dialout   250,   4 Jun 16 22:54 ttyO4
+crw-rw----    1 root     tty         3, 176 Jun 16 22:54 ttya0
+crw-rw----    1 root     tty         3, 177 Jun 16 22:54 ttya1
+crw-rw----    1 root     tty         3, 178 Jun 16 22:54 ttya2
+crw-rw----    1 root     tty         3, 179 Jun 16 22:54 ttya3
+crw-rw----    1 root     tty         3, 180 Jun 16 22:54 ttya4
+crw-rw----    1 root     tty         3, 181 Jun 16 22:54 ttya5
+crw-rw----    1 root     tty         3, 182 Jun 16 22:54 ttya6
+crw-rw----    1 root     tty         3, 183 Jun 16 22:54 ttya7
+crw-rw----    1 root     tty         3, 184 Jun 16 22:54 ttya8
+crw-rw----    1 root     tty         3, 185 Jun 16 22:54 ttya9
+crw-rw----    1 root     tty         3, 186 Jun 16 22:54 ttyaa
+crw-rw----    1 root     tty         3, 187 Jun 16 22:54 ttyab
+crw-rw----    1 root     tty         3, 188 Jun 16 22:54 ttyac
+crw-rw----    1 root     tty         3, 189 Jun 16 22:54 ttyad
+crw-rw----    1 root     tty         3, 190 Jun 16 22:54 ttyae
+crw-rw----    1 root     tty         3, 191 Jun 16 22:54 ttyaf
+crw-rw----    1 root     tty         3, 192 Jun 16 22:54 ttyb0
+crw-rw----    1 root     tty         3, 193 Jun 16 22:54 ttyb1
+crw-rw----    1 root     tty         3, 194 Jun 16 22:54 ttyb2
+crw-rw----    1 root     tty         3, 195 Jun 16 22:54 ttyb3
+crw-rw----    1 root     tty         3, 196 Jun 16 22:54 ttyb4
+crw-rw----    1 root     tty         3, 197 Jun 16 22:54 ttyb5
+crw-rw----    1 root     tty         3, 198 Jun 16 22:54 ttyb6
+crw-rw----    1 root     tty         3, 199 Jun 16 22:54 ttyb7
+crw-rw----    1 root     tty         3, 200 Jun 16 22:54 ttyb8
+crw-rw----    1 root     tty         3, 201 Jun 16 22:54 ttyb9
+crw-rw----    1 root     tty         3, 202 Jun 16 22:54 ttyba
+crw-rw----    1 root     tty         3, 203 Jun 16 22:54 ttybb
+crw-rw----    1 root     tty         3, 204 Jun 16 22:54 ttybc
+crw-rw----    1 root     tty         3, 205 Jun 16 22:54 ttybd
+crw-rw----    1 root     tty         3, 206 Jun 16 22:54 ttybe
+crw-rw----    1 root     tty         3, 207 Jun 16 22:54 ttybf
+crw-rw----    1 root     tty         3, 208 Jun 16 22:54 ttyc0
+crw-rw----    1 root     tty         3, 209 Jun 16 22:54 ttyc1
+crw-rw----    1 root     tty         3, 210 Jun 16 22:54 ttyc2
+crw-rw----    1 root     tty         3, 211 Jun 16 22:54 ttyc3
+crw-rw----    1 root     tty         3, 212 Jun 16 22:54 ttyc4
+crw-rw----    1 root     tty         3, 213 Jun 16 22:54 ttyc5
+crw-rw----    1 root     tty         3, 214 Jun 16 22:54 ttyc6
+crw-rw----    1 root     tty         3, 215 Jun 16 22:54 ttyc7
+crw-rw----    1 root     tty         3, 216 Jun 16 22:54 ttyc8
+crw-rw----    1 root     tty         3, 217 Jun 16 22:54 ttyc9
+crw-rw----    1 root     tty         3, 218 Jun 16 22:54 ttyca
+crw-rw----    1 root     tty         3, 219 Jun 16 22:54 ttycb
+crw-rw----    1 root     tty         3, 220 Jun 16 22:54 ttycc
+crw-rw----    1 root     tty         3, 221 Jun 16 22:54 ttycd
+crw-rw----    1 root     tty         3, 222 Jun 16 22:54 ttyce
+crw-rw----    1 root     tty         3, 223 Jun 16 22:54 ttycf
+crw-rw----    1 root     tty         3, 224 Jun 16 22:54 ttyd0
+crw-rw----    1 root     tty         3, 225 Jun 16 22:54 ttyd1
+crw-rw----    1 root     tty         3, 226 Jun 16 22:54 ttyd2
+crw-rw----    1 root     tty         3, 227 Jun 16 22:54 ttyd3
+crw-rw----    1 root     tty         3, 228 Jun 16 22:54 ttyd4
+crw-rw----    1 root     tty         3, 229 Jun 16 22:54 ttyd5
+crw-rw----    1 root     tty         3, 230 Jun 16 22:54 ttyd6
+crw-rw----    1 root     tty         3, 231 Jun 16 22:54 ttyd7
+crw-rw----    1 root     tty         3, 232 Jun 16 22:54 ttyd8
+crw-rw----    1 root     tty         3, 233 Jun 16 22:54 ttyd9
+crw-rw----    1 root     tty         3, 234 Jun 16 22:54 ttyda
+crw-rw----    1 root     tty         3, 235 Jun 16 22:54 ttydb
+crw-rw----    1 root     tty         3, 236 Jun 16 22:54 ttydc
+crw-rw----    1 root     tty         3, 237 Jun 16 22:54 ttydd
+crw-rw----    1 root     tty         3, 238 Jun 16 22:54 ttyde
+crw-rw----    1 root     tty         3, 239 Jun 16 22:54 ttydf
+crw-rw----    1 root     tty         3, 240 Jun 16 22:54 ttye0
+crw-rw----    1 root     tty         3, 241 Jun 16 22:54 ttye1
+crw-rw----    1 root     tty         3, 242 Jun 16 22:54 ttye2
+crw-rw----    1 root     tty         3, 243 Jun 16 22:54 ttye3
+crw-rw----    1 root     tty         3, 244 Jun 16 22:54 ttye4
+crw-rw----    1 root     tty         3, 245 Jun 16 22:54 ttye5
+crw-rw----    1 root     tty         3, 246 Jun 16 22:54 ttye6
+crw-rw----    1 root     tty         3, 247 Jun 16 22:54 ttye7
+crw-rw----    1 root     tty         3, 248 Jun 16 22:54 ttye8
+crw-rw----    1 root     tty         3, 249 Jun 16 22:54 ttye9
+crw-rw----    1 root     tty         3, 250 Jun 16 22:54 ttyea
+crw-rw----    1 root     tty         3, 251 Jun 16 22:54 ttyeb
+crw-rw----    1 root     tty         3, 252 Jun 16 22:54 ttyec
+crw-rw----    1 root     tty         3, 253 Jun 16 22:54 ttyed
+crw-rw----    1 root     tty         3, 254 Jun 16 22:54 ttyee
+crw-rw----    1 root     tty         3, 255 Jun 16 22:54 ttyef
+crw-rw----    1 root     tty         3,   0 Jun 16 22:54 ttyp0
+crw-rw----    1 root     tty         3,   1 Jun 16 22:54 ttyp1
+crw-rw----    1 root     tty         3,   2 Jun 16 22:54 ttyp2
+crw-rw----    1 root     tty         3,   3 Jun 16 22:54 ttyp3
+crw-rw----    1 root     tty         3,   4 Jun 16 22:54 ttyp4
+crw-rw----    1 root     tty         3,   5 Jun 16 22:54 ttyp5
+crw-rw----    1 root     tty         3,   6 Jun 16 22:54 ttyp6
+crw-rw----    1 root     tty         3,   7 Jun 16 22:54 ttyp7
+crw-rw----    1 root     tty         3,   8 Jun 16 22:54 ttyp8
+crw-rw----    1 root     tty         3,   9 Jun 16 22:54 ttyp9
+crw-rw----    1 root     tty         3,  10 Jun 16 22:54 ttypa
+crw-rw----    1 root     tty         3,  11 Jun 16 22:54 ttypb
+crw-rw----    1 root     tty         3,  12 Jun 16 22:54 ttypc
+crw-rw----    1 root     tty         3,  13 Jun 16 22:54 ttypd
+crw-rw----    1 root     tty         3,  14 Jun 16 22:54 ttype
+crw-rw----    1 root     tty         3,  15 Jun 16 22:54 ttypf
+crw-rw----    1 root     tty         3,  16 Jun 16 22:54 ttyq0
+crw-rw----    1 root     tty         3,  17 Jun 16 22:54 ttyq1
+crw-rw----    1 root     tty         3,  18 Jun 16 22:54 ttyq2
+crw-rw----    1 root     tty         3,  19 Jun 16 22:54 ttyq3
+crw-rw----    1 root     tty         3,  20 Jun 16 22:54 ttyq4
+crw-rw----    1 root     tty         3,  21 Jun 16 22:54 ttyq5
+crw-rw----    1 root     tty         3,  22 Jun 16 22:54 ttyq6
+crw-rw----    1 root     tty         3,  23 Jun 16 22:54 ttyq7
+crw-rw----    1 root     tty         3,  24 Jun 16 22:54 ttyq8
+crw-rw----    1 root     tty         3,  25 Jun 16 22:54 ttyq9
+crw-rw----    1 root     tty         3,  26 Jun 16 22:54 ttyqa
+crw-rw----    1 root     tty         3,  27 Jun 16 22:54 ttyqb
+crw-rw----    1 root     tty         3,  28 Jun 16 22:54 ttyqc
+crw-rw----    1 root     tty         3,  29 Jun 16 22:54 ttyqd
+crw-rw----    1 root     tty         3,  30 Jun 16 22:54 ttyqe
+crw-rw----    1 root     tty         3,  31 Jun 16 22:54 ttyqf
+crw-rw----    1 root     tty         3,  32 Jun 16 22:54 ttyr0
+crw-rw----    1 root     tty         3,  33 Jun 16 22:54 ttyr1
+crw-rw----    1 root     tty         3,  34 Jun 16 22:54 ttyr2
+crw-rw----    1 root     tty         3,  35 Jun 16 22:54 ttyr3
+crw-rw----    1 root     tty         3,  36 Jun 16 22:54 ttyr4
+crw-rw----    1 root     tty         3,  37 Jun 16 22:54 ttyr5
+crw-rw----    1 root     tty         3,  38 Jun 16 22:54 ttyr6
+crw-rw----    1 root     tty         3,  39 Jun 16 22:54 ttyr7
+crw-rw----    1 root     tty         3,  40 Jun 16 22:54 ttyr8
+crw-rw----    1 root     tty         3,  41 Jun 16 22:54 ttyr9
+crw-rw----    1 root     tty         3,  42 Jun 16 22:54 ttyra
+crw-rw----    1 root     tty         3,  43 Jun 16 22:54 ttyrb
+crw-rw----    1 root     tty         3,  44 Jun 16 22:54 ttyrc
+crw-rw----    1 root     tty         3,  45 Jun 16 22:54 ttyrd
+crw-rw----    1 root     tty         3,  46 Jun 16 22:54 ttyre
+crw-rw----    1 root     tty         3,  47 Jun 16 22:54 ttyrf
+crw-rw----    1 root     tty         3,  48 Jun 16 22:54 ttys0
+crw-rw----    1 root     tty         3,  49 Jun 16 22:54 ttys1
+crw-rw----    1 root     tty         3,  50 Jun 16 22:54 ttys2
+crw-rw----    1 root     tty         3,  51 Jun 16 22:54 ttys3
+crw-rw----    1 root     tty         3,  52 Jun 16 22:54 ttys4
+crw-rw----    1 root     tty         3,  53 Jun 16 22:54 ttys5
+crw-rw----    1 root     tty         3,  54 Jun 16 22:54 ttys6
+crw-rw----    1 root     tty         3,  55 Jun 16 22:54 ttys7
+crw-rw----    1 root     tty         3,  56 Jun 16 22:54 ttys8
+crw-rw----    1 root     tty         3,  57 Jun 16 22:54 ttys9
+crw-rw----    1 root     tty         3,  58 Jun 16 22:54 ttysa
+crw-rw----    1 root     tty         3,  59 Jun 16 22:54 ttysb
+crw-rw----    1 root     tty         3,  60 Jun 16 22:54 ttysc
+crw-rw----    1 root     tty         3,  61 Jun 16 22:54 ttysd
+crw-rw----    1 root     tty         3,  62 Jun 16 22:54 ttyse
+crw-rw----    1 root     tty         3,  63 Jun 16 22:54 ttysf
+crw-rw----    1 root     tty         3,  64 Jun 16 22:54 ttyt0
+crw-rw----    1 root     tty         3,  65 Jun 16 22:54 ttyt1
+crw-rw----    1 root     tty         3,  66 Jun 16 22:54 ttyt2
+crw-rw----    1 root     tty         3,  67 Jun 16 22:54 ttyt3
+crw-rw----    1 root     tty         3,  68 Jun 16 22:54 ttyt4
+crw-rw----    1 root     tty         3,  69 Jun 16 22:54 ttyt5
+crw-rw----    1 root     tty         3,  70 Jun 16 22:54 ttyt6
+crw-rw----    1 root     tty         3,  71 Jun 16 22:54 ttyt7
+crw-rw----    1 root     tty         3,  72 Jun 16 22:54 ttyt8
+crw-rw----    1 root     tty         3,  73 Jun 16 22:54 ttyt9
+crw-rw----    1 root     tty         3,  74 Jun 16 22:54 ttyta
+crw-rw----    1 root     tty         3,  75 Jun 16 22:54 ttytb
+crw-rw----    1 root     tty         3,  76 Jun 16 22:54 ttytc
+crw-rw----    1 root     tty         3,  77 Jun 16 22:54 ttytd
+crw-rw----    1 root     tty         3,  78 Jun 16 22:54 ttyte
+crw-rw----    1 root     tty         3,  79 Jun 16 22:54 ttytf
+crw-rw----    1 root     tty         3,  80 Jun 16 22:54 ttyu0
+crw-rw----    1 root     tty         3,  81 Jun 16 22:54 ttyu1
+crw-rw----    1 root     tty         3,  82 Jun 16 22:54 ttyu2
+crw-rw----    1 root     tty         3,  83 Jun 16 22:54 ttyu3
+crw-rw----    1 root     tty         3,  84 Jun 16 22:54 ttyu4
+crw-rw----    1 root     tty         3,  85 Jun 16 22:54 ttyu5
+crw-rw----    1 root     tty         3,  86 Jun 16 22:54 ttyu6
+crw-rw----    1 root     tty         3,  87 Jun 16 22:54 ttyu7
+crw-rw----    1 root     tty         3,  88 Jun 16 22:54 ttyu8
+crw-rw----    1 root     tty         3,  89 Jun 16 22:54 ttyu9
+crw-rw----    1 root     tty         3,  90 Jun 16 22:54 ttyua
+crw-rw----    1 root     tty         3,  91 Jun 16 22:54 ttyub
+crw-rw----    1 root     tty         3,  92 Jun 16 22:54 ttyuc
+crw-rw----    1 root     tty         3,  93 Jun 16 22:54 ttyud
+crw-rw----    1 root     tty         3,  94 Jun 16 22:54 ttyue
+crw-rw----    1 root     tty         3,  95 Jun 16 22:54 ttyuf
+crw-rw----    1 root     tty         3,  96 Jun 16 22:54 ttyv0
+crw-rw----    1 root     tty         3,  97 Jun 16 22:54 ttyv1
+crw-rw----    1 root     tty         3,  98 Jun 16 22:54 ttyv2
+crw-rw----    1 root     tty         3,  99 Jun 16 22:54 ttyv3
+crw-rw----    1 root     tty         3, 100 Jun 16 22:54 ttyv4
+crw-rw----    1 root     tty         3, 101 Jun 16 22:54 ttyv5
+crw-rw----    1 root     tty         3, 102 Jun 16 22:54 ttyv6
+crw-rw----    1 root     tty         3, 103 Jun 16 22:54 ttyv7
+crw-rw----    1 root     tty         3, 104 Jun 16 22:54 ttyv8
+crw-rw----    1 root     tty         3, 105 Jun 16 22:54 ttyv9
+crw-rw----    1 root     tty         3, 106 Jun 16 22:54 ttyva
+crw-rw----    1 root     tty         3, 107 Jun 16 22:54 ttyvb
+crw-rw----    1 root     tty         3, 108 Jun 16 22:54 ttyvc
+crw-rw----    1 root     tty         3, 109 Jun 16 22:54 ttyvd
+crw-rw----    1 root     tty         3, 110 Jun 16 22:54 ttyve
+crw-rw----    1 root     tty         3, 111 Jun 16 22:54 ttyvf
+crw-rw----    1 root     tty         3, 112 Jun 16 22:54 ttyw0
+crw-rw----    1 root     tty         3, 113 Jun 16 22:54 ttyw1
+crw-rw----    1 root     tty         3, 114 Jun 16 22:54 ttyw2
+crw-rw----    1 root     tty         3, 115 Jun 16 22:54 ttyw3
+crw-rw----    1 root     tty         3, 116 Jun 16 22:54 ttyw4
+crw-rw----    1 root     tty         3, 117 Jun 16 22:54 ttyw5
+crw-rw----    1 root     tty         3, 118 Jun 16 22:54 ttyw6
+crw-rw----    1 root     tty         3, 119 Jun 16 22:54 ttyw7
+crw-rw----    1 root     tty         3, 120 Jun 16 22:54 ttyw8
+crw-rw----    1 root     tty         3, 121 Jun 16 22:54 ttyw9
+crw-rw----    1 root     tty         3, 122 Jun 16 22:54 ttywa
+crw-rw----    1 root     tty         3, 123 Jun 16 22:54 ttywb
+crw-rw----    1 root     tty         3, 124 Jun 16 22:54 ttywc
+crw-rw----    1 root     tty         3, 125 Jun 16 22:54 ttywd
+crw-rw----    1 root     tty         3, 126 Jun 16 22:54 ttywe
+crw-rw----    1 root     tty         3, 127 Jun 16 22:54 ttywf
+crw-rw----    1 root     tty         3, 128 Jun 16 22:54 ttyx0
+crw-rw----    1 root     tty         3, 129 Jun 16 22:54 ttyx1
+crw-rw----    1 root     tty         3, 130 Jun 16 22:54 ttyx2
+crw-rw----    1 root     tty         3, 131 Jun 16 22:54 ttyx3
+crw-rw----    1 root     tty         3, 132 Jun 16 22:54 ttyx4
+crw-rw----    1 root     tty         3, 133 Jun 16 22:54 ttyx5
+crw-rw----    1 root     tty         3, 134 Jun 16 22:54 ttyx6
+crw-rw----    1 root     tty         3, 135 Jun 16 22:54 ttyx7
+crw-rw----    1 root     tty         3, 136 Jun 16 22:54 ttyx8
+crw-rw----    1 root     tty         3, 137 Jun 16 22:54 ttyx9
+crw-rw----    1 root     tty         3, 138 Jun 16 22:54 ttyxa
+crw-rw----    1 root     tty         3, 139 Jun 16 22:54 ttyxb
+crw-rw----    1 root     tty         3, 140 Jun 16 22:54 ttyxc
+crw-rw----    1 root     tty         3, 141 Jun 16 22:54 ttyxd
+crw-rw----    1 root     tty         3, 142 Jun 16 22:54 ttyxe
+crw-rw----    1 root     tty         3, 143 Jun 16 22:54 ttyxf
+crw-rw----    1 root     tty         3, 144 Jun 16 22:54 ttyy0
+crw-rw----    1 root     tty         3, 145 Jun 16 22:54 ttyy1
+crw-rw----    1 root     tty         3, 146 Jun 16 22:54 ttyy2
+crw-rw----    1 root     tty         3, 147 Jun 16 22:54 ttyy3
+crw-rw----    1 root     tty         3, 148 Jun 16 22:54 ttyy4
+crw-rw----    1 root     tty         3, 149 Jun 16 22:54 ttyy5
+crw-rw----    1 root     tty         3, 150 Jun 16 22:54 ttyy6
+crw-rw----    1 root     tty         3, 151 Jun 16 22:54 ttyy7
+crw-rw----    1 root     tty         3, 152 Jun 16 22:54 ttyy8
+crw-rw----    1 root     tty         3, 153 Jun 16 22:54 ttyy9
+crw-rw----    1 root     tty         3, 154 Jun 16 22:54 ttyya
+crw-rw----    1 root     tty         3, 155 Jun 16 22:54 ttyyb
+crw-rw----    1 root     tty         3, 156 Jun 16 22:54 ttyyc
+crw-rw----    1 root     tty         3, 157 Jun 16 22:54 ttyyd
+crw-rw----    1 root     tty         3, 158 Jun 16 22:54 ttyye
+crw-rw----    1 root     tty         3, 159 Jun 16 22:54 ttyyf
+crw-rw----    1 root     tty         3, 160 Jun 16 22:54 ttyz0
+crw-rw----    1 root     tty         3, 161 Jun 16 22:54 ttyz1
+crw-rw----    1 root     tty         3, 162 Jun 16 22:54 ttyz2
+crw-rw----    1 root     tty         3, 163 Jun 16 22:54 ttyz3
+crw-rw----    1 root     tty         3, 164 Jun 16 22:54 ttyz4
+crw-rw----    1 root     tty         3, 165 Jun 16 22:54 ttyz5
+crw-rw----    1 root     tty         3, 166 Jun 16 22:54 ttyz6
+crw-rw----    1 root     tty         3, 167 Jun 16 22:54 ttyz7
+crw-rw----    1 root     tty         3, 168 Jun 16 22:54 ttyz8
+crw-rw----    1 root     tty         3, 169 Jun 16 22:54 ttyz9
+crw-rw----    1 root     tty         3, 170 Jun 16 22:54 ttyza
+crw-rw----    1 root     tty         3, 171 Jun 16 22:54 ttyzb
+crw-rw----    1 root     tty         3, 172 Jun 16 22:54 ttyzc
+crw-rw----    1 root     tty         3, 173 Jun 16 22:54 ttyzd
+crw-rw----    1 root     tty         3, 174 Jun 16 22:54 ttyze
+crw-rw----    1 root     tty         3, 175 Jun 16 22:54 ttyzf
+crw-------    1 root     root       10,  59 Jun 16 22:54 ubi_ctrl
+-rw-r--r--    1 root     root            13 Jan  1  1970 udev_network_queue
+crw-rw-rw-    1 root     root        1,   9 Jun 16 22:54 urandom
+crw-rw----    1 root     tty         7,   0 Jun 16 22:54 vcs
+crw-rw----    1 root     tty         7,   1 Jun 16 22:54 vcs1
+crw-rw----    1 root     tty         7,  10 Jun 16 22:54 vcs10
+crw-rw----    1 root     tty         7, 128 Jun 16 22:54 vcsa
+crw-rw----    1 root     tty         7, 129 Jun 16 22:54 vcsa1
+crw-rw----    1 root     tty         7, 138 Jun 16 22:54 vcsa10
+crw-------    1 root     root       10, 130 Jun 16 22:54 watchdog
+crw-------    1 root     root      253,   0 Jun 16 22:54 watchdog0
+prw-r-----    1 root     adm              0 Jun 16 22:55 xconsole
+crw-rw-rw-    1 root     root        1,   5 Jun 16 22:54 zero
+root@zeushub:/data/support#
+root@zeushub:/data/support# echo 1 > /sys/block/sdb/device/rescan
+sh: /sys/block/sdb/device/rescan: No such file or directory
+root@zeushub:/data/support# echo 1 > /sys/block/sda1/device/rescan
+sh: /sys/block/sda1/device/rescan: No such file or directory
+root@zeushub:/data/support# echo 1 > /sys/class/scsi_device/h:c:t:l/device/rescan
+sh: /sys/class/scsi_device/h:c:t:l/device/rescan: No such file or directory
+root@zeushub:/data/support# partprobe
+sh: partprobe: command not found
+root@zeushub:/data/support# hdparm
+sh: hdparm: command not found
+root@zeushub:/data/support# echo 1 > /sys/block/sdd/device/rescan
+sh: /sys/block/sdd/device/rescan: No such file or directory
+root@zeushub:/data/support# echo 1 > /sys/block/sdd/device/rescan
+sh: /sys/block/sdd/device/rescan: No such file or directory
+root@zeushub:/data/support# fdisk -f
+fdisk: invalid option -- 'f'
+BusyBox v1.23.2 (2017-06-16 17:01:57 CDT) multi-call binary.
+
+Usage: fdisk [-ul] [-C CYLINDERS] [-H HEADS] [-S SECTORS] [-b SSZ] DISK
+
+root@zeushub:/data/support# fdisk -l
+
+Disk /dev/mmcblk0: 1920 MB, 1920991232 bytes
+128 heads, 32 sectors/track, 916 cylinders
+Units = cylinders of 4096 * 512 = 2097152 bytes
+
+        Device Boot      Start         End      Blocks  Id System
+/dev/mmcblk0p1   *           1           8       16368   6 FAT16
+/dev/mmcblk0p2               9          16       16384  83 Linux
+/dev/mmcblk0p3              17         207      391168  83 Linux
+/dev/mmcblk0p4             208         916     1452032   5 Extended
+/dev/mmcblk0p5             208         215       16368  83 Linux
+/dev/mmcblk0p6             216         406      391152  83 Linux
+/dev/mmcblk0p7             407         414       16368  83 Linux
+/dev/mmcblk0p8             415         916     1028080  83 Linux
+
+Disk /dev/mmcblk0boot1: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot1 doesn't contain a valid partition table
+
+Disk /dev/mmcblk0boot0: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot0 doesn't contain a valid partition table
+
+Disk /dev/sda: 1 MB, 1048576 bytes
+1 heads, 2 sectors/track, 1024 cylinders
+Units = cylinders of 2 * 512 = 1024 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1        1024        1023+  4 FAT16 <32M
+root@zeushub:/data/support# grep mpt /sys/class/scsi_host/host?/proc_name
+root@zeushub:/data/support# rescan
+sh: rescan: command not found
+root@zeushub:/data/support# dmraid
+sh: dmraid: command not found
+root@zeushub:/data/support# dmsetup
+sh: dmsetup: command not found
+root@zeushub:/data/support# /proc/partitions
+sh: /proc/partitions: Permission denied
+root@zeushub:/data/support# su /proc/partitions
+No passwd entry for user '/proc/partitions'
+root@zeushub:/data/support# /proc/partitions
+sh: /proc/partitions: Permission denied
+root@zeushub:/data/support# su
+root@zeushub:/data/support# /proc/partitions
+sh: /proc/partitions: Permission denied
+root@zeushub:/data/support# ls -la /proc
+dr-xr-xr-x   86 root     root             0 Jan  1  1970 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 1
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 10
+dr-xr-xr-x    8 root     root             0 Jun 16 22:50 1056
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 11
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 12
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 13
+dr-xr-xr-x    8 root     root             0 Jun 16 22:54 1344
+dr-xr-xr-x    8 root     root             0 Jun 16 22:54 1345
+dr-xr-xr-x    8 root     root             0 Jun 16 22:55 1359
+dr-xr-xr-x    8 root     root             0 Jun 16 22:55 1374
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 14
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 15
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 16
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 17
+dr-xr-xr-x    8 root     root             0 Jun 16 23:06 1782
+dr-xr-xr-x    8 root     root             0 Jun 16 23:06 1796
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 18
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 19
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 2
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 20
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 21
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 22
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 23
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 3
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 33
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 34
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 348
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 349
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 35
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 350
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 36
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 37
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 38
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 39
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 40
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 41
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 42
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 43
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 45
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 49
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 5
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 50
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 51
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 54
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 6
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 68
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 69
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 7
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 70
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 8
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 80
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 835
+dr-xr-xr-x    8 messageb messageb         0 Jun 16 22:47 845
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 861
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 862
+dr-xr-xr-x    8 avahi    avahi            0 Jun 16 22:47 868
+dr-xr-xr-x    8 avahi    avahi            0 Jun 16 22:47 869
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 872
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 883
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 897
+dr-xr-xr-x    8 root     root             0 Jan  1  1970 9
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 900
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 903
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 904
+dr-xr-xr-x    8 root     root             0 Jun 16 22:47 915
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 948
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 954
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 955
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 956
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 958
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 959
+dr-xr-xr-x    8 root     root             0 Jun 16 22:48 961
+dr-xr-xr-x    8 support  support          0 Jun 16 22:48 962
+dr-xr-xr-x    2 root     root             0 Jun 16 23:06 asound
+-r--r--r--    1 root     root             0 Jun 16 23:06 buddyinfo
+dr-xr-xr-x    3 root     root             0 Jun 16 23:06 bus
+-r--r--r--    1 root     root             0 Jun 16 23:06 cgroups
+-r--r--r--    1 root     root             0 Jun 16 23:06 cmdline
+-r--r--r--    1 root     root         21387 Jun 16 23:06 config.gz
+-r--r--r--    1 root     root             0 Jun 16 23:06 consoles
+dr-xr-xr-x    2 root     root             0 Jun 16 23:06 cpu
+-r--r--r--    1 root     root             0 Jun 16 23:06 cpuinfo
+-r--r--r--    1 root     root             0 Jun 16 23:06 crypto
+dr-xr-xr-x   12 root     root             0 Jun 16 23:06 device-tree
+-r--r--r--    1 root     root             0 Jun 16 23:06 devices
+-r--r--r--    1 root     root             0 Jun 16 23:06 diskstats
+dr-xr-xr-x    2 root     root             0 Jun 16 23:06 driver
+-r--r--r--    1 root     root             0 Jun 16 23:06 execdomains
+-r--r--r--    1 root     root             0 Jun 16 23:06 fb
+-r--r--r--    1 root     root             0 Jun 16 23:06 filesystems
+dr-xr-xr-x    7 root     root             0 Jun 16 23:06 fs
+-r--r--r--    1 root     root             0 Jun 16 23:06 interrupts
+-r--r--r--    1 root     root             0 Jun 16 23:06 iomem
+-r--r--r--    1 root     root             0 Jun 16 23:06 ioports
+dr-xr-xr-x  134 root     root             0 Jun 16 23:06 irq
+-r--r--r--    1 root     root             0 Jun 16 23:06 kallsyms
+-r--r--r--    1 root     root             0 Jun 16 23:06 key-users
+-r--------    1 root     root             0 Jun 16 22:47 kmsg
+-r--------    1 root     root             0 Jun 16 23:06 kpagecount
+-r--------    1 root     root             0 Jun 16 23:06 kpageflags
+-rw-r--r--    1 root     root             0 Jun 16 23:06 latency_stats
+-r--r--r--    1 root     root             0 Jun 16 23:06 loadavg
+-r--r--r--    1 root     root             0 Jun 16 23:06 locks
+-r--r--r--    1 root     root             0 Jun 16 23:06 meminfo
+-r--r--r--    1 root     root             0 Jun 16 23:06 misc
+-r--r--r--    1 root     root             0 Jun 16 23:06 modules
+lrwxrwxrwx    1 root     root            11 Jun 16 23:06 mounts -> self/mounts
+-r--r--r--    1 root     root             0 Jun 16 23:06 mtd
+lrwxrwxrwx    1 root     root             8 Jun 16 23:06 net -> self/net
+-r--r--r--    1 root     root             0 Jun 16 23:06 pagetypeinfo
+-r--r--r--    1 root     root             0 Jun 16 23:06 partitions
+-r--r--r--    1 root     root             0 Jun 16 23:06 sched_debug
+-r--r--r--    1 root     root             0 Jun 16 23:06 schedstat
+dr-xr-xr-x    3 root     root             0 Jun 16 23:06 scsi
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 self -> 1796
+-r--------    1 root     root             0 Jun 16 23:06 slabinfo
+-r--r--r--    1 root     root             0 Jun 16 23:06 softirqs
+-r--r--r--    1 root     root             0 Jun 16 23:06 stat
+-r--r--r--    1 root     root             0 Jun 16 23:06 swaps
+dr-xr-xr-x    1 root     root             0 Jan  1  1970 sys
+--w-------    1 root     root             0 Jun 16 23:06 sysrq-trigger
+dr-xr-xr-x    2 root     root             0 Jun 16 23:06 sysvipc
+-r--r--r--    1 root     root             0 Jun 16 23:06 timer_list
+-rw-r--r--    1 root     root             0 Jun 16 23:06 timer_stats
+dr-xr-xr-x    4 root     root             0 Jun 16 23:06 tty
+-r--r--r--    1 root     root             0 Jun 16 23:06 uptime
+-r--r--r--    1 root     root             0 Jun 16 23:06 version
+-r--------    1 root     root             0 Jun 16 23:06 vmallocinfo
+-r--r--r--    1 root     root             0 Jun 16 23:06 vmstat
+-r--r--r--    1 root     root             0 Jun 16 23:06 zoneinfo
+root@zeushub:/data/support# libsysfs
+sh: libsysfs: command not found
+root@zeushub:/data/support# fdisk -l
+
+Disk /dev/mmcblk0: 1920 MB, 1920991232 bytes
+128 heads, 32 sectors/track, 916 cylinders
+Units = cylinders of 4096 * 512 = 2097152 bytes
+
+        Device Boot      Start         End      Blocks  Id System
+/dev/mmcblk0p1   *           1           8       16368   6 FAT16
+/dev/mmcblk0p2               9          16       16384  83 Linux
+/dev/mmcblk0p3              17         207      391168  83 Linux
+/dev/mmcblk0p4             208         916     1452032   5 Extended
+/dev/mmcblk0p5             208         215       16368  83 Linux
+/dev/mmcblk0p6             216         406      391152  83 Linux
+/dev/mmcblk0p7             407         414       16368  83 Linux
+/dev/mmcblk0p8             415         916     1028080  83 Linux
+
+Disk /dev/mmcblk0boot1: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot1 doesn't contain a valid partition table
+
+Disk /dev/mmcblk0boot0: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot0 doesn't contain a valid partition table
+
+Disk /dev/sda: 1 MB, 1048576 bytes
+1 heads, 2 sectors/track, 1024 cylinders
+Units = cylinders of 2 * 512 = 1024 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1        1024        1023+  4 FAT16 <32M
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+brw-rw----    1 root     disk        8,  16 Jan  1  1970 /dev/sdb
+brw-rw----    1 root     disk        8,  17 Jan  1  1970 /dev/sdb1
+root@zeushub:/data/support# mount /dev/sdb1 /mnt
+root@zeushub:/data/support# ls -la /mnt
+drwxrwx---    9 root     disk         16384 Jan  1  1970 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+drwxrwx---    2 root     disk         16384 Jul  6  2018 System Volume Information
+-rwxrwx---    1 root     disk           128 Apr 12  2018 autorun.inf
+drwxrwx---    5 root     disk         16384 Jul  6  2018 boot
+-rwxrwx---    1 root     disk        407582 Apr 12  2018 bootmgr
+-rwxrwx---    1 root     disk       1257376 Apr 12  2018 bootmgr.efi
+drwxrwx---    4 root     disk         16384 Jul  6  2018 efi
+drwxrwx---    2 root     disk         16384 Nov  1  2018 keys
+drwxrwx---    2 root     disk         16384 Nov  1  2018 produkey
+-rwxrwx---    1 root     disk         80648 Apr 12  2018 setup.exe
+drwxrwx---   11 root     disk         16384 Jul  6  2018 sources
+drwxrwx---    3 root     disk         16384 Jul  6  2018 support
+root@zeushub:/data/support# dd if=/dev/mmcblk0 of=/mnt/jilia.bin
+3751936+0 records in
+3751936+0 records out
+root@zeushub:/data/support# shutdown -t secs now
+
+Broadcast message from root@zeushub (pts/0) (Fri Jun 16 22:55:36 2017):
+
+The system is going down to maintenance mode NOW!
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 22:47 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 22:47 /dev/sda1
+root@zeushub:/data/support# mount /dev/sda1 /mnt
+root@zeushub:/data/support# ls -la /mnt
+drwxrwx---   10 root     disk         16384 Jan  1  1970 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+drwxrwx---    2 root     disk         16384 Jul  6  2018 System Volume Information
+-rwxrwx---    1 root     disk           128 Apr 12  2018 autorun.inf
+drwxrwx---    5 root     disk         16384 Jul  6  2018 boot
+-rwxrwx---    1 root     disk        407582 Apr 12  2018 bootmgr
+-rwxrwx---    1 root     disk       1257376 Apr 12  2018 bootmgr.efi
+drwxrwx---    4 root     disk         16384 Jul  6  2018 efi
+drwxrwx---    2 root     disk         16384 Jan 23  2019 jssh
+drwxrwx---    2 root     disk         16384 Nov  1  2018 keys
+drwxrwx---    2 root     disk         16384 Nov  1  2018 produkey
+-rwxrwx---    1 root     disk         80648 Apr 12  2018 setup.exe
+drwxrwx---   11 root     disk         16384 Jul  6  2018 sources
+drwxrwx---    3 root     disk         16384 Jul  6  2018 support
+root@zeushub:/data/support# dd if=/dev/mmcblk0 of=/mnt/jilia.bin
+3751936+0 records in
+3751936+0 records out
+root@zeushub:/data/support# umount /dev/sbd1 /mnt
+umount: can't umount /dev/sbd1: No such file or directory
+root@zeushub:/data/support# umount /mnt
+umount: can't umount /mnt: Invalid argument
+root@zeushub:/data/support# umount mnt
+umount: can't umount mnt: No such file or directory
+root@zeushub:/data/support# umount /mnt
+umount: can't umount /mnt: Invalid argument
+root@zeushub:/data/support# ls -la /mnt
+drwxr-xr-x    2 root     root             3 Jun 16 18:41 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+root@zeushub:/data/support# shutdown -t secs now
+
+Broadcast message from root@zeushub (pts/0) (Fri Jun 16 22:57:28 2017):
+
+The system is going down to maintenance mode NOW!
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# fdisk -l
+
+Disk /dev/mmcblk0: 1920 MB, 1920991232 bytes
+128 heads, 32 sectors/track, 916 cylinders
+Units = cylinders of 4096 * 512 = 2097152 bytes
+
+        Device Boot      Start         End      Blocks  Id System
+/dev/mmcblk0p1   *           1           8       16368   6 FAT16
+/dev/mmcblk0p2               9          16       16384  83 Linux
+/dev/mmcblk0p3              17         207      391168  83 Linux
+/dev/mmcblk0p4             208         916     1452032   5 Extended
+/dev/mmcblk0p5             208         215       16368  83 Linux
+/dev/mmcblk0p6             216         406      391152  83 Linux
+/dev/mmcblk0p7             407         414       16368  83 Linux
+/dev/mmcblk0p8             415         916     1028080  83 Linux
+
+Disk /dev/mmcblk0boot1: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot1 doesn't contain a valid partition table
+
+Disk /dev/mmcblk0boot0: 1 MB, 1048576 bytes
+4 heads, 16 sectors/track, 32 cylinders
+Units = cylinders of 64 * 512 = 32768 bytes
+
+Disk /dev/mmcblk0boot0 doesn't contain a valid partition table
+
+Disk /dev/sda: 1 MB, 1048576 bytes
+1 heads, 2 sectors/track, 1024 cylinders
+Units = cylinders of 2 * 512 = 1024 bytes
+
+   Device Boot      Start         End      Blocks  Id System
+/dev/sda1               1        1024        1023+  4 FAT16 <32M
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+ls: /dev/sd*: No such file or directory
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jun 16 23:05 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jun 16 23:05 /dev/sda1
+root@zeushub:/data/support# mount /dev/sda1 /mnt
+root@zeushub:/data/support# ls -la /mnt
+drwxrwx---    3 root     disk         16384 Jan  1  1970 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+drwxrwx---    2 root     disk           512 Jan 23  2019 System Volume Information
+root@zeushub:/data/support# rm * /mnt
+rm: '/mnt' is a directory
+root@zeushub:/data/support# rm /mnt/*
+rm: '/mnt/System Volume Information' is a directory
+root@zeushub:/data/support# rm /mnt
+rm: '/mnt' is a directory
+root@zeushub:/data/support# rm /mnt/.*
+rm: can't remove '.' or '..'
+rm: can't remove '.' or '..'
+root@zeushub:/data/support# rm /mnt/*
+rm: '/mnt/System Volume Information' is a directory
+root@zeushub:/data/support# rm -r /mnt/*
+root@zeushub:/data/support# ls -la /mnt
+drwxrwx---    2 root     disk         16384 Jun 16 23:06 .
+drwxr-xr-x   18 root     root           248 Jun 16 22:47 ..
+root@zeushub:/data/support# mkdis /mnt/jssh
+sh: mkdis: command not found
+root@zeushub:/data/support# mkdir /mnt/jssh
+root@zeushub:/data/support# cat 1 > /mnt/jssh/jsh2017
+cat: can't open '1': No such file or directory
+root@zeushub:/data/support# vi /mnt/jssh/jsh2017
+root@zeushub:/data/support# pwd
+/data/support
+root@zeushub:/data/support# umount /mnt
+root@zeushub:/data/support#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ ls -l /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+support@zeushub:~$ ls -l /mnt
+support@zeushub:~$
+login as: root
+
+***********************************************************************
+*                          IRIS MFG Shell                             *
+*                                                                     *
+*                   WARNING: Authorized Access Only                   *
+***********************************************************************
+
+Welcome root it is Thu Jan  1 00:00:33 UTC 1970
+System Uptime:  00:00:33 up 0 min,  load average: 0.74, 0.21, 0.07
+
+# debug
+Entering debug mode...
+debug> sh
+~ # ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1 00:00 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1 00:00 /dev/sda1
+~ # mount /dev/sda1 /mnt
+~ # dd if=/mnt/jilia.bin of=/dev/mmcblk0
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+brw-rw----    1 root     disk        8,  16 Jun 16 22:48 /dev/sdb
+brw-rw----    1 root     disk        8,  17 Jun 16 22:48 /dev/sdb1
+root@zeushub:/data/support# ls -la /dev/sd*
+brw-rw----    1 root     disk        8,   0 Jan  1  1970 /dev/sda
+brw-rw----    1 root     disk        8,   1 Jan  1  1970 /dev/sda1
+brw-rw----    1 root     disk        8,  16 Jun 16 22:49 /dev/sdb
+brw-rw----    1 root     disk        8,  17 Jun 16 22:49 /dev/sdb1
+root@zeushub:/data/support# sdb
+sh: sdb: command not found
+root@zeushub:/data/support# ls -la
+drwxr-xr-x    3 support  support       4096 Jun 16 22:48 .
+drwxr-xr-x    6 root     root          4096 Jun 16 22:47 ..
+-rw-------    1 support  support        960 Jun 16 22:51 .bash_history
+drwxr-xr-x    2 root     root          4096 Jun  4 05:21 .ssh
+-rwxr-xr-x    1 support  support      16308 Jan  2  2019 zwave_nvram
+root@zeushub:/data/support# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ERROR: ezspForceReset 0x21
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/util/af-main-host.c:372: emAfResetAndInitNCP: Assertion `0' failed.
+stratus_gateway>Aborted
+root@zeushub:/data/run/v0.5.0_82/zigbee# Attempt to read from STDIN failed!
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/../util/serial/linux-serial.c:657: readline: Assertion `0' failed.
+[A
+sh: [A: command not found
+root@zeushub:/data/run/v0.5.0_82/zigbee#
+root@zeushub:/data/run/v0.5.0_82/zigbee# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ERROR: ezspForceReset 0x21
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/util/af-main-host.c:372: emAfResetAndInitNCP: Assertion `0' failed.
+stratus_gateway>Aborted
+root@zeushub:/data/run/v0.5.0_82/zigbee# Attempt to read from STDIN failed!
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/../util/serial/linux-serial.c:657: readline: Assertion `0' failed.
+onit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+sh: onit: command not found
+Reset info: 11 (SOFTWARE)
+ERROR: ezspForceReset 0x21
+stratus_gateway: ../../../protocol/zigbee_5.7/app/framework/util/af-main-host.c:372: emAfResetAndInitNCP: Assertion `0' failed.
+stratus_gateway>Aborted
+root@zeushub:/data/run/v0.5.0_82/zigbee#
+login as: support
+Authenticating with public key "imported-openssh-key"
+support@zeushub:~$ su
+Password:
+root@zeushub:/data/support# monit stop stratus;rm -f /tmp/zigbee-ember.db;cd /data/run/v*/zigbee;ZIGBEE_DEBUG=1 RPC_HOST=1338 DB_BASE_PATH=/tmp ./stratus_gateway -p ttyO2
+monit: Cannot translate 'zeushub' to FQDN name -- Name or service not known
+Reset info: 11 (SOFTWARE)
+ezsp ver 0x04 stack type 0x02 stack ver. [5.4.1 GA build 962]
+Ezsp Config: set source route table size to 0x00FF:Success: set
+Ezsp Config: set security level to 0x0005:Success: set
+Ezsp Config: set address table size to 0x0002:Success: set
+Ezsp Config: set TC addr cache to 0x0002:Success: set
+Ezsp Config: set stack profile to 0x0002:Success: set
+Ezsp Config: set MAC indirect TX timeout to 0x1E00:Success: set
+Ezsp Config: set max hops to 0x001E:Success: set
+Ezsp Config: set tx power mode to 0x8000:Success: set
+Ezsp Config: set supported networks to 0x0001:Success: set
+Ezsp Policy: set binding modify to "allow for valid endpoints & clusters only":Success: set
+Ezsp Policy: set message content in msgSent to "return":Success: set
+Ezsp Value : set maximum incoming transfer size to 0x00000052:Success: set
+Ezsp Value : set maximum outgoing transfer size to 0x00000052:Success: set
+Ezsp Config: set binding table size to 0x0010:Success: set
+Ezsp Config: set key table size to 0x0000:Success: set
+Ezsp Config: set max end device children to 0x0020:Success: set
+Ezsp Config: set rf4ce pairing table size to 0x0001:Success: set
+Ezsp Config: set rf4ce pending outgoing packet table size to 0x0008:Success: set
+NCP supports maxing out packet buffers
+Ezsp Config: set packet buffers to 255
+Ezsp Config: set end device poll timeout to 0x0007:Success: set
+Ezsp Config: set end device poll timeout shift to 0x0006:Success: set
+Ezsp Config: set zll group addresses to 0x0000:Success: set
+Ezsp Config: set zll rssi threshold to 0xFF80:Success: set
+Ezsp Config: set transient key timeout to 0x012C:Error: set: 0x37
+Ezsp Endpoint 1 added, profile 0x0104, in clusters: 6, out clusters 8
+Ezsp Policy: set TC Key Request to "Deny":Success: set
+Ezsp Policy: set App. Key Request to "Allow":Success: set
+Ezsp Policy: set Trust Center Policy to "Allow Joins, ignore preconfigured key rejoins":Success: set
+stratus_gateway->emberAfMainInitCallbackChecking for firmware update
+  Stack Version = 00005740
+  NCP Version = 00005410
+Stack and NCP version do not match, bootloading...
+Micro = em3587
+Bootload file = ncp-images/em3587.ebl
+Launching standalone bootloader...
+Delaying 4 seconds
+Setting up serial port
+Transfer: 0% complete
+Transfer: 5% complete
+Transfer: 10% complete
+Transfer: 15% complete
+Transfer: 20% complete
+Transfer: 25% complete
+Transfer: 30% complete
+Transfer: 35% complete
+Transfer: 40% complete
+Transfer: 45% complete
+Transfer: 50% complete
+Transfer: 55% complete
+Transfer: 60% complete
+Transfer: 65% complete
+Transfer: 70% complete
+Transfer: 75% complete
+Transfer: 80% complete
+Transfer: 85% complete
+Transfer: 90% complete
+Transfer: 95% complete
+Transfer: 100% complete
+Delaying 4 seconds
+Rebooting NCP
+Delaying 4 seconds
+Bootload complete, exiting for reset
+stratus_gateway>root@zeushub:/data/run/v0.5.0_82/zigbee#

@@ -106,18 +106,18 @@ namespace HubTester
 
             AddTest(new BuzzerTest());
 
+            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+
             AddTest(new LedTest());
 
             AddTest(new TamperTest());
-
-            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
 
             AddTest(new UsbTest());
 
 
             AddTest(new ZwaveTest());
 
-            AddTest(new Shutdown());
+            //AddTest(new Shutdown());
 
             //AddTest(new BluetoothTest());
 

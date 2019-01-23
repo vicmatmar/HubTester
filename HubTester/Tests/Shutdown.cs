@@ -10,7 +10,8 @@ namespace HubTester.Tests
     {
         public override bool Run()
         {
-            WriteCommand("poweroff");
+            //WriteCommand("poweroff");
+            WriteCommand("shutdown -t secs now");
 
             return true;
         }
