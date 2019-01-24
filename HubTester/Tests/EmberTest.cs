@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -10,13 +11,25 @@ namespace HubTester.Tests
     {
         private const string _device_to_join_EUIRegex = @"Device\ [0-9]:\ ([0-9a-fA-F]{16})\.([0-9])\ \((0x[0-9a-fA-F]{4})\)";
         private const string _hub_EUIRegex = @"\[\(>\)([0-9,A-F]{16})\]";
-        readonly string _expected_device_to_join_EUI;
         const string _gateway_prompt = @"stratus_gateway>";
+
+
+        public EmberTest()
+        {
+            Expected_device_to_join_EUI = "";
+        }
 
         public EmberTest(string device_to_join_eui) : base()
         {
-            StringBuilder builder = new StringBuilder();
-            this._expected_device_to_join_EUI = device_to_join_eui;
+            Expected_device_to_join_EUI = device_to_join_eui;
+        }
+
+        string _expected_device_to_join_EUI;
+        [DataMember]
+        public string Expected_device_to_join_EUI
+        {
+            get { return _expected_device_to_join_EUI; }
+            set { _expected_device_to_join_EUI = value; }
         }
 
         public override bool Setup()
@@ -134,7 +147,7 @@ namespace HubTester.Tests
         {
             bool testResult = false;
 
-            string rexpeui = EUIToLittleEndian(_expected_device_to_join_EUI);
+            string rexpeui = EUIToLittleEndian(Expected_device_to_join_EUI);
 
             string line = WriteGatewayCmd($"network form 12 0 0x2222");
 
@@ -146,7 +159,7 @@ namespace HubTester.Tests
             stopWatch.Restart();
 
             int device_found_timeout = 60;
-            TestStatusTxt = $"Waiting on device EUI {_expected_device_to_join_EUI} for {device_found_timeout}s";
+            TestStatusTxt = $"Waiting on device EUI {Expected_device_to_join_EUI} for {device_found_timeout}s";
             string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {
@@ -208,7 +221,7 @@ namespace HubTester.Tests
             }
             else
             {
-                TestErrorTxt = $"Zigbee device EUI {_expected_device_to_join_EUI} not found. Devlist =\r\n {devlist}";
+                TestErrorTxt = $"Zigbee device EUI {Expected_device_to_join_EUI} not found. Devlist =\r\n {devlist}";
                 return false;
             }
         }

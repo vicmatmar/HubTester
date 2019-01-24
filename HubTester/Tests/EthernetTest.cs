@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 using System.Threading;
 
 namespace HubTester.Tests
@@ -11,13 +12,18 @@ namespace HubTester.Tests
 
     public class EthernetTest : TestBase
     {
+        public EthernetTest():base()
+        {
+            Timeout_sec = 60;
+        }
 
-        public EthernetTest(int timeout_sec)
+        public EthernetTest(int timeout_sec):base()
         {
             Timeout_sec = timeout_sec;
         }
 
         int _timeout_sec = 60;
+        [DataMember]
         public int Timeout_sec { get => _timeout_sec; set => _timeout_sec = value; }
 
         public override bool Setup()
@@ -43,7 +49,7 @@ namespace HubTester.Tests
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Canceled"; return false; }
                 try
                 {
-                    
+
                     Connect();
                     sucesfull_connections++;
 
@@ -60,7 +66,7 @@ namespace HubTester.Tests
                         Dispose();
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     logger.Error(ex, $"Ethernet test connect try {++connect_try}");
                     Thread.Sleep(1000);

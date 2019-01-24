@@ -53,6 +53,7 @@ namespace HubTester.Tests
 
             //dialogResult = MessageBox.Show("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
             TestStatusQuestion = new ShowQuestionDlg("Are LEDs flashing?", "LEDs?", MessageBoxButtons.YesNo);
+            while (TestStatus.ShowQuestionDlg.DialogResult == DialogResult.None);
             dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
 
             cts.Cancel();

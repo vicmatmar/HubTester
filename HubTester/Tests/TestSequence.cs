@@ -2,13 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace HubTester.Tests
 {
+    [DataContract]
+    [KnownType(typeof(ZwaveTest))]
+    [KnownType(typeof(UsbTest))]
+    [KnownType(typeof(TamperTest))]
+    [KnownType(typeof(LedTest))]
+    [KnownType(typeof(EmberTest))]
+    [KnownType(typeof(BuzzerTest))]
+    [KnownType(typeof(EthernetTest))]
     public class TestSequence: INotifyPropertyChanged
     {
-        private readonly List<ITest> _tests = new List<ITest>();
-        public List<ITest> Tests { get => _tests; }
+        public TestSequence()
+        {
+
+        }
+        
+        List<ITest> _tests = new List<ITest>();
+        [DataMember]
+        public List<ITest> Tests { get => _tests; set => _tests = value; }
 
         public int Count { get { return Tests.Count; } }
 
@@ -29,17 +44,13 @@ namespace HubTester.Tests
             set
             {
                 _testSequenceRunning = value;
-                NotifyPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        // This method is called by the Set accessors of each property.  
-        // The CallerMemberName attribute that is applied to the optional propertyName  
-        // parameter causes the property name of the caller to be substituted as an argument.  
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

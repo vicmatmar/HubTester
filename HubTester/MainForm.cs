@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -96,40 +98,42 @@ namespace HubTester
             test.PropertyChanged -= Test_PropertyChanged;
             test.PropertyChanged += Test_PropertyChanged;
             testSequence.Add(test);
+
         }
 
         private void LoadTests()
         {
-            testSequence.Clear();
 
-            AddTest(new EthernetTest(120));
+            FileStream fs = new FileStream("tests.json", FileMode.Open);
+            StreamWriter sw = new StreamWriter(fs);
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(testSequence.GetType());
+            testSequence = (TestSequence)ser.ReadObject(sw.BaseStream);
+            testSequence.Tests.ForEach(t => t.PropertyChanged += Test_PropertyChanged);
+            testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
-            AddTest(new BuzzerTest());
+            //testSequence.Clear();
+            //AddTest(new EthernetTest(120));
+            //AddTest(new BuzzerTest());
+            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            //AddTest(new LedTest());
+            //AddTest(new TamperTest());
+            //AddTest(new UsbTest());
+            //AddTest(new ZwaveTest());
+            //AddTest(new TamperTest());
 
-            AddTest(new EmberTest(Properties.Settings.Default.TestEui));
-
-            AddTest(new LedTest());
-
-            AddTest(new TamperTest());
-
-            AddTest(new UsbTest());
-
-
-            AddTest(new ZwaveTest());
+            //FileStream fs = new FileStream("tests.json", FileMode.Create);
+            //StreamWriter sw = new StreamWriter(fs);
+            //DataContractJsonSerializer ser = new DataContractJsonSerializer(testSequence.GetType());
+            //ser.WriteObject(sw.BaseStream, testSequence);
 
             //AddTest(new Shutdown());
-
             //AddTest(new BluetoothTest());
-
             // Generate next MAC address and write to board
             //tests.Add(new MacTest(IpAddress, RsaFile, StartBlock, EndBlock));
-
             // Generate Activation Key and read from board
             //tests.Add(new ActivationTest(IpAddress, RsaFile));
-
             // Battery Test can cause the hub to reboot so make it final test
             //tests.Add(new BatteryTest(IpAddress, RsaFile));
-
             // Print Final Label
             //tests.Add(new PrintLabel(HubLabelPrinterAddress, ActivationCodePrinterAddress));
 
@@ -147,6 +151,7 @@ namespace HubTester
             //if (!TestsLoaded)
             TestStatus ts = new TestStatus(null, "Loading Tests");
             progress.Report(ts);
+
             LoadTests();
 
             // Tests have already ran and passed
@@ -291,29 +296,14 @@ namespace HubTester
         private void Test_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ITest test = (ITest)sender;
-
-            if (e.PropertyName == TestStatusPropertyNames.ShowQuestionDlg.ToString())
-            {
-                test.TestStatus.ShowQuestionDlg.DialogResult = DialogResult.None;
-
-                _progress.Report(test.TestStatus);
-
-                // TODO: This is ugly
-                while (test.TestStatus.ShowQuestionDlg.DialogResult == DialogResult.None) ;
-
-                TestStatus t = test.TestStatus;
-            }
-            else
-            {
-                _progress.Report(test.TestStatus);
-            }
+            _progress.Report(test.TestStatus);
         }
 
         private async void RunButton_Click(object sender, EventArgs e)
         {
             _logger.Debug("Run button clicked");
 
-            if(TestIndex == 0)
+            if (TestIndex == 0)
                 runTextBox.Clear();
 
             if (TestIndex >= testSequence.Count)
@@ -338,6 +328,9 @@ namespace HubTester
 
         void OnTestStatusChanged(TestStatus s)
         {
+            if (Disposing)
+                return;
+
             string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
 
             if (s.Test != null)

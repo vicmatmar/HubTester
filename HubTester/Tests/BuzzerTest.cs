@@ -17,9 +17,10 @@ namespace HubTester.Tests
             rs = WriteCommand($"echo {BUZZER_HZ/2} > {BUZZER_PATH}/duty_cycle");
             rs = WriteCommand($"echo 1 > {BUZZER_PATH}/enable");
 
-            //var dialogResult = MessageBox.Show(userPrompt, "Buzzer?", MessageBoxButtons.YesNo);
+            //var dialogResult = MessageBox.Show("Is Buzzer Active?", "Buzzer?", MessageBoxButtons.YesNo);
             TestStatusQuestion = new ShowQuestionDlg("Is Buzzer Active?", "Buzzer?", MessageBoxButtons.YesNo);
             var dialogResult = TestStatus.ShowQuestionDlg.DialogResult;
+            while (TestStatus.ShowQuestionDlg.DialogResult == DialogResult.None) ;
 
             // Turn it off
             rs = WriteCommand($"echo 0 > {BUZZER_PATH}/enable");
