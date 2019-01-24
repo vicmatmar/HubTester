@@ -49,13 +49,11 @@ namespace HubTester.Tests
             Text = text;
             Caption = caption;
             Btns = btns;
-            ShowDialog = true;
         }
 
         public string Text { get => _text; set => _text = value; }
         public string Caption { get => _caption; set => _caption = value; }
         public MessageBoxButtons Btns { get => _btns; set => _btns = value; }
         public DialogResult DialogResult { get; set; }
-        public bool ShowDialog { get; set; }
     }
 }

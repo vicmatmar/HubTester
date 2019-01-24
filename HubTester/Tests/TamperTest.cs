@@ -33,7 +33,7 @@ namespace HubTester.Tests
                 return false;
             }
 
-            TestStatusTxt = "Press Tamper/Button";
+            TestStatusTxt = "Press Tamper Button";
             while (true)
             {
                 if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Run Canceled"; return false; }

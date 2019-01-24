@@ -1,14 +1,24 @@
 ﻿using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace HubTester.Tests
 {
+    /// <summary>
+    /// /config/mac1 => 7C:66:9D:38:6A:FF
+    /// </summary>
     public class MacTest : TestBase
     {
         private const string INVALID_MAC_ADDRESS = "000000000000";
         private long StartAddress;
         private long EndAddress;
 
-        public string MacAddress { get; private set; }
+        public string MacAddress { get; set; }
+
+        public MacTest() : base()
+        {
+            StartAddress = -1;
+            EndAddress = -1;
+        }
 
         public MacTest(string startBlock, string endBlock) : base()
         {
@@ -35,7 +45,7 @@ namespace HubTester.Tests
 
             if (StartAddress == -1 || EndAddress == -1)
             {
-                TestStatusTxt = "Test Failed";
+                TestErrorTxt = "Invalid start or end address";
                 result = false;
             }
             else
@@ -45,6 +55,8 @@ namespace HubTester.Tests
                 if (MacAddress != INVALID_MAC_ADDRESS)
                 {
                     // Call MAC address script on board passing in generated MacAddress
+                    WriteCommand($"echo $'{MacAddress}' > /config/mac1");
+
                 }
                 else
                 {

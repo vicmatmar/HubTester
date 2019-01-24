@@ -159,7 +159,7 @@ namespace HubTester.Tests
             stopWatch.Restart();
 
             int device_found_timeout = 60;
-            TestStatusTxt = $"Waiting on device EUI {Expected_device_to_join_EUI} for {device_found_timeout}s";
+            TestStatusTxt = $"Waiting for device EUI {Expected_device_to_join_EUI} for {device_found_timeout}s";
             string devlist = "";
             while (stopWatch.Elapsed.TotalSeconds < device_found_timeout)
             {

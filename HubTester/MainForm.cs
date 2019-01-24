@@ -111,6 +111,10 @@ namespace HubTester
             testSequence.Tests.ForEach(t => t.PropertyChanged += Test_PropertyChanged);
             testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
+            testSequence.Clear();
+            AddTest(new MacTest("0", "10"));
+
+
             //testSequence.Clear();
             //AddTest(new EthernetTest(120));
             //AddTest(new BuzzerTest());
@@ -356,11 +360,8 @@ namespace HubTester
                     break;
                 case TestStatusPropertyNames.ShowQuestionDlg:
                     ShowQuestionDlg dlgt = s.ShowQuestionDlg;
-
                     _logger.Debug($"{s.Test.GetType().Name} show dialog: {dlgt.Text}, {dlgt.Caption}, {dlgt.Btns.ToString()}");
-
                     dlgt.DialogResult = MessageBoxEx.Show(this, dlgt.Text, dlgt.Caption, dlgt.Btns);
-                    s.ShowQuestionDlg.ShowDialog = false;
 
                     break;
                 case TestStatusPropertyNames.HUB_EUI:
