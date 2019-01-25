@@ -1,0 +1,27 @@
+{
+	"Tests": [
+		{
+			"__type": "EthernetTest:#HubTester.Tests",
+			"Timeout_sec": 120
+		},
+		{
+			"__type": "BuzzerTest:#HubTester.Tests"
+		},
+		{
+			"__type": "EmberTest:#HubTester.Tests",
+			"Expected_device_to_join_EUI": "000D6F000BDD1156"
+		},
+		{
+			"__type": "LedTest:#HubTester.Tests"
+		},
+		{
+			"__type": "TamperTest:#HubTester.Tests"
+		},
+		{
+			"__type": "UsbTest:#HubTester.Tests"
+		},
+		{
+			"__type": "ZwaveTest:#HubTester.Tests"
+		}
+	]
+}

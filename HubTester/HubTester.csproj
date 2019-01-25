@@ -124,6 +124,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="tests.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

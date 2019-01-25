@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace HubTester.Tests
 {
@@ -40,6 +41,32 @@ namespace HubTester.Tests
 
         public override bool Run()
         {
+            // Check if a file already exists and extract info if it does
+            string onBoardMac = INVALID_MAC_ADDRESS;
+            string rs = WriteCommand($"cat /config/mac1");
+            Regex regex = new Regex(@"[0-9,a-f,A-f]{12}");
+            Match match = regex.Match(rs);
+            if (match.Success)
+            {
+                onBoardMac = match.Value;
+            }
+            else
+            {
+                regex = new Regex(@"([0-9,a-f,A-f]{2}:){5}[0-9,a-f,A-f]{2}");
+                match = regex.Match(rs);
+                if (match.Success)
+                {
+                    onBoardMac = match.Value;
+                }
+            }
+
+            if(onBoardMac != INVALID_MAC_ADDRESS)
+            {
+                TestStatusTxt = $"MAC address already assigned: {onBoardMac}";
+                return true;
+            }
+
+
             TestStatusTxt = "Generating MAC address";
             bool result = false;
 
@@ -54,9 +81,7 @@ namespace HubTester.Tests
 
                 if (MacAddress != INVALID_MAC_ADDRESS)
                 {
-                    // Call MAC address script on board passing in generated MacAddress
                     WriteCommand($"echo $'{MacAddress}' > /config/mac1");
-
                 }
                 else
                 {
