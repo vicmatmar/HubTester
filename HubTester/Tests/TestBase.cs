@@ -42,6 +42,9 @@ namespace HubTester.Tests
             CancelToken = testCancelTs.Token;
         }
 
+        TestSequence _parentSequence;
+        public TestSequence TestSequence { get => _parentSequence; set => _parentSequence = value; }
+
         PrivateKeyFile KeyFile
         {
             get
@@ -153,7 +156,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             }
         }
 
-        string hub_eui;
+        string hub_eui = null;
         public string HUB_EUI
         {
             get
@@ -163,12 +166,30 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
             set
             {
                 hub_eui = value;
-
                 TestStatus = new TestStatus
                 {
                     Test = this,
                     Status = value,
                     PropertyName = TestStatusPropertyNames.HUB_EUI
+                };
+            }
+        }
+
+        string hub_mac_addr = null;
+        public string HUB_MAC_ADDR
+        {
+            get
+            {
+                return hub_mac_addr;
+            }
+            set
+            {
+                hub_mac_addr = value;
+                TestStatus = new TestStatus
+                {
+                    Test = this,
+                    Status = value,
+                    PropertyName = TestStatusPropertyNames.HUB_MAC
                 };
             }
         }

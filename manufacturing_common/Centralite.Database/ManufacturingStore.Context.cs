@@ -76,6 +76,7 @@ namespace Centralite.Database
         public virtual DbSet<JabilErrorView> JabilErrorViews { get; set; }
         public virtual DbSet<LabelView> LabelViews { get; set; }
         public virtual DbSet<MacAddress> MacAddresses { get; set; }
+        public virtual DbSet<JiliaHub> JiliaHubs { get; set; }
     
         [DbFunction("ManufacturingStoreEntities", "iter_charlist_to_tbl")]
         public virtual IQueryable<iter_charlist_to_tbl_Result> iter_charlist_to_tbl(string list, string delimiter)

@@ -34,6 +34,8 @@ namespace HubTester
         ITest blinkLed;
         Task blinkLedTask;
 
+        string nowTimeStamp { get => DateTime.Now.ToString("hh:mm:ss"); } 
+
         public MainForm()
         {
             InitializeComponent();
@@ -47,6 +49,14 @@ namespace HubTester
                 {
                     case "IsRunning":
                         OnTestSequenceRunningChanged();
+                        break;
+                    case "HUB_EUI":
+                        runTextBox.AppendText($"{nowTimeStamp}: Test Sequence HUB EUI: {testSequence.HUB_EUI}\r\n");
+                        break;
+                    case "HUB_MAC_ADDR":
+                        runTextBox.AppendText($"{nowTimeStamp}: Test Sequence HUB MAC ADDR: {testSequence.HUB_MAC_ADDR}\r\n");
+                        break;
+                    default:
                         break;
                 }
             });
@@ -97,6 +107,7 @@ namespace HubTester
         {
             test.PropertyChanged -= Test_PropertyChanged;
             test.PropertyChanged += Test_PropertyChanged;
+            test.TestSequence = testSequence;
             testSequence.Add(test);
 
         }
@@ -108,11 +119,16 @@ namespace HubTester
             StreamWriter sw = new StreamWriter(fs);
             DataContractJsonSerializer ser = new DataContractJsonSerializer(testSequence.GetType());
             testSequence = (TestSequence)ser.ReadObject(sw.BaseStream);
-            testSequence.Tests.ForEach(t => t.PropertyChanged += Test_PropertyChanged);
+            testSequence.Tests.ForEach(tc => {
+                tc.PropertyChanged += Test_PropertyChanged;
+                tc.TestSequence = testSequence;
+            });
             testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
-            testSequence.Clear();
-            AddTest(new MacTest("0", "10"));
+            //testSequence.Clear();
+            //AddTest(new EthernetTest(120));
+            //AddTest(new EmberTest(Properties.Settings.Default.TestEui));
+            //AddTest(new MacTest("1", "10"));
 
 
             //testSequence.Clear();
@@ -335,8 +351,6 @@ namespace HubTester
             if (Disposing)
                 return;
 
-            string timestamp_str = DateTime.Now.ToString("hh:mm:ss");
-
             if (s.Test != null)
                 _logger.Debug($"{s.Test.GetType().Name}: {s.Status}");
             else
@@ -345,15 +359,15 @@ namespace HubTester
             switch (s.PropertyName)
             {
                 case TestStatusPropertyNames.Status:
-                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                    runTextBox.AppendText($"{nowTimeStamp}: {s.Status}\r\n");
                     break;
                 case TestStatusPropertyNames.ErrorMsg:
-                    runTextBox.AppendText($"{timestamp_str}: {s.ErrorMsg}\r\n");
+                    runTextBox.AppendText($"{nowTimeStamp}: {s.ErrorMsg}\r\n");
                     break;
                 case TestStatusPropertyNames.Exception:
                     _logger.Error(s.Exception, s.Test.GetType().Name);
 
-                    runTextBox.AppendText($"{timestamp_str}: {s.Status}\r\n");
+                    runTextBox.AppendText($"{nowTimeStamp}: {s.Status}\r\n");
                     runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
                     runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
 
@@ -365,12 +379,13 @@ namespace HubTester
 
                     break;
                 case TestStatusPropertyNames.HUB_EUI:
-                    string euistr = s.Status;
-                    long hub_eui = Convert.ToInt64(euistr, 16);
-                    runTextBox.AppendText($"{timestamp_str}: HUB EUI LONG: {hub_eui}\r\n");
+                    testSequence.HUB_EUI = s.Status;
+                    break;
+                case TestStatusPropertyNames.HUB_MAC:
+                    testSequence.HUB_MAC_ADDR = s.Status;
                     break;
                 default:
-                    runTextBox.AppendText($"{timestamp_str}: Unhanded PropertyName\r\n");
+                    runTextBox.AppendText($"{nowTimeStamp}: Unhanded PropertyName\r\n");
                     break;
             }
         }

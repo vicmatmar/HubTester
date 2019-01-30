@@ -25,6 +25,7 @@ namespace Centralite.Database
             this.PowerTests = new HashSet<PowerTest>();
             this.SerialNumbers = new HashSet<SerialNumber>();
             this.TargetDevices = new HashSet<TargetDevice>();
+            this.JiliaHubs = new HashSet<JiliaHub>();
         }
     
         public int Id { get; set; }
@@ -49,5 +50,7 @@ namespace Centralite.Database
         public virtual ICollection<SerialNumber> SerialNumbers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TargetDevice> TargetDevices { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JiliaHub> JiliaHubs { get; set; }
     }
 }

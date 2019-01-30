@@ -103,7 +103,9 @@
         <AssociationConnector Association="ManufacturingStoreModel.FK_Session_Tester" ManuallyRouted="false" />
         <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_UserSession" ManuallyRouted="false" />
         <AssociationConnector Association="ManufacturingStoreModel.ProductFirmwareJoin" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ManufacturingStoreModel.MacAddress" Width="1.5" PointX="18.375" PointY="4.75" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.MacAddress" Width="1.5" PointX="17.875" PointY="3.75" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.JiliaHub" Width="1.5" PointX="1.125" PointY="30.875" />
+        <AssociationConnector Association="ManufacturingStoreModel.FK_JiliaHubs_ToEUI" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

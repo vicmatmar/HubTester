@@ -59,6 +59,8 @@ namespace HubTester.Tests
 
         public bool IsCancellationRequested => throw new NotImplementedException();
 
+        public TestSequence TestSequence { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

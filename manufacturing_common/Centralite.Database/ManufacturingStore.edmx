@@ -6,7 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="ManufacturingStoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerialList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.@dbSerialList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="@dbSerialList">
           <Key>
             <PropertyRef Name="ProductCode" />
@@ -18,7 +18,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerialList' does not
           <Property Name="Eui" Type="nchar" MaxLength="16" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerials' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.@dbSerials' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="@dbSerials">
           <Key>
             <PropertyRef Name="ProductCode" />
@@ -169,7 +169,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerials' does not ha
           <Property Name="ImageTypeId" Type="int" />
           <Property Name="Owner" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ChipTypeId" Type="int" Nullable="false" />
-          <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+          <Property Name="Data" Type="varbinary(max)" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Release" Type="bit" Nullable="false" />
         </EntityType>
@@ -228,6 +228,18 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerials' does not ha
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IpAddress" Type="nvarchar" MaxLength="15" Nullable="false" />
           <Property Name="Location" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JiliaHubs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Bid" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Mac" Type="nchar" MaxLength="17" Nullable="false" />
+          <Property Name="Uid" Type="nchar" MaxLength="36" Nullable="false" />
+          <Property Name="Activation" Type="nchar" MaxLength="8" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="EuiId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LoadTest">
           <Key>
@@ -535,7 +547,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.@dbSerials' does not ha
           <Property Name="ApplicationName" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ManufacturingStore_RAD.dbo.JabilErrorView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.JabilErrorView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="JabilErrorView">
           <Key>
             <PropertyRef Name="EuiId" />
@@ -555,7 +567,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.JabilErrorView' does no
           <Property Name="Tester" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.LabelView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LabelView">
           <Key>
             <PropertyRef Name="SerialNumber" />
@@ -811,6 +823,18 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
             </Principal>
             <Dependent Role="InCircuitTest">
               <PropertyRef Name="TestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JiliaHubs_ToEUI">
+          <End Role="EuiList" Type="Self.EuiList" Multiplicity="1" />
+          <End Role="JiliaHubs" Type="Self.JiliaHubs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EuiList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JiliaHubs">
+              <PropertyRef Name="EuiId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1283,6 +1307,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <EntitySet Name="ImageType" EntityType="Self.ImageType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InCircuitTest" EntityType="Self.InCircuitTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InsightAdapter" EntityType="Self.InsightAdapter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JiliaHubs" EntityType="Self.JiliaHubs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoadTest" EntityType="Self.LoadTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MacAddress" EntityType="Self.MacAddress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Migrations" EntityType="Self.Migrations" Schema="dbo" store:Type="Tables" />
@@ -1426,6 +1451,10 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <AssociationSet Name="FK_InCircuitTest_Test" Association="Self.FK_InCircuitTest_Test">
             <End Role="Test" EntitySet="Test" />
             <End Role="InCircuitTest" EntitySet="InCircuitTest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JiliaHubs_ToEUI" Association="Self.FK_JiliaHubs_ToEUI">
+            <End Role="EuiList" EntitySet="EuiList" />
+            <End Role="JiliaHubs" EntitySet="JiliaHubs" />
           </AssociationSet>
           <AssociationSet Name="FK_LoadTest_Test" Association="Self.FK_LoadTest_Test">
             <End Role="Test" EntitySet="Test" />
@@ -1720,6 +1749,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <NavigationProperty Name="PowerTests" Relationship="Self.FK_PowerTest_Eui" FromRole="EuiList" ToRole="PowerTest" />
           <NavigationProperty Name="SerialNumbers" Relationship="Self.FK_SerialNumber_EuiList" FromRole="EuiList" ToRole="SerialNumber" />
           <NavigationProperty Name="TargetDevices" Relationship="Self.FK_TargetDevice_EuiList" FromRole="EuiList" ToRole="TargetDevice" />
+          <NavigationProperty Name="JiliaHubs" Relationship="ManufacturingStoreModel.FK_JiliaHubs_ToEUI" FromRole="EuiList" ToRole="JiliaHub" />
         </EntityType>
         <EntityType Name="Firmware">
           <Key>
@@ -1732,7 +1762,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <Property Name="ImageTypeId" Type="Int32" />
           <Property Name="Owner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ChipTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Release" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="ChipType" Relationship="Self.FK_Firmware_ChipTypes" FromRole="Firmware" ToRole="ChipType" />
@@ -3048,16 +3078,16 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
             <End Role="Product" EntitySet="Products" />
           </AssociationSet>
           <FunctionImport Name="iter_charlist_to_tbl" IsComposable="true" ReturnType="Collection(ManufacturingStoreModel.iter_charlist_to_tbl_Result)">
-            <Parameter Name="list" Mode="In" Type="String" />
+          <Parameter Name="list" Mode="In" Type="String" />
             <Parameter Name="delimiter" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="CreateNewBoard">
-            <Parameter Name="name" Mode="In" Type="String" />
+          <Parameter Name="name" Mode="In" Type="String" />
             <Parameter Name="chipId" Mode="In" Type="Int32" />
             <Parameter Name="mfgTokens" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="version" Mode="In" Type="Int32" />
             <Parameter Name="definition" Mode="In" Type="Binary" />
@@ -3072,34 +3102,34 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_creatediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="version" Mode="In" Type="Int32" />
             <Parameter Name="definition" Mode="In" Type="Binary" />
           </FunctionImport>
           <FunctionImport Name="sp_dropdiagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ManufacturingStoreModel.sp_helpdiagramdefinition_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ManufacturingStoreModel.sp_helpdiagrams_Result)">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_OpenEvent">
-            <Parameter Name="test" Mode="In" Type="Int32" />
+          <Parameter Name="test" Mode="In" Type="Int32" />
             <Parameter Name="event" Mode="In" Type="Int32" />
             <Parameter Name="id" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_OpenSession">
-            <Parameter Name="tester" Mode="In" Type="Int32" />
+          <Parameter Name="tester" Mode="In" Type="Int32" />
             <Parameter Name="id" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_OpenTest">
-            <Parameter Name="session" Mode="In" Type="Int32" />
+          <Parameter Name="session" Mode="In" Type="Int32" />
             <Parameter Name="isa" Mode="In" Type="Int32" />
             <Parameter Name="product" Mode="In" Type="Int32" />
             <Parameter Name="revision" Mode="In" Type="Int32" />
@@ -3107,12 +3137,17 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
             <Parameter Name="id" Mode="InOut" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_renamediagram">
-            <Parameter Name="diagramname" Mode="In" Type="String" />
+          <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="MacAddresses" EntityType="ManufacturingStoreModel.MacAddress" />
+          <EntitySet Name="JiliaHubs" EntityType="ManufacturingStoreModel.JiliaHub" />
+          <AssociationSet Name="FK_JiliaHubs_ToEUI" Association="ManufacturingStoreModel.FK_JiliaHubs_ToEUI">
+            <End Role="EuiList" EntitySet="EuiLists" />
+            <End Role="JiliaHub" EntitySet="JiliaHubs" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -3133,6 +3168,31 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
           <Property Name="MAC" Type="Int64" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="JiliaHub">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bid" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Mac" Type="String" Nullable="false" MaxLength="17" FixedLength="true" Unicode="true" />
+          <Property Name="Uid" Type="String" Nullable="false" MaxLength="36" FixedLength="true" Unicode="true" />
+          <Property Name="Activation" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="true" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="EuiId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="EuiList" Relationship="ManufacturingStoreModel.FK_JiliaHubs_ToEUI" FromRole="JiliaHub" ToRole="EuiList" />
+        </EntityType>
+        <Association Name="FK_JiliaHubs_ToEUI">
+          <End Type="ManufacturingStoreModel.EuiList" Role="EuiList" Multiplicity="1" />
+          <End Type="ManufacturingStoreModel.JiliaHub" Role="JiliaHub" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EuiList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="JiliaHub">
+              <PropertyRef Name="EuiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3769,6 +3829,19 @@ warning 6002: The table/view 'ManufacturingStore_RAD.dbo.LabelView' does not hav
               <MappingFragment StoreEntitySet="MacAddress">
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="MAC" ColumnName="MAC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JiliaHubs">
+            <EntityTypeMapping TypeName="ManufacturingStoreModel.JiliaHub">
+              <MappingFragment StoreEntitySet="JiliaHubs">
+                <ScalarProperty Name="EuiId" ColumnName="EuiId" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Activation" ColumnName="Activation" />
+                <ScalarProperty Name="Uid" ColumnName="Uid" />
+                <ScalarProperty Name="Mac" ColumnName="Mac" />
+                <ScalarProperty Name="Bid" ColumnName="Bid" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

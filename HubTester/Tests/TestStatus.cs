@@ -3,7 +3,12 @@ using System.Windows.Forms;
 
 namespace HubTester.Tests
 {
-    public enum TestStatusPropertyNames { Status, ErrorMsg, Exception, ShowQuestionDlg, HUB_EUI };
+    public enum TestStatusPropertyNames {
+        Status,
+        ErrorMsg, Exception,
+        ShowQuestionDlg,
+        HUB_EUI, HUB_MAC
+    };
 
     public class TestStatus
     {

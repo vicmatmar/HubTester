@@ -12,5 +12,7 @@ namespace HubTester.Tests
 
         void Cancel();
         bool IsCancellationRequested { get; }
+
+        TestSequence TestSequence { get; set; }
     }
 }

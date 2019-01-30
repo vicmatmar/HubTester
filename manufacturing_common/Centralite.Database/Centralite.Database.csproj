@@ -119,6 +119,9 @@
     <Compile Include="JabilErrorView.cs">
       <DependentUpon>ManufacturingStore.tt</DependentUpon>
     </Compile>
+    <Compile Include="JiliaHub.cs">
+      <DependentUpon>ManufacturingStore.tt</DependentUpon>
+    </Compile>
     <Compile Include="LabelView.cs">
       <DependentUpon>ManufacturingStore.tt</DependentUpon>
     </Compile>
@@ -232,6 +235,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ManufacturingStore.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.config" />
     <None Include="ManufacturingStore.edmx.diagram">
       <DependentUpon>ManufacturingStore.edmx</DependentUpon>
     </None>

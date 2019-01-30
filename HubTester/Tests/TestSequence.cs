@@ -14,6 +14,7 @@ namespace HubTester.Tests
     [KnownType(typeof(EmberTest))]
     [KnownType(typeof(BuzzerTest))]
     [KnownType(typeof(EthernetTest))]
+    [KnownType(typeof(MacTest))]
     public class TestSequence: INotifyPropertyChanged
     {
         public TestSequence()
@@ -44,6 +45,34 @@ namespace HubTester.Tests
             set
             {
                 _testSequenceRunning = value;
+                OnPropertyChanged();
+            }
+        }
+
+        string _hub_eui = null;
+        public string HUB_EUI
+        {
+            get
+            {
+                return _hub_eui;
+            }
+            set
+            {
+                _hub_eui = value;
+                OnPropertyChanged();
+            }
+        }
+
+        string _hub_mac_addr = null;
+        public string HUB_MAC_ADDR
+        {
+            get
+            {
+                return _hub_mac_addr;
+            }
+            set
+            {
+                _hub_mac_addr = value;
                 OnPropertyChanged();
             }
         }

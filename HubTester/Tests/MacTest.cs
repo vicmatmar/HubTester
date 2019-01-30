@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using Centralite.Database;
+using System.Linq;
+using MacUtility;
 
 namespace HubTester.Tests
 {
@@ -13,7 +15,7 @@ namespace HubTester.Tests
         private long StartAddress;
         private long EndAddress;
 
-        public string MacAddress { get; set; }
+//        public string MacAddress { get; set; }
 
         public MacTest() : base()
         {
@@ -43,62 +45,85 @@ namespace HubTester.Tests
         {
             // Check if a file already exists and extract info if it does
             string onBoardMac = INVALID_MAC_ADDRESS;
-            string rs = WriteCommand($"cat /config/mac1");
-            Regex regex = new Regex(@"[0-9,a-f,A-f]{12}");
-            Match match = regex.Match(rs);
-            if (match.Success)
+            string hub_file_mac = WriteCommand($"cat /config/mac1");
+
+            string mmac = MacAddressGenerator.ExtractMacString(hub_file_mac);
+            if (mmac != null)
+                onBoardMac = mmac;
+
+            // Check it is in the database
+            MacAddress dbmac = null;
+            if (onBoardMac != INVALID_MAC_ADDRESS)
             {
-                onBoardMac = match.Value;
-            }
-            else
-            {
-                regex = new Regex(@"([0-9,a-f,A-f]{2}:){5}[0-9,a-f,A-f]{2}");
-                match = regex.Match(rs);
-                if (match.Success)
+                try
                 {
-                    onBoardMac = match.Value;
+                    dbmac = DataUtils.GetMacAddress(onBoardMac);
+                }
+                catch { };
+                if (dbmac != null)
+                {
+                    TestStatusTxt = $"MAC address already assigned {onBoardMac} on {dbmac.Date.ToShortDateString()}";
+
+                    dbmac = DataUtils.GetMacAddress(onBoardMac);
+                    TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
+                    return true;
                 }
             }
 
-            if(onBoardMac != INVALID_MAC_ADDRESS)
+            // If we got this far, we need to check whether hub already in database with a mac
+            // For that we need the hub eui.  We use the testSequence eui property
+            //HUB_EUI = TestSequence.HUB_EUI;
+            if (string.IsNullOrEmpty(TestSequence.HUB_EUI))
             {
-                TestStatusTxt = $"MAC address already assigned: {onBoardMac}";
+                TestErrorTxt = "HUB_EUI needs to be set before this test";
+                return false;
+            }
+            JiliaHub dbhub = null;
+            try
+            {
+                dbhub = DataUtils.GetHub(TestSequence.HUB_EUI);
+            }
+            catch { };
+            if(dbhub != null)
+            {
+                // This hub was previously tested, use this mac...
+                // So why its local mac file not set???
+                TestStatusTxt = $"MAC address already assigned {dbhub.Mac} during test on {dbhub.Timestamp.Value.ToShortDateString()}";
+
+                // Need to create the hub file
+                WriteCommand($"echo $'{dbhub.Mac}' > /config/mac1");
+
+                dbmac = DataUtils.GetMacAddress(dbhub.Mac);
+                TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
+
                 return true;
             }
 
-
+            // OK, so new hub, generate one mac address for it
             TestStatusTxt = "Generating MAC address";
-            bool result = false;
-
             if (StartAddress == -1 || EndAddress == -1)
             {
-                TestErrorTxt = "Invalid start or end address";
-                result = false;
+                TestErrorTxt = $"Invalid start ({StartAddress}) or end ({EndAddress}) address";
+                return false;
             }
             else
             {
-                MacAddress = MacUtility.MacAddressGenerator.Generate(StartAddress, EndAddress);
-
-                if (MacAddress != INVALID_MAC_ADDRESS)
+                string macstr = MacAddressGenerator.Generate(StartAddress, EndAddress);
+                if (macstr != INVALID_MAC_ADDRESS)
                 {
-                    WriteCommand($"echo $'{MacAddress}' > /config/mac1");
+                    WriteCommand($"echo $'{macstr}' > /config/mac1");
+
+                    dbmac = DataUtils.GetMacAddress(macstr);
+                    TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    TestErrorTxt = $"Unable to generate mac address";
+                    return false;
                 }
             }
 
-            if (result)
-            {
-                TestStatusTxt = "Test Passed";
-            }
-            else
-            {
-                TestStatusTxt = "Test Failed";
-            }
-
-            return result;
         }
     }
 }
