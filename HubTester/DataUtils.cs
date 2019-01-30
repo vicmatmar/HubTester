@@ -42,7 +42,14 @@ namespace HubTester
             {
                 return dbContext.MacAddresses.Where(m => m.MAC == lmac).Single();
             }
+        }
 
+        public static EuiList GetEUI(string eui)
+        {
+            using (var dbContext = new ManufacturingStoreEntities())
+            {
+                return dbContext.EuiLists.Where(e => e.EUI == eui).Single();
+            }
         }
 
     }

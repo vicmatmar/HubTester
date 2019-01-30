@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace HubTester.Tests
 {
@@ -15,6 +16,7 @@ namespace HubTester.Tests
     [KnownType(typeof(BuzzerTest))]
     [KnownType(typeof(EthernetTest))]
     [KnownType(typeof(MacTest))]
+    [KnownType(typeof(ActivationTest))]
     public class TestSequence: INotifyPropertyChanged
     {
         public TestSequence()

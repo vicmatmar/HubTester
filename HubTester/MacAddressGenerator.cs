@@ -17,7 +17,16 @@ namespace MacUtility
 
         public static string LongToStr(long lmac)
         {
-            return lmac.ToString("X12");
+            string macstr = lmac.ToString("X12");
+            string mac = "";
+            for (int i = 0; i < macstr.Length; i = i + 2)
+            {
+                string n = macstr.Substring(i, 2);
+
+                mac += n + ":";
+            }
+            mac = mac.TrimEnd(new char[] { ':' });
+            return mac;
         }
 
         /// <summary>

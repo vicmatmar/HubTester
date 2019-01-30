@@ -41,6 +41,64 @@ namespace HubTester.Tests
             }
         }
 
+        /// <summary>
+        /// Checks the hub mac is set
+        /// </summary>
+        /// <param name="reboot">will force hub to re-start if mac does not match</param>
+        /// <returns>true if mac matches</returns>
+        bool verifyIFConfig(bool reboot=false)
+        {
+            // Let's verify 
+            Regex regex = new Regex(@"(eth0\s+.*encap:Ethernet\s+HWaddr\s+)(([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})");
+            string line = WriteCommand("ifconfig");
+            Match m = regex.Match(line);
+            if(!m.Success || m.Groups.Count < 2)
+            {
+                TestErrorTxt = $"Unable to parse MAC from ifconfig command output:\r\n{line}";
+                return false;
+            }
+
+            string ifmac = m.Groups[2].Value.ToUpper();
+            string expmac = TestSequence.HUB_MAC_ADDR.ToUpper();
+            if(ifmac != expmac && reboot)
+            {
+                WriteCommand("shutdown -r -t secs now");
+
+                bool rebooted = false;
+                for(int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        Connect();
+                        rebooted = true;
+                        break;
+                    }
+                    catch { };
+                }
+
+                if(!rebooted)
+                {
+                    TestErrorTxt = $"Unable to restart hub";
+                    return false;
+                }
+            }
+
+            line = WriteCommand("ifconfig");
+            m = regex.Match(line);
+            if (!m.Success || m.Groups.Count < 2)
+            {
+                TestErrorTxt = $"Unable to parse MAC from ifconfig command output:\r\n{line}";
+                return false;
+            }
+            ifmac = m.Groups[2].Value.ToUpper();
+
+            TestStatusTxt = $"ifconfig MAC: {ifmac}";
+
+
+            return (ifmac == expmac);
+
+        }
+
         public override bool Run()
         {
             // Check if a file already exists and extract info if it does
@@ -66,7 +124,7 @@ namespace HubTester.Tests
 
                     dbmac = DataUtils.GetMacAddress(onBoardMac);
                     TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
-                    return true;
+                    return verifyIFConfig();
                 }
             }
 
@@ -95,8 +153,7 @@ namespace HubTester.Tests
 
                 dbmac = DataUtils.GetMacAddress(dbhub.Mac);
                 TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
-
-                return true;
+                return verifyIFConfig();
             }
 
             // OK, so new hub, generate one mac address for it
@@ -115,7 +172,7 @@ namespace HubTester.Tests
 
                     dbmac = DataUtils.GetMacAddress(macstr);
                     TestSequence.HUB_MAC_ADDR = MacAddressGenerator.LongToStr(dbmac.MAC);
-                    return true;
+                    return verifyIFConfig(true);
                 }
                 else
                 {

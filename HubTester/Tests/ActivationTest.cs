@@ -1,44 +1,55 @@
-﻿using System.Threading;
+﻿using Centralite.Database;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace HubTester.Tests
 {
     public class ActivationTest : TestBase
     {
-        private const string REPORT_KEY_COMMAND = @"if [ -f /config/activation_key ]; then cat /config/activation_key; echo; else echo 'No Activation Key Found'; fi";
-        public string ActivationCode { get; private set; }
+        EuiList _dbeui;
+        MacAddress _dbmac;
 
         public ActivationTest() : base() { }
 
+        public override bool Setup()
+        {
+            //  Make sure everything we need is set
+
+            // EUI
+            if(string.IsNullOrEmpty(TestSequence.HUB_EUI))
+            {
+                TestErrorTxt = $"Hub EUI needs to be set before this test";
+                return false;
+            }
+            Regex regex = new Regex(@"[0-9a-fA-F]{16}");
+            if(regex.Matches(TestSequence.HUB_EUI).Count != 1)
+            {
+                TestErrorTxt = $"Bad Hub EUI {TestSequence.HUB_EUI} provided";
+                return false;
+            }
+            _dbeui = DataUtils.GetEUI(TestSequence.HUB_EUI);
+
+            // MAC
+            if (string.IsNullOrEmpty(TestSequence.HUB_MAC_ADDR))
+            {
+                TestErrorTxt = $"Hub MAC address needs to be set before this test";
+                return false;
+            }
+            regex = new Regex(@"([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}");
+            if (regex.Matches(TestSequence.HUB_MAC_ADDR).Count != 1)
+            {
+                TestErrorTxt = $"Bad Hub MAc address {TestSequence.HUB_MAC_ADDR} provided";
+                return false;
+            }
+            // not used, done to make sure is in db
+            _dbmac = DataUtils.GetMacAddress(TestSequence.HUB_MAC_ADDR);  
+
+            //return base.Setup();
+            return true;
+        }
         public override bool Run()
         {
-            bool result = false;
-            string line = "";
-
-            // Read Activation Key from board
-            WriteLine(REPORT_KEY_COMMAND);
-            Thread.Sleep(500);
-
-            line = ReadLine();
-            line = ReadLine();
-            line = ReadLine();
-            line = ReadLine();
-
-            if (line != "No Activation Key Found")
-            {
-                ActivationCode = line;
-                result = true;
-            }
-
-            if (result)
-            {
-                TestStatusTxt = "Test Passed";
-            }
-            else
-            {
-                TestStatusTxt = "Test Failed";
-            }
-
-            return result;
+            return true;
         }
     }
 }

@@ -222,7 +222,11 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual bool Setup()
         {
+
             TestStatusTxt = "Setting up test";
+
+            if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Setup Canceled"; return false; }
+
             Connect();
 
             if (CancelToken.IsCancellationRequested) { TestStatusTxt = "Setup Canceled"; return false; }
@@ -236,6 +240,7 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
                     new PrivateKeyAuthenticationMethod("support", KeyFile));
 
             logger.Trace("Connect");
+
             sshClient = new SshClient(connectionInformation);
             sshClient.Connect();
 
