@@ -26,5 +26,8 @@
     {
       "__type": "MacTest:#HubTester.Tests"
     },
+    {
+      "__type": "ActivationTest:#HubTester.Tests"
+    }
   ]
 }

@@ -125,11 +125,11 @@ namespace HubTester
             });
             testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
-            testSequence.Clear();
-            AddTest(new EthernetTest(120));
-            testSequence.HUB_EUI = "000D6F000B299253";
-            testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
-            AddTest(new ActivationTest());
+            //testSequence.Clear();
+            //AddTest(new EthernetTest(120));
+            //testSequence.HUB_EUI = "000D6F000B299253";
+            //testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
+            //AddTest(new ActivationTest());
 
 
             //testSequence.Clear();
@@ -172,8 +172,6 @@ namespace HubTester
             //if (!TestsLoaded)
             TestStatus ts = new TestStatus(null, "Loading Tests");
             progress.Report(ts);
-
-            LoadTests();
 
             // Tests have already ran and passed
             // Restart Testing from beginning
@@ -325,7 +323,10 @@ namespace HubTester
             _logger.Debug("Run button clicked");
 
             if (TestIndex == 0)
+            {
                 runTextBox.Clear();
+                LoadTests();
+            }
 
             if (TestIndex >= testSequence.Count)
             {

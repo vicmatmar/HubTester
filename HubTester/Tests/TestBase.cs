@@ -286,10 +286,14 @@ oa+scorRkCJkGyyHJK+PZL8kEnc7tKMoeBnpJ9cHEUVCklf2etylGw==
 
         public virtual void Dispose()
         {
-            streamWriter.Dispose();
-            streamReader.Dispose();
-            shellStream.Dispose();
-            sshClient.Dispose();
+            if(streamWriter != null)
+                streamWriter.Dispose();
+            if(streamReader != null)
+                streamReader.Dispose();
+            if(shellStream != null)
+                shellStream.Dispose();
+            if(sshClient != null)
+                sshClient.Dispose();
 
             logger.Trace("Connection Disposed");
 
