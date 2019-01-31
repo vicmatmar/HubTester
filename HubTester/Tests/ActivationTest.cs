@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using System.Threading;
 
+using MacUtility;
+
 namespace HubTester.Tests
 {
     public class ActivationTest : TestBase
@@ -16,13 +18,13 @@ namespace HubTester.Tests
             //  Make sure everything we need is set
 
             // EUI
-            if(string.IsNullOrEmpty(TestSequence.HUB_EUI))
+            if (string.IsNullOrEmpty(TestSequence.HUB_EUI))
             {
                 TestErrorTxt = $"Hub EUI needs to be set before this test";
                 return false;
             }
             Regex regex = new Regex(@"[0-9a-fA-F]{16}");
-            if(regex.Matches(TestSequence.HUB_EUI).Count != 1)
+            if (regex.Matches(TestSequence.HUB_EUI).Count != 1)
             {
                 TestErrorTxt = $"Bad Hub EUI {TestSequence.HUB_EUI} provided";
                 return false;
@@ -41,14 +43,31 @@ namespace HubTester.Tests
                 TestErrorTxt = $"Bad Hub MAc address {TestSequence.HUB_MAC_ADDR} provided";
                 return false;
             }
-            // not used, done to make sure is in db
-            _dbmac = DataUtils.GetMacAddress(TestSequence.HUB_MAC_ADDR);  
+            _dbmac = DataUtils.GetMacAddress(TestSequence.HUB_MAC_ADDR);
 
             //return base.Setup();
             return true;
         }
         public override bool Run()
         {
+            using (var ctx = new ManufacturingStoreEntities())
+            {
+                JiliaHub dbjhub = new JiliaHub();
+
+                dbjhub.EuiId = _dbeui.Id;
+                dbjhub.MacId = _dbmac.Id;
+
+                dbjhub.Mac = MacAddressGenerator.LongToStr(_dbmac.MAC);
+                dbjhub.Bid = $"J{_dbmac.Id}";
+
+                dbjhub.Activation = "test";
+                dbjhub.Uid = "test6577-67dd-40c5-971a-ff3113520000";
+
+                
+
+                ctx.JiliaHubs.Add(dbjhub);
+                ctx.SaveChanges();
+            }
             return true;
         }
     }

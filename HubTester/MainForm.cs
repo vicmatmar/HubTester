@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Data.Entity.Validation;
 using HubTester.Tests;
 
 namespace HubTester
@@ -125,11 +126,11 @@ namespace HubTester
             });
             testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
-            //testSequence.Clear();
+            testSequence.Clear();
             //AddTest(new EthernetTest(120));
-            //testSequence.HUB_EUI = "000D6F000B299253";
-            //testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
-            //AddTest(new ActivationTest());
+            testSequence.HUB_EUI = "000D6F000B299253";
+            testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
+            AddTest(new ActivationTest());
 
 
             //testSequence.Clear();
@@ -322,21 +323,19 @@ namespace HubTester
         {
             _logger.Debug("Run button clicked");
 
+            runButton.Enabled = false;
+            cancelButton.Enabled = true;
+
+            if (TestIndex >= testSequence.Count)
+                TestIndex = 0;
+
             if (TestIndex == 0)
             {
                 runTextBox.Clear();
                 LoadTests();
             }
 
-            if (TestIndex >= testSequence.Count)
-            {
-                runButton.Enabled = false;
-                cancelButton.Enabled = true;
-                runTextBox.Clear();
-                TestIndex = 0;
-            }
-
-            var progress = new Progress<TestStatus>(s => OnTestStatusChanged(s));
+            var progress = new Progress<TestStatus>(s => OnTestCaseStatusChanged(s));
             await Task.Run(() => RunTests(progress));
 
             if (TestIndex >= testSequence.Count)
@@ -348,7 +347,7 @@ namespace HubTester
 
         }
 
-        void OnTestStatusChanged(TestStatus s)
+        void OnTestCaseStatusChanged(TestStatus s)
         {
             if (Disposing)
                 return;
@@ -372,6 +371,21 @@ namespace HubTester
                     runTextBox.AppendText($"{nowTimeStamp}: {s.Status}\r\n");
                     runTextBox.AppendText($"{s.Exception.Message}\r\n\r\n");
                     runTextBox.AppendText($"{s.Exception.StackTrace}\r\n");
+
+                    if (s.Exception.InnerException.InnerException != null)
+                    {
+                        runTextBox.AppendText($"{s.Exception.InnerException.InnerException.Message}\r\n");
+                    }
+
+                    if (s.Exception is DbEntityValidationException)
+                    {
+                        DbEntityValidationException ex = (DbEntityValidationException)s.Exception;
+                        foreach(var err in ex.EntityValidationErrors)
+                        {
+                            foreach(var e in err.ValidationErrors)
+                                runTextBox.AppendText($"{e.ErrorMessage}\r\n");
+                        }
+                    }
 
                     break;
                 case TestStatusPropertyNames.ShowQuestionDlg:

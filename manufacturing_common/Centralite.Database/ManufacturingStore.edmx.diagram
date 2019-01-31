@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5090187489e44c3f925f21bbba7d74a2" Name="Diagram1" ZoomLevel="80">
+      <Diagram DiagramId="5090187489e44c3f925f21bbba7d74a2" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="ManufacturingStoreModel.ASNEntry" Width="1.5" PointX="5.25" PointY="21.75" IsExpanded="true" />
         <EntityTypeShape EntityType="ManufacturingStoreModel.Board" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ManufacturingStoreModel.BoardRevision" Width="1.5" PointX="6.75" PointY="32.25" IsExpanded="true" />
@@ -104,9 +104,10 @@
         <AssociationConnector Association="ManufacturingStoreModel.FK_TestSession_UserSession" ManuallyRouted="false" />
         <AssociationConnector Association="ManufacturingStoreModel.ProductFirmwareJoin" ManuallyRouted="false" />
         <EntityTypeShape EntityType="ManufacturingStoreModel.MacAddress" Width="1.5" PointX="17.875" PointY="3.75" />
-        <EntityTypeShape EntityType="ManufacturingStoreModel.JiliaHub" Width="1.5" PointX="1.125" PointY="30.875" />
+        <EntityTypeShape EntityType="ManufacturingStoreModel.JiliaHub" Width="1.5" PointX="20.125" PointY="12.875" />
         <AssociationConnector Association="ManufacturingStoreModel.FK_JiliaHubs_ToEUI" />
-      </Diagram>
+        <AssociationConnector Association="ManufacturingStoreModel.FK_JiliaHubs_ToMAC" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

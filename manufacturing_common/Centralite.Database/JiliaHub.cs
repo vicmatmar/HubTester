@@ -19,9 +19,11 @@ namespace Centralite.Database
         public string Mac { get; set; }
         public string Uid { get; set; }
         public string Activation { get; set; }
-        public Nullable<System.DateTime> Timestamp { get; set; }
+        public System.DateTime Timestamp { get; set; }
         public int EuiId { get; set; }
+        public int MacId { get; set; }
     
         public virtual EuiList EuiList { get; set; }
+        public virtual MacAddress MacAddress { get; set; }
     }
 }

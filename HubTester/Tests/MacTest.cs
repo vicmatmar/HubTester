@@ -146,7 +146,7 @@ namespace HubTester.Tests
             {
                 // This hub was previously tested, use this mac...
                 // So why its local mac file not set???
-                TestStatusTxt = $"MAC address already assigned {dbhub.Mac} during test on {dbhub.Timestamp.Value.ToShortDateString()}";
+                TestStatusTxt = $"MAC address already assigned {dbhub.Mac} during test on {dbhub.Timestamp.ToShortDateString()}";
 
                 // Need to create the hub file
                 WriteCommand($"echo $'{dbhub.Mac}' > /config/mac1");

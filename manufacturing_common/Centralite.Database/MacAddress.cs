@@ -14,8 +14,17 @@ namespace Centralite.Database
     
     public partial class MacAddress
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MacAddress()
+        {
+            this.JiliaHubs = new HashSet<JiliaHub>();
+        }
+    
         public int Id { get; set; }
         public long MAC { get; set; }
         public System.DateTime Date { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JiliaHub> JiliaHubs { get; set; }
     }
 }
