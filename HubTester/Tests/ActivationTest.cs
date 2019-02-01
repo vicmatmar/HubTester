@@ -57,7 +57,9 @@ namespace HubTester.Tests
                 dbjhub.MacAddressId = _dbmac.Id;
 
                 dbjhub.Mac = MacAddressGenerator.LongToStr(_dbmac.MAC);
-                dbjhub.Bid = $"J{_dbmac.Id}";
+                TestStatusTxt = $"Hub MAC {dbjhub.Mac}";
+                dbjhub.Bid = $"J{_dbeui.Id}";
+                TestStatusTxt = $"Hub BId {dbjhub.Bid}";
 
                 // Activation
                 // /config/activation_key
