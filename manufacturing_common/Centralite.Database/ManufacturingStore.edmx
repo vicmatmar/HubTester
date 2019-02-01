@@ -240,7 +240,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.@dbSerials' does not h
           <Property Name="Activation" Type="nchar" MaxLength="8" Nullable="false" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" StoreGeneratedPattern="Computed" />
           <Property Name="EuiId" Type="int" Nullable="false" />
-          <Property Name="MacId" Type="int" Nullable="false" />
+          <Property Name="MacAddressId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="LoadTest">
           <Key>
@@ -847,7 +847,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.LabelView' does not ha
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="JiliaHubs">
-              <PropertyRef Name="MacId" />
+              <PropertyRef Name="MacAddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3201,7 +3201,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.LabelView' does not ha
           <Property Name="Activation" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="true" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="EuiId" Type="Int32" Nullable="false" />
-          <Property Name="MacId" Type="Int32" Nullable="false" />
+          <Property Name="MacAddressId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="EuiList" Relationship="ManufacturingStoreModel.FK_JiliaHubs_ToEUI" FromRole="JiliaHub" ToRole="EuiList" />
           <NavigationProperty Name="MacAddress" Relationship="ManufacturingStoreModel.FK_JiliaHubs_ToMAC" FromRole="JiliaHub" ToRole="MacAddress" />
         </EntityType>
@@ -3225,7 +3225,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.LabelView' does not ha
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="JiliaHub">
-              <PropertyRef Name="MacId" />
+              <PropertyRef Name="MacAddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3872,7 +3872,7 @@ warning 6002: The table/view 'ManufacturingStore_RAD2.dbo.LabelView' does not ha
           <EntitySetMapping Name="JiliaHubs">
             <EntityTypeMapping TypeName="ManufacturingStoreModel.JiliaHub">
               <MappingFragment StoreEntitySet="JiliaHubs">
-                <ScalarProperty Name="MacId" ColumnName="MacId" />
+                <ScalarProperty Name="MacAddressId" ColumnName="MacAddressId" />
                 <ScalarProperty Name="EuiId" ColumnName="EuiId" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="Activation" ColumnName="Activation" />

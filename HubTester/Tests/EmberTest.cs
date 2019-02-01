@@ -57,7 +57,7 @@ namespace HubTester.Tests
             foreach (var file in files)
                 map.Add(file, false);
 
-            var timeout_sec = 10;
+            var timeout_sec = 5;
             TestStatusTxt = $"Wait for hub init files {timeout_sec}s";
             var found_files = false;
             var stopwatch = new Stopwatch();

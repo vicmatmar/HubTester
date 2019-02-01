@@ -126,11 +126,11 @@ namespace HubTester
             });
             testSequence.PropertyChanged += TestSequence_PropertyChanged;
 
-            testSequence.Clear();
-            //AddTest(new EthernetTest(120));
-            testSequence.HUB_EUI = "000D6F000B299253";
-            testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
-            AddTest(new ActivationTest());
+            //testSequence.Clear();
+            ////AddTest(new EthernetTest(120));
+            //testSequence.HUB_EUI = "000D6F000B299253";
+            //testSequence.HUB_MAC_ADDR = "00:00:00:00:00:01";
+            //AddTest(new ActivationTest());
 
 
             //testSequence.Clear();

@@ -21,7 +21,7 @@ namespace Centralite.Database
         public string Activation { get; set; }
         public System.DateTime Timestamp { get; set; }
         public int EuiId { get; set; }
-        public int MacId { get; set; }
+        public int MacAddressId { get; set; }
     
         public virtual EuiList EuiList { get; set; }
         public virtual MacAddress MacAddress { get; set; }

@@ -45,8 +45,7 @@ namespace HubTester.Tests
             }
             _dbmac = DataUtils.GetMacAddress(TestSequence.HUB_MAC_ADDR);
 
-            //return base.Setup();
-            return true;
+            return base.Setup();
         }
         public override bool Run()
         {
@@ -55,18 +54,40 @@ namespace HubTester.Tests
                 JiliaHub dbjhub = new JiliaHub();
 
                 dbjhub.EuiId = _dbeui.Id;
-                dbjhub.MacId = _dbmac.Id;
+                dbjhub.MacAddressId = _dbmac.Id;
 
                 dbjhub.Mac = MacAddressGenerator.LongToStr(_dbmac.MAC);
                 dbjhub.Bid = $"J{_dbmac.Id}";
 
-                dbjhub.Activation = "test";
-                dbjhub.Uid = "test6577-67dd-40c5-971a-ff3113520000";
+                // Activation
+                // /config/activation_key
+                string line = WriteCommand("cat /config/activation_key");
+                Regex regex = new Regex(@"([0-9,a-z,A-Z]{8})");
+                Match match = regex.Match(line);
+                if (!match.Success || match.Groups.Count < 2)
+                {
+                    TestErrorTxt = $"Unable to parse hub activation.  Line was {line}";
+                    return false;
+                }
+                dbjhub.Activation = match.Groups[1].Value;
+                TestStatusTxt = $"Hub activation {dbjhub.Activation}";
 
-                
+                // Uid
+                line = WriteCommand("cat /data/run/.system");
+                regex = new Regex(@"uuid: ([0-9,a-f]{8}-([0-9,a-f]{4}-){3}[0-9,a-f]{12})");
+                match = regex.Match(line);
+                if(!match.Success || match.Groups.Count < 2)
+                {
+                    TestErrorTxt = $"Unable to parse hub uuid.  Line was {line}";
+                    return false;
+                }
+                dbjhub.Uid = match.Groups[1].Value;
+                TestStatusTxt = $"Hub uuid {dbjhub.Uid}";
 
+                // Insert
                 ctx.JiliaHubs.Add(dbjhub);
                 ctx.SaveChanges();
+                TestStatusTxt = $"Hub dbrid {dbjhub.Id}";
             }
             return true;
         }
